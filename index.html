@@ -1,0 +1,3605 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <link id="faviconLink" rel="icon" href="">
+  <link id="faviconLinkShortcut" rel="shortcut icon" href="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>বাংলাদেশ জামায়াতে ইসলামী - সাংগঠনিক ব্যবস্থাপনা</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ==================== হেডার ==================== -->
+  <header class="app-header">
+    <div class="header-left">
+      <img id="headerLogo" class="header-logo" src="" alt="লোগো" style="display:none;">
+      <div class="header-titles">
+        <h1 id="headerBranchName">বাংলাদেশ জামায়াতে ইসলামী</h1>
+        <p id="headerBranchLevel">শাখা সেটাপ থেকে শাখার নাম আসবে</p>
+      </div>
+    </div>
+    <button class="menu-toggle" id="menuToggle">☰</button>
+  </header>
+
+  <div class="app-shell">
+    <!-- ==================== সাইড মেনু (ডেস্কটপে সবসময় দৃশ্যমান, মোবাইলে ☰ আইকনে টগল হয়) ==================== -->
+    <nav class="side-nav" id="sideNav">
+      <ul>
+        <li><a href="#" class="nav-link active" data-page="home">🏠 হোম</a></li>
+        <li><a href="#" class="nav-link" data-page="about">ℹ️ আমাদের সম্পর্কে</a></li>
+        <li><a href="#" class="nav-link" data-page="monthly-report">📋 রিপোর্ট</a></li>
+        <li class="nav-group">
+          <a href="#" class="nav-link nav-group-toggle" id="jonoshoktiToggle">👥 জনশক্তি <span class="caret">▾</span></a>
+          <ul class="nav-submenu" id="jonoshoktiSubmenu">
+            <li><a href="#" class="nav-link sub-link" data-page="member-form">📝 সদস্য ফরম</a></li>
+            <li><a href="#" class="nav-link sub-link" data-page="sthanantor-form">🔁 স্থানান্তর ফরম</a></li>
+            <li><a href="#" class="nav-link sub-link" data-page="dhajjo-form">💰 ধার্য্য ফরম</a></li>
+          </ul>
+        </li>
+        <li class="nav-group">
+          <a href="#" class="nav-link nav-group-toggle" id="upashakhaToggle">🏛️ উপশাখা <span class="caret">▾</span></a>
+          <ul class="nav-submenu" id="upashakhaSubmenu">
+            <li><a href="#" class="nav-link sub-link" data-page="upashakha-entry">🧾 উপশাখা এন্ট্রি</a></li>
+            <li><a href="#" class="nav-link sub-link" data-page="upashakha-setup">⚙️ উপশাখা সেটাপ</a></li>
+            <li><a href="#" class="nav-link sub-link" data-page="upashakha-dhajjo">💰 উপশাখা ধার্য্য</a></li>
+          </ul>
+        </li>
+        <li class="nav-group">
+          <a href="#" class="nav-link nav-group-toggle" id="baitulmalToggle">🏦 বায়তুলমাল <span class="caret">▾</span></a>
+          <ul class="nav-submenu" id="baitulmalSubmenu">
+            <li><a href="#" class="nav-link sub-link" data-page="jonoshokti-income">💵 জনশক্তি আয়</a></li>
+            <li><a href="#" class="nav-link sub-link" data-page="upashakha-income">💵 উপশাখা আয়</a></li>
+            <li><a href="#" class="nav-link sub-link" data-page="annanno-income">💵 অন্যান্য আয়</a></li>
+            <li><a href="#" class="nav-link sub-link" data-page="byay-form">💸 ব্যয় ফরম</a></li>
+            <li><a href="#" class="nav-link sub-link" data-page="mashik-ay-byay">📊 মাসিক আয়-ব্যয়</a></li>
+          </ul>
+        </li>
+        <li class="nav-group">
+          <a href="#" class="nav-link nav-group-toggle" id="prakashonaToggle">📚 প্রকাশনা <span class="caret">▾</span></a>
+          <ul class="nav-submenu" id="prakashonaSubmenu">
+            <li><a href="#" class="nav-link sub-link" data-page="prakashona-talika">📖 প্রকাশনা তালিকা</a></li>
+            <li><a href="#" class="nav-link sub-link" data-page="prakashona-kroy">🛒 প্রকাশনা ক্রয়</a></li>
+            <li><a href="#" class="nav-link sub-link" data-page="prakashona-bikroy">💰 বিক্রয় ফরম</a></li>
+            <li><a href="#" class="nav-link sub-link" data-page="prakashona-bili">📦 বিলি ফরম</a></li>
+            <li><a href="#" class="nav-link sub-link" data-page="prakashona-batil">🗑️ বাতিল প্রকাশনা</a></li>
+          </ul>
+        </li>
+        <li class="nav-group">
+          <a href="#" class="nav-link nav-group-toggle" id="branchExtraToggle">🏢 শাখা সেটাপ <span class="caret">▾</span></a>
+          <ul class="nav-submenu" id="branchExtraSubmenu">
+            <li><a href="#" class="nav-link sub-link" data-page="branch">⚙️ শাখা সেটাপ ও কমিটি</a></li>
+            <li><a href="#" class="nav-link sub-link" data-page="kormo-parishad">👥 কর্মপরিষদ</a></li>
+            <li><a href="#" class="nav-link sub-link" data-page="shura-sodossho">🕌 শুরা সদস্য</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- ==================== মূল কনটেন্ট ==================== -->
+    <main class="content-area">
+
+      <!-- ================= হোম পেজ ================= -->
+      <section id="page-home" class="page active">
+        <h2 class="page-title">হোম ড্যাশবোর্ড</h2>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div class="stat-value" id="stat-jonoshokti">০</div>
+            <div class="stat-label">মোট জনশক্তি</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🎖️</div>
+            <div class="stat-value" id="stat-rukon">০</div>
+            <div class="stat-label">মোট রুকন</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🚩</div>
+            <div class="stat-value" id="stat-agroshor">০</div>
+            <div class="stat-label">মোট অগ্রসর কর্মী</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🤝</div>
+            <div class="stat-value" id="stat-kormi">০</div>
+            <div class="stat-label">মোট কর্মী</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🧑‍🤝‍🧑</div>
+            <div class="stat-value" id="stat-sohojogi">০</div>
+            <div class="stat-label">মোট সহযোগী সদস্য</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🏘️</div>
+            <div class="stat-value" id="stat-wardshakha">০</div>
+            <div class="stat-label">মোট ওয়ার্ড শাখা</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🏢</div>
+            <div class="stat-value" id="stat-unit">০</div>
+            <div class="stat-label">মোট ইউনিট</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📚</div>
+            <div class="stat-value" id="stat-boi">০</div>
+            <div class="stat-label">মোট বই সংখ্যা</div>
+          </div>
+        </div>
+        <div class="loading-msg" id="homeLoading">তথ্য লোড হচ্ছে...</div>
+      </section>
+
+      <!-- ================= আমাদের সম্পর্কে পেজ ================= -->
+      <section id="page-about" class="page">
+        <div class="page-header-row">
+          <h2 class="page-title">আমাদের সম্পর্কে</h2>
+          <div class="page-actions">
+            <button class="btn btn-outline" id="aboutEditBtn">✏️ এডিট করুন</button>
+            <button class="btn btn-outline" id="aboutPrintBtn">🖨️ প্রিন্ট করুন</button>
+          </div>
+        </div>
+
+        <!-- প্রদর্শন মোড -->
+        <div id="aboutViewMode" class="card">
+          <div class="info-row">
+            <span class="info-label">প্রতিষ্ঠাকাল</span>
+            <span class="info-value" id="view-foundingDate">—</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">উদ্দেশ্য ও লক্ষ্য</span>
+            <p class="info-value-block" id="view-purpose">—</p>
+          </div>
+          <div class="info-row">
+            <span class="info-label">প্রতিষ্ঠার ইতিহাস</span>
+            <p class="info-value-block" id="view-history">—</p>
+          </div>
+        </div>
+
+        <!-- আমাদের সম্পর্কে প্রিন্ট টেমপ্লেট (শুধু প্রিন্টের সময় ব্যবহৃত হয়) -->
+        <div id="aboutPrintTemplate" style="display:none;">
+          <h2 id="aprint-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
+          <h3>আমাদের সম্পর্কে</h3>
+          <table class="print-table">
+            <tr><td class="p-label">প্রতিষ্ঠাকাল</td><td id="aprint-foundingDate"></td></tr>
+            <tr><td class="p-label">উদ্দেশ্য ও লক্ষ্য</td><td id="aprint-purpose"></td></tr>
+            <tr><td class="p-label">প্রতিষ্ঠার ইতিহাস</td><td id="aprint-history"></td></tr>
+          </table>
+          <p class="print-footer">@Am Shahed : 01605721296</p>
+        </div>
+
+        <!-- এডিট মোড (ফরম) -->
+        <div id="aboutEditMode" class="card" style="display:none;">
+          <form id="aboutForm">
+            <div class="form-group">
+              <label>প্রতিষ্ঠাকাল</label>
+              <input type="text" id="input-foundingDate" placeholder="যেমনঃ ১৯৪১">
+            </div>
+            <div class="form-group">
+              <label>উদ্দেশ্য ও লক্ষ্য</label>
+              <textarea id="input-purpose" rows="4" placeholder="উদ্দেশ্য ও লক্ষ্য লিখুন"></textarea>
+            </div>
+            <div class="form-group">
+              <label>প্রতিষ্ঠার ইতিহাস</label>
+              <textarea id="input-history" rows="6" placeholder="প্রতিষ্ঠার ইতিহাস লিখুন"></textarea>
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn btn-primary" id="aboutSaveBtn">💾 সংরক্ষণ করুন</button>
+              <button type="button" class="btn btn-secondary" id="aboutCancelBtn">✖ বাতিল</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- ================= সদস্য ফরম পেজ ================= -->
+      <section id="page-member-form" class="page">
+        <div class="page-header-row">
+          <h2 class="page-title">সদস্য ফরম (জনশক্তি)</h2>
+          <div class="page-actions">
+            <button type="button" class="btn btn-outline" id="memberListPrintToggleBtn">📋 সদস্য তালিকা প্রিন্ট</button>
+          </div>
+        </div>
+
+        <!-- ================= সদস্য তালিকা প্রিন্ট (টগল) ================= -->
+        <div class="card" id="memberListPrintCard" style="display:none; margin-bottom:20px;">
+          <h3 class="sub-title">সদস্য তালিকা প্রিন্ট</h3>
+          <div class="form-group-row">
+            <div class="form-group">
+              <label>শাখার নাম</label>
+              <select id="mlp-branch"><option value="">নির্বাচন করুন</option></select>
+            </div>
+            <div class="form-group">
+              <label>মান</label>
+              <select id="mlp-maan">
+                <option value="">নির্বাচন করুন</option>
+                <option value="রুকন">রুকন</option>
+                <option value="অগ্রসর কর্মী">অগ্রসর কর্মী</option>
+                <option value="কর্মী">কর্মী</option>
+                <option value="সহযোগী সদস্য">সহযোগী সদস্য</option>
+              </select>
+            </div>
+          </div>
+          <button type="button" class="btn btn-primary" id="mlpLoadBtn">🔍 তালিকা দেখুন</button>
+          <button type="button" class="btn btn-outline" id="mlpPrintBtn" style="margin-left:8px;">🖨️ প্রিন্ট</button>
+          <div id="mlpListWrap" style="margin-top:16px;"></div>
+        </div>
+
+        <div class="card search-card">
+          <div class="form-group-row search-row">
+            <div class="form-group">
+              <label>নাম দিয়ে সার্চ করুন</label>
+              <input type="text" id="memberSearchInput" placeholder="সদস্যের নাম লিখুন...">
+            </div>
+            <div class="search-btn-wrap">
+              <button type="button" class="btn btn-primary" id="memberSearchBtn">🔍 সার্চ</button>
+              <button type="button" class="btn btn-secondary" id="memberNewBtn">➕ নতুন সদস্য</button>
+            </div>
+          </div>
+          <div id="memberSearchResults" class="search-results"></div>
+        </div>
+
+        <div class="card" id="memberFormCard">
+          <div class="page-actions" id="memberPrintActionWrap" style="display:none;">
+            <button class="btn btn-outline" id="memberPrintBtn">🖨️ প্রিন্ট করুন</button>
+          </div>
+          <form id="memberForm">
+            <input type="hidden" id="member-id">
+            <div class="form-group-row">
+              <div class="form-group">
+                <label>নাম</label>
+                <input type="text" id="member-name" placeholder="সদস্যের পূর্ণ নাম">
+              </div>
+              <div class="form-group">
+                <label>মোবাইল</label>
+                <input type="text" id="member-mobile" placeholder="মোবাইল নম্বর">
+              </div>
+            </div>
+            <div class="form-group-row">
+              <div class="form-group">
+                <label>শাখা</label>
+                <select id="member-branch">
+                  <option value="">নির্বাচন করুন</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>মান</label>
+                <select id="member-maan">
+                  <option value="">নির্বাচন করুন</option>
+                  <option value="রুকন">রুকন</option>
+                  <option value="অগ্রসর কর্মী">অগ্রসর কর্মী</option>
+                  <option value="কর্মী">কর্মী</option>
+                  <option value="সহযোগী সদস্য">সহযোগী সদস্য</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>অঞ্চলের নাম (মূল শাখার অধীনে হলে)</label>
+              <select id="member-zone">
+                <option value="">প্রযোজ্য নয়</option>
+              </select>
+            </div>
+            <div class="form-group-row">
+              <div class="form-group">
+                <label>সদস্য হওয়ার তারিখ</label>
+                <input type="date" id="member-joinDate">
+              </div>
+              <div class="form-group">
+                <label>পেশা</label>
+                <input type="text" id="member-profession" placeholder="পেশা লিখুন">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>ঠিকানা</label>
+              <textarea id="member-address" rows="2" placeholder="সম্পূর্ণ ঠিকানা লিখুন"></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn btn-primary" id="memberSaveBtn">💾 সংরক্ষণ</button>
+              <button type="button" class="btn btn-outline" id="memberEditBtn" style="display:none;">✏️ এডিট</button>
+              <button type="button" class="btn btn-danger" id="memberDeleteBtn" style="display:none;">🗑️ ডিলেট</button>
+              <button type="button" class="btn btn-secondary" id="memberClearBtn">✖ ফরম খালি করুন</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- ================= স্থানান্তর ফরম পেজ ================= -->
+      <section id="page-sthanantor-form" class="page">
+        <div class="page-header-row">
+          <h2 class="page-title">স্থানান্তর ফরম</h2>
+          <div class="page-actions">
+            <button type="button" class="btn btn-outline" id="transferredListToggleBtn">📋 স্থানান্তরিত সদস্যদের তালিকা</button>
+          </div>
+        </div>
+
+        <!-- ================= স্থানান্তরিত সদস্যদের তালিকা (টগল, পুনরায় সংযুক্তির সুযোগ) ================= -->
+        <div class="card list-card" id="transferredListCard" style="display:none; margin-bottom:20px;">
+          <h3 class="sub-title">স্থানান্তরিত সদস্যদের তালিকা</h3>
+          <div id="transferredListBody"></div>
+        </div>
+
+        <div class="card search-card">
+          <div class="form-group-row search-row">
+            <div class="form-group">
+              <label>সদস্যের নাম দিয়ে সার্চ করুন</label>
+              <input type="text" id="transferSearchInput" placeholder="সদস্যের নাম লিখুন...">
+            </div>
+            <div class="search-btn-wrap">
+              <button type="button" class="btn btn-primary" id="transferSearchBtn">🔍 সার্চ</button>
+            </div>
+          </div>
+          <div id="transferSearchResults" class="search-results"></div>
+        </div>
+
+        <div class="card" id="transferSelectedCard" style="display:none;">
+          <h3 class="sub-title">সদস্যের তথ্য</h3>
+          <div class="form-group-row">
+            <div class="info-row">
+              <span class="info-label">নাম</span>
+              <span class="info-value" id="t-view-name">—</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">মোবাইল</span>
+              <span class="info-value" id="t-view-mobile">—</span>
+            </div>
+          </div>
+          <div class="form-group-row">
+            <div class="info-row">
+              <span class="info-label">বর্তমান শাখা</span>
+              <span class="info-value" id="t-view-branch">—</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">মান</span>
+              <span class="info-value" id="t-view-maan">—</span>
+            </div>
+          </div>
+          <div class="info-row">
+            <span class="info-label">অঞ্চলের নাম</span>
+            <span class="info-value" id="t-view-zone">—</span>
+          </div>
+
+          <hr class="divider">
+
+          <form id="sthanantorForm">
+            <input type="hidden" id="sthanantor-memberId">
+            <div class="form-group">
+              <label>নতুন শাখার নাম</label>
+              <input type="text" id="sthanantor-toBranch" placeholder="নতুন শাখার নাম লিখুন">
+            </div>
+            <div class="form-group">
+              <label>নতুন শাখার ঠিকানা</label>
+              <textarea id="sthanantor-toBranchAddress" rows="2" placeholder="নতুন শাখার সম্পূর্ণ ঠিকানা লিখুন"></textarea>
+            </div>
+            <div class="form-group">
+              <label>স্থানান্তরের তারিখ</label>
+              <input type="date" id="sthanantor-date">
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn btn-primary" id="sthanantorSaveBtn">💾 সংরক্ষণ</button>
+              <button type="button" class="btn btn-secondary" id="sthanantorResetBtn">↺ রিসেট</button>
+              <button type="button" class="btn btn-outline" id="sthanantorPrintBtn">🖨️ প্রিন্ট</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="card list-card" id="transferHistoryCard" style="display:none;">
+          <h3 class="sub-title">এই সদস্যের স্থানান্তরের ইতিহাস</h3>
+          <div id="sthanantorList" class="simple-list"></div>
+        </div>
+      </section>
+
+      <!-- ================= ধার্য্য ফরম পেজ ================= -->
+      <section id="page-dhajjo-form" class="page">
+        <div class="page-header-row">
+          <h2 class="page-title">ধার্য্য ফরম</h2>
+          <div class="page-actions">
+            <button type="button" class="btn btn-outline" id="eyanatIncreaseToggleBtn">📈 এয়ানত বৃদ্ধি ফরম</button>
+          </div>
+        </div>
+
+        <!-- ================= এয়ানত বৃদ্ধি ফরম (টগল) ================= -->
+        <div class="card" id="eyanatIncreaseCard" style="display:none; margin-bottom:20px;">
+          <h3 class="sub-title">এয়ানত বৃদ্ধি ফরম</h3>
+          <div class="form-group-row">
+            <div class="form-group">
+              <label>শাখার নাম (উপশাখা)</label>
+              <select id="ei-branch"><option value="">নির্বাচন করুন</option></select>
+            </div>
+            <div class="form-group">
+              <label>মান</label>
+              <select id="ei-maan">
+                <option value="">নির্বাচন করুন</option>
+                <option value="রুকন">রুকন</option>
+                <option value="অগ্রসর কর্মী">অগ্রসর কর্মী</option>
+                <option value="কর্মী">কর্মী</option>
+                <option value="সহযোগী সদস্য">সহযোগী সদস্য</option>
+              </select>
+            </div>
+          </div>
+          <button type="button" class="btn btn-primary" id="eiLoadBtn">🔍 তালিকা দেখুন</button>
+
+          <div id="eiListWrap" style="display:none; margin-top:16px;">
+            <table class="dhajjo-table">
+              <thead><tr><th>ক্রম</th><th>নাম</th><th>বর্তমান ধার্য্য</th><th>বৃদ্ধির পরিমাণ</th><th>তারিখ</th></tr></thead>
+              <tbody id="eiListBody"></tbody>
+            </table>
+
+            <div class="form-actions" style="margin-top:20px;">
+              <button type="button" class="btn btn-primary" id="eiSaveBtn">💾 সংরক্ষণ</button>
+              <button type="button" class="btn btn-primary" id="eiUpdateBtn">🔄 আপডেট</button>
+              <button type="button" class="btn btn-secondary" id="eiResetBtn">↺ রিসেট</button>
+              <button type="button" class="btn btn-outline" id="eiPrintBtn">🖨️ প্রিন্ট (সকল সদস্য)</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card search-card">
+          <div class="form-group-row search-row">
+            <div class="form-group">
+              <label>সদস্যের নাম দিয়ে সার্চ করুন</label>
+              <input type="text" id="dhajjoSearchInput" placeholder="সদস্যের নাম লিখুন...">
+            </div>
+            <div class="search-btn-wrap">
+              <button type="button" class="btn btn-primary" id="dhajjoSearchBtn">🔍 সার্চ</button>
+            </div>
+          </div>
+          <div id="dhajjoSearchResults" class="search-results"></div>
+        </div>
+
+        <div class="card" id="dhajjoSelectedCard" style="display:none;">
+          <h3 class="sub-title">সদস্যের তথ্য</h3>
+          <div class="info-row">
+            <span class="info-label">নাম</span>
+            <span class="info-value" id="d-view-name">—</span>
+          </div>
+          <div class="form-group-row">
+            <div class="info-row">
+              <span class="info-label">মোবাইল</span>
+              <span class="info-value" id="d-view-mobile">—</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">শাখা</span>
+              <span class="info-value" id="d-view-branch">—</span>
+            </div>
+          </div>
+          <div class="info-row">
+            <span class="info-label">মান</span>
+            <span class="info-value" id="d-view-maan">—</span>
+          </div>
+
+          <hr class="divider">
+
+          <div class="year-select-row">
+            <label style="margin:0;">হিসাবের বছর</label>
+            <input type="number" id="dhajjo-year" value="2026">
+            <span class="loading-msg" id="dhajjoYearLoading" style="display:none;">লোড হচ্ছে...</span>
+          </div>
+
+          <table class="dhajjo-table">
+            <thead>
+              <tr>
+                <th>খাতের নাম</th>
+                <th>পরিমাণ (৳)</th>
+                <th>তারিখ</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="dhajjoItemsBody">
+              <!-- সারিগুলো JS দিয়ে গতিশীলভাবে তৈরি হবে -->
+            </tbody>
+          </table>
+
+          <button type="button" class="btn btn-outline btn-sm" id="dhajjoAddRowBtn" style="margin-top:10px;">➕ নতুন খাত</button>
+
+          <div class="form-actions" style="margin-top:22px;">
+            <button type="button" class="btn btn-primary" id="dhajjoSaveBtn">💾 সংরক্ষণ</button>
+            <button type="button" class="btn btn-primary" id="dhajjoUpdateBtn">🔄 আপডেট</button>
+            <button type="button" class="btn btn-secondary" id="dhajjoResetBtn">↺ রিসেট</button>
+            <button type="button" class="btn btn-outline" id="dhajjoPrintBtn">🖨️ প্রিন্ট</button>
+          </div>
+        </div>
+
+        <div class="card list-card" id="dhajjoHistoryCard" style="display:none;">
+          <h3 class="sub-title">বছরভিত্তিক সারসংক্ষেপ (এই সদস্যের সব বছরের হিসাব)</h3>
+          <div id="dhajjoYearSummaryList"></div>
+        </div>
+      </section>
+
+      <!-- ================= শাখা সেটাপ পেজ ================= -->
+      <section id="page-branch" class="page">
+        <h2 class="page-title">শাখা সেটাপ</h2>
+        <div class="card">
+          <form id="branchForm">
+            <div class="form-group">
+              <label>শাখার নাম</label>
+              <input type="text" id="branch-name" placeholder="শাখার নাম লিখুন">
+            </div>
+            <div class="form-group">
+              <label>মান</label>
+              <select id="branch-level">
+                <option value="">নির্বাচন করুন</option>
+                <option value="উপজেলা / থানা">উপজেলা / থানা</option>
+                <option value="পৌরসভা">পৌরসভা</option>
+                <option value="ইউনিয়ন">ইউনিয়ন</option>
+                <option value="ওয়ার্ড (পৌরসভা)">ওয়ার্ড (পৌরসভা)</option>
+                <option value="ওয়ার্ড">ওয়ার্ড</option>
+                <option value="ইউনিট">ইউনিট</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>ঠিকানা</label>
+              <textarea id="branch-address" rows="2" placeholder="সম্পূর্ণ ঠিকানা লিখুন"></textarea>
+            </div>
+            <div class="form-group">
+              <label>ফোন নম্বর</label>
+              <input type="text" id="branch-phone" placeholder="যোগাযোগের নম্বর">
+            </div>
+            <div class="form-group">
+              <label>ইমেইল</label>
+              <input type="email" id="branch-email" placeholder="ইমেইল ঠিকানা">
+            </div>
+
+            <div class="form-group-row">
+              <div class="form-group">
+                <label>লোগো</label>
+                <input type="file" id="branch-logo-file" accept="image/*">
+                <img id="logoPreview" class="img-preview" style="display:none;">
+              </div>
+              <div class="form-group">
+                <label>প্রতীক</label>
+                <input type="file" id="branch-symbol-file" accept="image/*">
+                <img id="symbolPreview" class="img-preview" style="display:none;">
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn btn-primary" id="branchSaveBtn">💾 সংরক্ষণ করুন</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- ================= কমিটি তথ্য ================= -->
+        <div class="card" id="committeeCard" style="margin-top:24px;">
+          <h3 class="sub-title">কমিটি তথ্য</h3>
+
+          <table class="dhajjo-table">
+            <thead>
+              <tr>
+                <th>পদবি</th>
+                <th>নাম</th>
+                <th>মোবাইল নং</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="committeeBody">
+              <!-- সারিগুলো JS দিয়ে গতিশীলভাবে তৈরি হবে -->
+            </tbody>
+          </table>
+
+          <button type="button" class="btn btn-outline btn-sm" id="committeeAddRowBtn" style="margin-top:10px;">➕ নতুন পদবি যোগ করুন</button>
+
+          <div class="form-actions" style="margin-top:22px;">
+            <button type="button" class="btn btn-primary" id="committeeSaveBtn">💾 সংরক্ষণ</button>
+            <button type="button" class="btn btn-primary" id="committeeUpdateBtn">🔄 আপডেট</button>
+            <button type="button" class="btn btn-secondary" id="committeeResetBtn">↺ রিসেট</button>
+            <button type="button" class="btn btn-outline" id="committeePrintBtn">🖨️ প্রিন্ট</button>
+          </div>
+        </div>
+
+        <!-- ================= অঞ্চল তথ্য (মূল শাখা) ================= -->
+        <div class="card" id="mainZoneCard" style="margin-top:24px;">
+          <h3 class="sub-title">অঞ্চল তথ্য</h3>
+
+          <div class="year-select-row">
+            <label style="margin:0;">অঞ্চল সংখ্যা</label>
+            <input type="number" id="mainZoneCount" value="0" min="0">
+          </div>
+
+          <table class="dhajjo-table">
+            <thead>
+              <tr><th>অঞ্চলের নাম</th><th>পরিচালকের নাম</th><th>মোবাইল</th><th>সহকারী পরিচালকের নাম</th><th>মোবাইল</th></tr>
+            </thead>
+            <tbody id="mainZonesBody"></tbody>
+          </table>
+
+          <div class="form-actions" style="margin-top:22px;">
+            <button type="button" class="btn btn-primary" id="mainZoneSaveBtn">💾 সংরক্ষণ</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= উপশাখা এন্ট্রি ফরম ================= -->
+      <section id="page-upashakha-entry" class="page">
+        <h2 class="page-title">উপশাখা এন্ট্রি ফরম</h2>
+
+        <div class="card">
+          <input type="hidden" id="uentry-id">
+          <div class="form-group-row">
+            <div class="form-group">
+              <label>উপশাখার নাম</label>
+              <input type="text" id="uentry-name" placeholder="উপশাখার নাম লিখুন">
+            </div>
+            <div class="form-group">
+              <label>মান</label>
+              <select id="uentry-level">
+                <option value="">নির্বাচন করুন</option>
+                <option value="উপজেলা / থানা">উপজেলা / থানা</option>
+                <option value="পৌরসভা">পৌরসভা</option>
+                <option value="ইউনিয়ন">ইউনিয়ন</option>
+                <option value="ওয়ার্ড (পৌরসভা)">ওয়ার্ড (পৌরসভা)</option>
+                <option value="ওয়ার্ড">ওয়ার্ড</option>
+                <option value="ইউনিট">ইউনিট</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-primary" id="uentrySaveBtn">💾 সংরক্ষণ</button>
+            <button type="button" class="btn btn-primary" id="uentryEditBtn">✏️ এডিট</button>
+            <button type="button" class="btn btn-outline" id="uentryPrintBtn">🖨️ প্রিন্ট</button>
+            <button type="button" class="btn btn-secondary" id="uentryResetBtn">↺ রিসেট</button>
+          </div>
+        </div>
+
+        <div class="card list-card" style="margin-top:16px;">
+          <h3 class="sub-title">সব উপশাখার তালিকা (এডিট করতে ক্লিক করুন)</h3>
+          <div id="uentryList" class="simple-list"></div>
+        </div>
+      </section>
+
+      <section id="page-upashakha-setup" class="page">
+        <h2 class="page-title">উপশাখা সেটাপ</h2>
+
+        <div class="card">
+          <div class="form-group">
+            <label>উপশাখার নাম নির্বাচন করুন</label>
+            <select id="upashakha-select-picker">
+              <option value="">নির্বাচন করুন</option>
+            </select>
+            <p style="font-size:12.5px; color:#777; margin-top:6px;">নতুন উপশাখা যোগ করতে চাইলে প্রথমে "উপশাখা এন্ট্রি" ফরমে গিয়ে নাম ও মান দিয়ে এন্ট্রি করুন, এরপর এখানে সিলেক্ট করে বিস্তারিত (কমিটি, অঞ্চল) তথ্য যুক্ত করুন।</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:16px;">
+          <input type="hidden" id="upashakha-id">
+          <div class="form-group-row">
+            <div class="form-group">
+              <label>উপশাখার নাম</label>
+              <input type="text" id="upashakha-name" disabled placeholder="উপরে থেকে নির্বাচন করুন">
+            </div>
+            <div class="form-group">
+              <label>মান</label>
+              <input type="text" id="upashakha-level" disabled placeholder="স্বয়ংক্রিয়ভাবে আসবে">
+            </div>
+          </div>
+
+          <hr class="divider">
+          <h3 class="sub-title">কমিটির কর্মকর্তা</h3>
+
+          <table class="dhajjo-table">
+            <thead>
+              <tr><th>পদবি</th><th>নাম</th><th>মোবাইল</th><th></th></tr>
+            </thead>
+            <tbody id="upashakha-officer-body">
+              <!-- আমীর, নায়েবে আমীর সারি, সেক্রেটারী, সহকারী সেক্রেটারী সারি — সব JS দিয়ে গতিশীলভাবে সঠিক ক্রমে তৈরি হবে -->
+            </tbody>
+          </table>
+
+          <hr class="divider">
+          <div id="upashakhaZoneSection">
+            <h3 class="sub-title">অঞ্চল তথ্য</h3>
+
+            <div class="year-select-row">
+              <label style="margin:0;">অঞ্চল সংখ্যা</label>
+              <input type="number" id="upashakha-zoneCount" value="0" min="0">
+            </div>
+
+            <table class="dhajjo-table">
+              <thead>
+                <tr><th>অঞ্চলের নাম</th><th>পরিচালকের নাম</th><th>মোবাইল</th><th></th></tr>
+              </thead>
+              <tbody id="upashakha-zones-body"></tbody>
+            </table>
+          </div>
+
+          <div class="form-actions" style="margin-top:22px;">
+            <button type="button" class="btn btn-primary" id="upashakhaSaveBtn">💾 সংরক্ষণ</button>
+            <button type="button" class="btn btn-primary" id="upashakhaUpdateBtn">🔄 আপডেট</button>
+            <button type="button" class="btn btn-danger" id="upashakhaDeleteBtn">🗑️ ডিলেট</button>
+            <button type="button" class="btn btn-secondary" id="upashakhaResetBtn">↺ রিসেট</button>
+            <button type="button" class="btn btn-outline" id="upashakhaPrintBtn">🖨️ প্রিন্ট</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= উপশাখা ধার্য্য পেজ ================= -->
+      <section id="page-upashakha-dhajjo" class="page">
+        <div class="page-header-row">
+          <h2 class="page-title">উপশাখা ধার্য্য</h2>
+          <div class="page-actions">
+            <button type="button" class="btn btn-outline" id="nisabIncreaseToggleBtn">📈 নিসাব বৃদ্ধি ফরম</button>
+          </div>
+        </div>
+
+        <!-- ================= নিসাব বৃদ্ধি ফরম (টগল) ================= -->
+        <div class="card" id="nisabIncreaseCard" style="display:none; margin-bottom:20px;">
+          <h3 class="sub-title">নিসাব বৃদ্ধি ফরম</h3>
+          <table class="dhajjo-table">
+            <thead><tr><th>ক্রম</th><th>উপশাখার নাম</th><th>বর্তমান ধার্য্য</th><th>বৃদ্ধির পরিমাণ</th><th>তারিখ</th></tr></thead>
+            <tbody id="niListBody"></tbody>
+          </table>
+
+          <div class="form-actions" style="margin-top:20px;">
+            <button type="button" class="btn btn-primary" id="niSaveBtn">💾 সংরক্ষণ</button>
+            <button type="button" class="btn btn-primary" id="niUpdateBtn">🔄 আপডেট</button>
+            <button type="button" class="btn btn-secondary" id="niResetBtn">↺ রিসেট</button>
+            <button type="button" class="btn btn-outline" id="niPrintBtn">🖨️ প্রিন্ট (সকল উপশাখা)</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="form-group">
+            <label>উপশাখার নাম</label>
+            <select id="upashakhaDhajja-select">
+              <option value="">নির্বাচন করুন</option>
+            </select>
+          </div>
+
+          <div id="upashakhaDhajjoInfo" style="display:none;">
+            <div class="form-group-row">
+              <div class="info-row">
+                <span class="info-label">আমীর / সভাপতি</span>
+                <span class="info-value" id="ud-view-amirName">—</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">মোবাইল</span>
+                <span class="info-value" id="ud-view-amirMobile">—</span>
+              </div>
+            </div>
+
+            <hr class="divider">
+
+            <div class="year-select-row">
+              <label style="margin:0;">হিসাবের বছর</label>
+              <input type="number" id="upashakhaDhajjo-year" value="2026">
+              <span class="loading-msg" id="upashakhaDhajjoLoading" style="display:none;">লোড হচ্ছে...</span>
+            </div>
+
+            <table class="dhajjo-table">
+              <thead>
+                <tr><th>খাতের নাম</th><th>পরিমাণ (৳)</th><th>তারিখ</th><th></th></tr>
+              </thead>
+              <tbody id="upashakhaDhajjoItemsBody"></tbody>
+            </table>
+
+            <button type="button" class="btn btn-outline btn-sm" id="upashakhaDhajjoAddRowBtn" style="margin-top:10px;">➕ নতুন খাত</button>
+
+            <div class="form-actions" style="margin-top:22px;">
+              <button type="button" class="btn btn-primary" id="upashakhaDhajjoSaveBtn">💾 সংরক্ষণ</button>
+              <button type="button" class="btn btn-primary" id="upashakhaDhajjoUpdateBtn">🔄 আপডেট</button>
+              <button type="button" class="btn btn-secondary" id="upashakhaDhajjoResetBtn">↺ রিসেট</button>
+              <button type="button" class="btn btn-danger" id="upashakhaDhajjoDeleteBtn">🗑️ ডিলেট</button>
+              <button type="button" class="btn btn-outline" id="upashakhaDhajjoPrintBtn">🖨️ প্রিন্ট</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card list-card" id="upashakhaDhajjoHistoryCard" style="display:none;">
+          <h3 class="sub-title">বছরভিত্তিক সারসংক্ষেপ</h3>
+          <div id="upashakhaDhajjoYearSummaryList"></div>
+        </div>
+      </section>
+
+      <!-- ================= জনশক্তি আয় ফরম ================= -->
+      <section id="page-jonoshokti-income" class="page">
+        <div class="page-header-row">
+          <h2 class="page-title">জনশক্তি আয়</h2>
+          <div class="page-actions">
+            <button type="button" class="btn btn-outline" id="jiReportToggleBtn">📊 রিপোর্ট</button>
+          </div>
+        </div>
+
+        <!-- ================= জনশক্তি রিপোর্ট (টগল) ================= -->
+        <div class="card" id="jiReportCard" style="display:none; margin-bottom:20px;">
+          <h3 class="sub-title">রিপোর্ট</h3>
+          <div class="form-actions" style="margin-bottom:16px;">
+            <button type="button" class="btn btn-outline btn-sm jrep-tab-btn active" data-jrep="income">খাত-ভিত্তিক আয়</button>
+            <button type="button" class="btn btn-outline btn-sm jrep-tab-btn" data-jrep="due">খাত-ভিত্তিক বকেয়া</button>
+            <button type="button" class="btn btn-outline btn-sm jrep-tab-btn" data-jrep="individual">ব্যক্তিগত রিপোর্ট</button>
+          </div>
+
+          <!-- খাত-ভিত্তিক আয়/বকেয়া রিপোর্ট -->
+          <div id="jrep-pivot-section">
+            <div class="form-group-row">
+              <div class="form-group">
+                <label>শাখার নাম</label>
+                <select id="jrep-branch"><option value="">নির্বাচন করুন</option></select>
+              </div>
+              <div class="form-group">
+                <label>মান</label>
+                <select id="jrep-maan">
+                  <option value="">নির্বাচন করুন</option>
+                  <option value="রুকন">রুকন</option>
+                  <option value="অগ্রসর কর্মী">অগ্রসর কর্মী</option>
+                  <option value="কর্মী">কর্মী</option>
+                  <option value="সহযোগী সদস্য">সহযোগী সদস্য</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group-row">
+              <div class="form-group">
+                <label>সময়সীমার ধরন</label>
+                <select id="jrep-periodType">
+                  <option value="মাসিক">মাসিক</option>
+                  <option value="ত্রৈমাসিক">ত্রৈমাসিক</option>
+                  <option value="ষান্মাসিক">ষান্মাসিক</option>
+                  <option value="বার্ষিক">বার্ষিক</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>বছর</label>
+                <input type="number" id="jrep-year" value="2026">
+              </div>
+            </div>
+            <div class="form-group" id="jrep-periodValueWrap">
+              <label id="jrep-periodValueLabel">মাস</label>
+              <select id="jrep-periodValue">
+                <option value="জানুয়ারি">জানুয়ারি</option>
+                <option value="ফেব্রুয়ারি">ফেব্রুয়ারি</option>
+                <option value="মার্চ">মার্চ</option>
+                <option value="এপ্রিল">এপ্রিল</option>
+                <option value="মে">মে</option>
+                <option value="জুন">জুন</option>
+                <option value="জুলাই">জুলাই</option>
+                <option value="আগস্ট">আগস্ট</option>
+                <option value="সেপ্টেম্বর">সেপ্টেম্বর</option>
+                <option value="অক্টোবর">অক্টোবর</option>
+                <option value="নভেম্বর">নভেম্বর</option>
+                <option value="ডিসেম্বর">ডিসেম্বর</option>
+              </select>
+            </div>
+            <button type="button" class="btn btn-primary" id="jrepLoadBtn">🔍 রিপোর্ট দেখুন</button>
+            <button type="button" class="btn btn-outline" id="jrepPrintBtn" style="margin-left:8px;">🖨️ প্রিন্ট</button>
+
+            <div id="jrepTableWrap" style="margin-top:16px; overflow-x:auto;"></div>
+          </div>
+
+          <!-- ব্যক্তিগত (নির্দিষ্ট সদস্যের) রিপোর্ট -->
+          <div id="jrep-individual-section" style="display:none;">
+            <div class="form-group-row search-row">
+              <div class="form-group">
+                <label>সদস্যের নাম দিয়ে সার্চ করুন</label>
+                <input type="text" id="jrepIndSearchInput" placeholder="সদস্যের নাম লিখুন...">
+              </div>
+              <div class="search-btn-wrap">
+                <button type="button" class="btn btn-primary" id="jrepIndSearchBtn">🔍 সার্চ</button>
+              </div>
+            </div>
+            <div id="jrepIndSearchResults" class="search-results"></div>
+
+            <div id="jrepIndResultWrap" style="display:none; margin-top:16px;">
+              <div class="info-row">
+                <span class="info-label">নাম</span>
+                <span class="info-value" id="jrepInd-name">—</span>
+              </div>
+              <div class="form-group-row">
+                <div class="info-row"><span class="info-label">মোবাইল</span><span class="info-value" id="jrepInd-mobile">—</span></div>
+                <div class="info-row"><span class="info-label">শাখা / মান</span><span class="info-value" id="jrepInd-branchMaan">—</span></div>
+              </div>
+              <table class="dhajjo-table">
+                <thead><tr><th>খাতের নাম</th><th>ধার্য্য</th><th>পরিশোধ</th><th>বকেয়া</th></tr></thead>
+                <tbody id="jrepIndKhatBody"></tbody>
+              </table>
+              <h4 class="sub-title" style="font-size:14px; margin-top:16px;">পরিশোধের ইতিহাস</h4>
+              <table class="mini-log-table">
+                <thead><tr><th>খাত</th><th>মাস/বছর</th><th>পরিমাণ</th><th>তারিখ</th></tr></thead>
+                <tbody id="jrepIndPayHistoryBody"></tbody>
+              </table>
+              <button type="button" class="btn btn-outline" id="jrepIndPrintBtn" style="margin-top:16px;">🖨️ প্রিন্ট (সম্পূর্ণ রিপোর্ট)</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" id="jiFormCard">
+          <div class="form-group-row">
+            <div class="form-group">
+              <label>মাস</label>
+              <select id="ji-month">
+                <option value="জানুয়ারি">জানুয়ারি</option>
+                <option value="ফেব্রুয়ারি">ফেব্রুয়ারি</option>
+                <option value="মার্চ">মার্চ</option>
+                <option value="এপ্রিল">এপ্রিল</option>
+                <option value="মে">মে</option>
+                <option value="জুন">জুন</option>
+                <option value="জুলাই">জুলাই</option>
+                <option value="আগস্ট">আগস্ট</option>
+                <option value="সেপ্টেম্বর">সেপ্টেম্বর</option>
+                <option value="অক্টোবর">অক্টোবর</option>
+                <option value="নভেম্বর">নভেম্বর</option>
+                <option value="ডিসেম্বর">ডিসেম্বর</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>বছর</label>
+              <input type="number" id="ji-year" value="2026">
+            </div>
+          </div>
+          <div class="form-group-row">
+            <div class="form-group">
+              <label>শাখার নাম</label>
+              <select id="ji-branch"><option value="">নির্বাচন করুন</option></select>
+            </div>
+            <div class="form-group">
+              <label>মান</label>
+              <select id="ji-maan">
+                <option value="">নির্বাচন করুন</option>
+                <option value="রুকন">রুকন</option>
+                <option value="অগ্রসর কর্মী">অগ্রসর কর্মী</option>
+                <option value="কর্মী">কর্মী</option>
+                <option value="সহযোগী সদস্য">সহযোগী সদস্য</option>
+              </select>
+            </div>
+          </div>
+          <button type="button" class="btn btn-primary" id="jiLoadBtn">🔍 তালিকা দেখুন</button>
+        </div>
+
+        <div id="jiMemberListWrap" style="display:none;">
+          <div class="card" style="margin-top:16px;">
+            <div id="jiMemberList"></div>
+            <div class="form-actions" style="margin-top:20px;">
+              <button type="button" class="btn btn-primary" id="jiSaveBtn">💾 সংরক্ষণ</button>
+              <button type="button" class="btn btn-primary" id="jiUpdateBtn">🔄 আপডেট</button>
+              <button type="button" class="btn btn-secondary" id="jiResetBtn">↺ রিসেট</button>
+              <button type="button" class="btn btn-outline" id="jiPrintBtn">🖨️ প্রিন্ট</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= উপশাখা আয় ফরম ================= -->
+      <section id="page-upashakha-income" class="page">
+        <div class="page-header-row">
+          <h2 class="page-title">উপশাখা আয়</h2>
+          <div class="page-actions">
+            <button type="button" class="btn btn-outline" id="uiReportToggleBtn">📊 রিপোর্ট</button>
+          </div>
+        </div>
+
+        <!-- ================= উপশাখা রিপোর্ট (টগল) ================= -->
+        <div class="card" id="uiReportCard" style="display:none; margin-bottom:20px;">
+          <h3 class="sub-title">রিপোর্ট</h3>
+          <div class="form-actions" style="margin-bottom:16px;">
+            <button type="button" class="btn btn-outline btn-sm urep-tab-btn active" data-urep="income">খাত-ভিত্তিক আয়</button>
+            <button type="button" class="btn btn-outline btn-sm urep-tab-btn" data-urep="due">খাত-ভিত্তিক বকেয়া</button>
+            <button type="button" class="btn btn-outline btn-sm urep-tab-btn" data-urep="individual">নির্দিষ্ট উপশাখার রিপোর্ট</button>
+          </div>
+
+          <!-- খাত-ভিত্তিক আয়/বকেয়া রিপোর্ট (সব উপশাখা) -->
+          <div id="urep-pivot-section">
+            <div class="form-group-row">
+              <div class="form-group">
+                <label>উপশাখার মান</label>
+                <select id="urep-level">
+                  <option value="">সকল</option>
+                  <option value="উপজেলা / থানা">উপজেলা / থানা</option>
+                  <option value="পৌরসভা">পৌরসভা</option>
+                  <option value="ইউনিয়ন">ইউনিয়ন</option>
+                  <option value="ওয়ার্ড (পৌরসভা)">ওয়ার্ড (পৌরসভা)</option>
+                  <option value="ওয়ার্ড">ওয়ার্ড</option>
+                  <option value="ইউনিট">ইউনিট</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>সময়সীমার ধরন</label>
+                <select id="urep-periodType">
+                  <option value="মাসিক">মাসিক</option>
+                  <option value="ত্রৈমাসিক">ত্রৈমাসিক</option>
+                  <option value="ষান্মাসিক">ষান্মাসিক</option>
+                  <option value="বার্ষিক">বার্ষিক</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group-row">
+              <div class="form-group">
+                <label>বছর</label>
+                <input type="number" id="urep-year" value="2026">
+              </div>
+              <div class="form-group" id="urep-periodValueWrap">
+                <label id="urep-periodValueLabel">মাস</label>
+                <select id="urep-periodValue">
+                  <option value="জানুয়ারি">জানুয়ারি</option>
+                  <option value="ফেব্রুয়ারি">ফেব্রুয়ারি</option>
+                  <option value="মার্চ">মার্চ</option>
+                  <option value="এপ্রিল">এপ্রিল</option>
+                  <option value="মে">মে</option>
+                  <option value="জুন">জুন</option>
+                  <option value="জুলাই">জুলাই</option>
+                  <option value="আগস্ট">আগস্ট</option>
+                  <option value="সেপ্টেম্বর">সেপ্টেম্বর</option>
+                  <option value="অক্টোবর">অক্টোবর</option>
+                  <option value="নভেম্বর">নভেম্বর</option>
+                  <option value="ডিসেম্বর">ডিসেম্বর</option>
+                </select>
+              </div>
+            </div>
+            <button type="button" class="btn btn-primary" id="urepLoadBtn">🔍 রিপোর্ট দেখুন</button>
+            <button type="button" class="btn btn-outline" id="urepPrintBtn" style="margin-left:8px;">🖨️ প্রিন্ট</button>
+
+            <div id="urepTableWrap" style="margin-top:16px; overflow-x:auto;"></div>
+          </div>
+
+          <!-- নির্দিষ্ট উপশাখার রিপোর্ট -->
+          <div id="urep-individual-section" style="display:none;">
+            <div class="form-group">
+              <label>উপশাখার নাম</label>
+              <select id="urepInd-upashakha"><option value="">নির্বাচন করুন</option></select>
+            </div>
+
+            <div id="urepIndResultWrap" style="display:none; margin-top:16px;">
+              <table class="dhajjo-table">
+                <thead><tr><th>খাতের নাম</th><th>ধার্য্য</th><th>পরিশোধ</th><th>বকেয়া</th></tr></thead>
+                <tbody id="urepIndKhatBody"></tbody>
+              </table>
+              <h4 class="sub-title" style="font-size:14px; margin-top:16px;">পরিশোধের ইতিহাস</h4>
+              <table class="mini-log-table">
+                <thead><tr><th>খাত</th><th>মাস/বছর</th><th>পরিমাণ</th><th>তারিখ</th></tr></thead>
+                <tbody id="urepIndPayHistoryBody"></tbody>
+              </table>
+              <button type="button" class="btn btn-outline" id="urepIndPrintBtn" style="margin-top:16px;">🖨️ প্রিন্ট (সম্পূর্ণ রিপোর্ট)</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" id="uiFormCard">
+          <div class="form-group-row">
+            <div class="form-group">
+              <label>মাস</label>
+              <select id="ui-month">
+                <option value="জানুয়ারি">জানুয়ারি</option>
+                <option value="ফেব্রুয়ারি">ফেব্রুয়ারি</option>
+                <option value="মার্চ">মার্চ</option>
+                <option value="এপ্রিল">এপ্রিল</option>
+                <option value="মে">মে</option>
+                <option value="জুন">জুন</option>
+                <option value="জুলাই">জুলাই</option>
+                <option value="আগস্ট">আগস্ট</option>
+                <option value="সেপ্টেম্বর">সেপ্টেম্বর</option>
+                <option value="অক্টোবর">অক্টোবর</option>
+                <option value="নভেম্বর">নভেম্বর</option>
+                <option value="ডিসেম্বর">ডিসেম্বর</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>বছর</label>
+              <input type="number" id="ui-year" value="2026">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>শাখার নাম (উপশাখা)</label>
+            <select id="ui-upashakha"><option value="">নির্বাচন করুন</option></select>
+          </div>
+        </div>
+
+        <div class="card" id="uiTableWrap" style="display:none; margin-top:16px;">
+          <table class="dhajjo-table">
+            <thead><tr><th>খাতের নাম</th><th>ধার্য্য</th><th>পরিশোধ</th><th>বকেয়া</th><th>এখন পরিশোধ</th></tr></thead>
+            <tbody id="uiItemsBody"></tbody>
+          </table>
+          <div class="form-actions" style="margin-top:20px;">
+            <button type="button" class="btn btn-primary" id="uiSaveBtn">💾 সংরক্ষণ</button>
+            <button type="button" class="btn btn-primary" id="uiUpdateBtn">🔄 আপডেট</button>
+            <button type="button" class="btn btn-secondary" id="uiResetBtn">↺ রিসেট</button>
+            <button type="button" class="btn btn-outline" id="uiPrintBtn">🖨️ প্রিন্ট</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= অন্যান্য আয় ফরম ================= -->
+      <section id="page-annanno-income" class="page">
+        <h2 class="page-title">অন্যান্য আয় ফরম</h2>
+
+        <div class="card">
+          <table class="dhajjo-table">
+            <thead><tr><th>তারিখ</th><th>আয়ের খাত</th><th>ক্রম</th><th>বিবরণ</th><th>পরিমাণ (৳)</th><th></th></tr></thead>
+            <tbody id="oaItemsBody"></tbody>
+          </table>
+          <button type="button" class="btn btn-outline btn-sm" id="oaAddRowBtn" style="margin-top:10px;">➕ নতুন সারি</button>
+
+          <div class="form-actions" style="margin-top:20px;">
+            <button type="button" class="btn btn-primary" id="oaSaveBtn">💾 সংরক্ষণ</button>
+            <button type="button" class="btn btn-primary" id="oaUpdateBtn">🔄 আপডেট</button>
+            <button type="button" class="btn btn-secondary" id="oaResetBtn">↺ রিসেট</button>
+            <button type="button" class="btn btn-outline" id="oaPrintBtn">🖨️ প্রিন্ট (রশিদ)</button>
+          </div>
+        </div>
+
+        <div class="card list-card" style="margin-top:16px;">
+          <h3 class="sub-title">সাম্প্রতিক এন্ট্রি (ক্লিক করলে ফরমে লোড হবে)</h3>
+          <div id="oaList" class="simple-list"></div>
+        </div>
+      </section>
+
+      <!-- ================= ব্যয় ফরম ================= -->
+      <section id="page-byay-form" class="page">
+        <h2 class="page-title">ব্যয় ফরম</h2>
+
+        <div class="card">
+          <input type="hidden" id="byay-id">
+          <div class="form-group-row">
+            <div class="form-group">
+              <label>ভাউচার নং</label>
+              <input type="text" id="byay-voucherNo" disabled placeholder="সংরক্ষণের পর অটো তৈরি হবে">
+            </div>
+            <div class="form-group">
+              <label>তারিখ</label>
+              <input type="date" id="byay-date">
+            </div>
+          </div>
+          <div class="form-group-row">
+            <div class="form-group">
+              <label>ব্যয়ের খাত</label>
+              <input type="text" id="byay-khat" placeholder="ব্যয়ের খাত লিখুন">
+            </div>
+            <div class="form-group">
+              <label>ক্রম</label>
+              <input type="text" id="byay-serial" placeholder="ক্রম লিখুন">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>বিবরণ</label>
+            <textarea id="byay-description" rows="2" placeholder="ব্যয়ের বিবরণ লিখুন"></textarea>
+          </div>
+          <div class="form-group">
+            <label>পরিমাণ (৳)</label>
+            <input type="text" id="byay-amount" placeholder="টাকার পরিমাণ">
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-primary" id="byaySaveBtn">💾 সংরক্ষণ</button>
+            <button type="button" class="btn btn-primary" id="byayUpdateBtn">🔄 আপডেট</button>
+            <button type="button" class="btn btn-secondary" id="byayResetBtn">↺ রিসেট</button>
+            <button type="button" class="btn btn-outline" id="byayPrintBtn">🖨️ প্রিন্ট (রশিদ)</button>
+          </div>
+        </div>
+
+        <div class="card list-card" style="margin-top:16px;">
+          <h3 class="sub-title">সাম্প্রতিক ভাউচার (ক্লিক করলে ফরমে লোড হবে)</h3>
+          <div id="byayList" class="simple-list"></div>
+        </div>
+      </section>
+
+      <!-- ================= বায়তুলমাল: মাসিক আয়-ব্যয় ================= -->
+      <section id="page-mashik-ay-byay" class="page">
+        <div class="page-header-row">
+          <h2 class="page-title">মাসিক আয়-ব্যয়</h2>
+          <div class="page-actions">
+            <button type="button" class="btn btn-outline" id="mabReportToggleBtn">📊 রিপোর্ট</button>
+          </div>
+        </div>
+
+        <!-- ================= জাতীয় ও স্থানীয় নির্বাচনভিত্তিক কার্যক্রম ================= -->
+        <div class="card" id="mabElectionCard" style="margin-bottom:20px;">
+          <h3 class="sub-title">৮. জাতীয় ও স্থানীয় নির্বাচনভিত্তিক কার্যক্রম</h3>
+
+          <div class="form-group-row">
+            <div class="form-group">
+              <label>মাস</label>
+              <select id="mabel-month">
+                <option value="জানুয়ারি">জানুয়ারি</option>
+                <option value="ফেব্রুয়ারি">ফেব্রুয়ারি</option>
+                <option value="মার্চ">মার্চ</option>
+                <option value="এপ্রিল">এপ্রিল</option>
+                <option value="মে">মে</option>
+                <option value="জুন">জুন</option>
+                <option value="জুলাই">জুলাই</option>
+                <option value="আগস্ট">আগস্ট</option>
+                <option value="সেপ্টেম্বর">সেপ্টেম্বর</option>
+                <option value="অক্টোবর">অক্টোবর</option>
+                <option value="নভেম্বর">নভেম্বর</option>
+                <option value="ডিসেম্বর">ডিসেম্বর</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>বছর</label>
+              <input type="number" id="mabel-year" value="2026">
+            </div>
+          </div>
+
+          <div style="overflow-x:auto;">
+            <table class="dhajjo-table" id="mabElectionTable" style="min-width:900px;">
+              <thead>
+                <tr>
+                  <th rowspan="2">নির্বাচনের ধরন</th>
+                  <th rowspan="2">মোট ওয়ার্ড সংখ্যা</th>
+                  <th rowspan="2">মোট প্রার্থী সংখ্যা (পুরুষ/মহিলা)</th>
+                  <th rowspan="2">অংশগ্রহণ সংখ্যা</th>
+                  <th colspan="2">নির্বাচিত সংখ্যা</th>
+                  <th rowspan="2">দ্বিতীয় অবস্থান (পু/ম)</th>
+                </tr>
+                <tr>
+                  <th>মেয়র/চেয়ারম্যান</th>
+                  <th>কাউন্সিলর/মেম্বার (পুরুষ/মহিলা)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-label="নির্বাচনের ধরন"><b>পৌরসভা</b></td>
+                  <td data-label="মোট ওয়ার্ড সংখ্যা"><input type="text" id="mabel-pou-ward"></td>
+                  <td data-label="মোট প্রার্থী সংখ্যা"><input type="text" id="mabel-pou-candidate"></td>
+                  <td data-label="অংশগ্রহণ সংখ্যা"><input type="text" id="mabel-pou-participation"></td>
+                  <td data-label="মেয়র/চেয়ারম্যান"><input type="text" id="mabel-pou-mayor"></td>
+                  <td data-label="কাউন্সিলর/মেম্বার"><input type="text" id="mabel-pou-councillor"></td>
+                  <td data-label="দ্বিতীয় অবস্থান"><input type="text" id="mabel-pou-runnerup"></td>
+                </tr>
+                <tr>
+                  <td data-label="নির্বাচনের ধরন"><b>ইউনিয়ন পরিষদ</b></td>
+                  <td data-label="মোট ওয়ার্ড সংখ্যা"><input type="text" id="mabel-uni-ward"></td>
+                  <td data-label="মোট প্রার্থী সংখ্যা"><input type="text" id="mabel-uni-candidate"></td>
+                  <td data-label="অংশগ্রহণ সংখ্যা"><input type="text" id="mabel-uni-participation"></td>
+                  <td data-label="মেয়র/চেয়ারম্যান"><input type="text" id="mabel-uni-mayor"></td>
+                  <td data-label="কাউন্সিলর/মেম্বার"><input type="text" id="mabel-uni-councillor"></td>
+                  <td data-label="দ্বিতীয় অবস্থান"><input type="text" id="mabel-uni-runnerup"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div style="overflow-x:auto; margin-top:16px;">
+            <table class="dhajjo-table" id="mabPrepTable" style="min-width:600px;">
+              <thead>
+                <tr>
+                  <th>প্রস্তুতিমূলক কার্যক্রমের ধরন</th>
+                  <th>মোট সংখ্যা</th>
+                  <th>বৃদ্ধি</th>
+                  <th>টার্গেট</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-label="ধরন"><b>মোট ভোট কেন্দ্র (জাতীয়/স্থানীয়)</b></td>
+                  <td data-label="মোট সংখ্যা"><input type="text" id="mabel-center-total"></td>
+                  <td data-label="বৃদ্ধি"><input type="text" id="mabel-center-growth"></td>
+                  <td data-label="টার্গেট">—</td>
+                </tr>
+                <tr>
+                  <td data-label="ধরন"><b>মোট ভোট কমিটি/কেন্দ্র/বুথভিত্তিক ইউনিট</b></td>
+                  <td data-label="মোট সংখ্যা"><input type="text" id="mabel-unit-total"></td>
+                  <td data-label="বৃদ্ধি"><input type="text" id="mabel-unit-growth"></td>
+                  <td data-label="টার্গেট"><input type="text" id="mabel-unit-target"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="form-group" style="margin-top:16px;">
+            <label>পৌরসভা/ইউনিয়ন/ওয়ার্ডভিত্তিক নির্বাচন পরিচালনা কমিটির বৈঠক সংখ্যা</label>
+            <input type="text" id="mabel-meetingCount" placeholder="বৈঠক সংখ্যা">
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-primary" id="mabelSaveBtn">💾 সংরক্ষণ</button>
+            <button type="button" class="btn btn-secondary" id="mabelResetBtn">↺ রিসেট</button>
+          </div>
+        </div>
+
+        <!-- ================= মাসিক আয়-ব্যয় রিপোর্ট (টগল) ================= -->
+        <div class="card" id="mabReportCard" style="display:none; margin-bottom:20px;">
+          <h3 class="sub-title">রিপোর্ট</h3>
+          <div class="form-group-row">
+            <div class="form-group">
+              <label>ধরণ</label>
+              <select id="mabrep-periodType">
+                <option value="মাসিক">মাসিক</option>
+                <option value="ত্রৈমাসিক">ত্রৈমাসিক (জানু - মার্চ)</option>
+                <option value="ষান্মাসিক">ষান্মাসিক (জানু - জুন)</option>
+                <option value="নয় মাসিক">নয় মাসিক (জানু - সেপ্ট)</option>
+                <option value="বার্ষিক">বার্ষিক (জানু - ডিসে)</option>
+              </select>
+            </div>
+            <div class="form-group" id="mabrep-monthWrap">
+              <label>মাস</label>
+              <select id="mabrep-month">
+                <option value="জানুয়ারি">জানুয়ারি</option>
+                <option value="ফেব্রুয়ারি">ফেব্রুয়ারি</option>
+                <option value="মার্চ">মার্চ</option>
+                <option value="এপ্রিল">এপ্রিল</option>
+                <option value="মে">মে</option>
+                <option value="জুন">জুন</option>
+                <option value="জুলাই">জুলাই</option>
+                <option value="আগস্ট">আগস্ট</option>
+                <option value="সেপ্টেম্বর">সেপ্টেম্বর</option>
+                <option value="অক্টোবর">অক্টোবর</option>
+                <option value="নভেম্বর">নভেম্বর</option>
+                <option value="ডিসেম্বর">ডিসেম্বর</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group-row">
+            <div class="form-group">
+              <label>বছর</label>
+              <input type="number" id="mabrep-year" value="2026">
+            </div>
+          </div>
+
+          <button type="button" class="btn btn-primary" id="mabrepLoadBtn">🔍 রিপোর্ট দেখুন</button>
+          <button type="button" class="btn btn-outline" id="mabrepPrintBtn" style="margin-left:8px;">🖨️ প্রিন্ট</button>
+
+          <div id="mabrepResultWrap" style="display:none; margin-top:18px;">
+            <p style="font-weight:600;" id="mabrep-periodLabel"></p>
+            <p class="no-result" id="mabrep-missingNote" style="display:none;"></p>
+
+            <div class="form-group-row" style="align-items:start;">
+              <div>
+                <div class="sub-title">আয়ের বিবরণ (খাত-ভিত্তিক)</div>
+                <table class="dhajjo-table">
+                  <thead><tr><th>খাতের নাম</th><th>মোট পরিমাণ (৳)</th></tr></thead>
+                  <tbody id="mabrepIncomeBody"></tbody>
+                </table>
+              </div>
+              <div>
+                <div class="sub-title">ব্যয়ের বিবরণ (খাত-ভিত্তিক)</div>
+                <table class="dhajjo-table">
+                  <thead><tr><th>খাতের নাম</th><th>মোট পরিমাণ (৳)</th></tr></thead>
+                  <tbody id="mabrepExpenseBody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="form-group-row" style="margin-top:16px;">
+              <div>
+                <div class="info-row"><span class="info-label">সূচনা উদ্বৃত্ত/ঘাটতি</span><span class="info-value" id="mabrep-opening">৳0</span></div>
+                <div class="info-row"><span class="info-label">মোট আয়</span><span class="info-value" id="mabrep-totalIncome">৳0</span></div>
+              </div>
+              <div>
+                <div class="info-row"><span class="info-label"><b>সমাপনী উদ্বৃত্ত/ঘাটতি</b></span><span class="info-value" id="mabrep-closing"><b>৳0</b></span></div>
+                <div class="info-row"><span class="info-label">মোট ব্যয়</span><span class="info-value" id="mabrep-totalExpense">৳0</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" id="mabFormCard">
+          <input type="hidden" id="mab-id">
+          <div class="form-group-row">
+            <div class="form-group">
+              <label>মাস</label>
+              <select id="mab-month">
+                <option value="জানুয়ারি">জানুয়ারি</option>
+                <option value="ফেব্রুয়ারি">ফেব্রুয়ারি</option>
+                <option value="মার্চ">মার্চ</option>
+                <option value="এপ্রিল">এপ্রিল</option>
+                <option value="মে">মে</option>
+                <option value="জুন">জুন</option>
+                <option value="জুলাই">জুলাই</option>
+                <option value="আগস্ট">আগস্ট</option>
+                <option value="সেপ্টেম্বর">সেপ্টেম্বর</option>
+                <option value="অক্টোবর">অক্টোবর</option>
+                <option value="নভেম্বর">নভেম্বর</option>
+                <option value="ডিসেম্বর">ডিসেম্বর</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>বছর</label>
+              <input type="number" id="mab-year" value="2026">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>ধার্যকৃত নিছাব (৳)</label>
+            <input type="text" id="mab-dhorjoNisab" placeholder="ধার্যকৃত নিছাবের পরিমাণ">
+          </div>
+
+          <hr class="divider">
+
+          <div class="form-group-row" style="align-items:start;">
+            <div>
+              <div class="sub-title">আয়ের বিবরণ</div>
+              <table class="dhajjo-table">
+                <thead><tr><th>খাতের নাম</th><th>পরিমাণ (৳)</th><th></th></tr></thead>
+                <tbody id="mabIncomeBody"></tbody>
+              </table>
+              <button type="button" class="btn btn-outline btn-sm" id="mabIncomeAddRowBtn" style="margin-top:10px;">➕ নতুন খাত</button>
+            </div>
+            <div>
+              <div class="sub-title">ব্যয়ের বিবরণ</div>
+              <table class="dhajjo-table">
+                <thead><tr><th>খাতের নাম</th><th>পরিমাণ (৳)</th><th></th></tr></thead>
+                <tbody id="mabExpenseBody"></tbody>
+              </table>
+              <button type="button" class="btn btn-outline btn-sm" id="mabExpenseAddRowBtn" style="margin-top:10px;">➕ নতুন খাত</button>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <div class="form-group-row">
+            <div>
+              <div class="info-row"><span class="info-label">মোট আয়</span><span class="info-value" id="mab-totalIncome">৳0</span></div>
+              <div class="info-row"><span class="info-label">গত মাসের উদ্বৃত্ত</span><span class="info-value" id="mab-prevSurplus" data-value="0">৳0</span></div>
+              <div class="info-row"><span class="info-label"><b>সর্বমোট আয়</b></span><span class="info-value" id="mab-grandTotalIncome"><b>৳0</b></span></div>
+            </div>
+            <div>
+              <div class="info-row"><span class="info-label">মোট ব্যয়</span><span class="info-value" id="mab-totalExpense">৳0</span></div>
+              <div class="info-row"><span class="info-label">গত মাসের ঘাটতি</span><span class="info-value" id="mab-prevDeficit" data-value="0">৳0</span></div>
+              <div class="info-row"><span class="info-label"><b>সর্বমোট ব্যয়</b></span><span class="info-value" id="mab-grandTotalExpense"><b>৳0</b></span></div>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <span class="info-label"><b>নীট উদ্বৃত্ত / ঘাটতি</b></span>
+            <span class="info-value" id="mab-netBalance"><b>৳0</b></span>
+          </div>
+
+          <div class="form-group" style="margin-top:6px;">
+            <label>উদ্বৃত্ত / ঘাটতি টাকার বিবরণ (কার কাছে কত টাকা আছে)</label>
+            <textarea id="mab-balanceDetails" rows="3" placeholder="যেমনঃ ক্যাশিয়ারের কাছে ৫,০০০৳, ব্যাংক হিসাবে ১০,০০০৳ ইত্যাদি"></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-primary" id="mabSaveBtn">💾 সংরক্ষণ</button>
+            <button type="button" class="btn btn-primary" id="mabUpdateBtn">🔄 আপডেট</button>
+            <button type="button" class="btn btn-secondary" id="mabResetBtn">↺ রিসেট</button>
+            <button type="button" class="btn btn-danger" id="mabDeleteBtn">🗑️ ডিলেট</button>
+            <button type="button" class="btn btn-outline" id="mabPrintBtn">🖨️ প্রিন্ট</button>
+          </div>
+        </div>
+
+        <div class="card list-card" style="margin-top:16px;">
+          <h3 class="sub-title">সাম্প্রতিক মাসসমূহ (ক্লিক করলে ফরমে লোড হবে)</h3>
+          <div id="mabList" class="simple-list"></div>
+        </div>
+      </section>
+
+      <!-- ================= মাসিক/ত্রৈমাসিক/... রিপোর্ট (৭ পৃষ্ঠার উইজার্ড) ================= -->
+      <section id="page-monthly-report" class="page">
+        <div class="page-header-row">
+          <h2 class="page-title">সাংগঠনিক রিপোর্ট (পৌরসভা/ইউনিয়ন ফরম নং ৫)</h2>
+          <div class="page-actions">
+            <button type="button" class="btn btn-outline" id="mrepEditBtn">✏️ এডিট</button>
+            <button type="button" class="btn btn-outline" id="mrepFullPrintBtn">🖨️ প্রিন্ট (৭ পৃষ্ঠা)</button>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="form-group-row">
+            <div class="form-group">
+              <label>ধরণ</label>
+              <select id="mrep-periodType">
+                <option value="মাসিক">মাসিক</option>
+                <option value="ত্রৈমাসিক">ত্রৈমাসিক</option>
+                <option value="ষান্মাসিক">ষান্মাসিক</option>
+                <option value="নয় মাসিক">নয় মাসিক</option>
+                <option value="বার্ষিক">বার্ষিক</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>মাস</label>
+              <select id="mrep-month">
+                <option value="জানুয়ারি">জানুয়ারি</option>
+                <option value="ফেব্রুয়ারি">ফেব্রুয়ারি</option>
+                <option value="মার্চ">মার্চ</option>
+                <option value="এপ্রিল">এপ্রিল</option>
+                <option value="মে">মে</option>
+                <option value="জুন">জুন</option>
+                <option value="জুলাই">জুলাই</option>
+                <option value="আগস্ট">আগস্ট</option>
+                <option value="সেপ্টেম্বর">সেপ্টেম্বর</option>
+                <option value="অক্টোবর">অক্টোবর</option>
+                <option value="নভেম্বর">নভেম্বর</option>
+                <option value="ডিসেম্বর">ডিসেম্বর</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>সন</label>
+              <input type="number" id="mrep-year" value="2026">
+            </div>
+          </div>
+          <div class="form-group-row">
+            <div class="form-group">
+              <label>পৌরসভা/ইউনিয়নের নাম</label>
+              <input type="text" id="mrep-unionName" placeholder="নাম লিখুন">
+            </div>
+            <div class="form-group">
+              <label>উপজেলা/থানা</label>
+              <input type="text" id="mrep-upazila" placeholder="উপজেলা/থানা লিখুন">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>আমীর/সভাপতির নাম</label>
+            <input type="text" id="mrep-amirName" placeholder="নাম লিখুন">
+          </div>
+        </div>
+
+        <!-- ধাপ ট্যাব -->
+        <div class="mrep-steps">
+          <button type="button" class="mrep-step-btn active" data-step="1">১. দাওয়াত ও তাবলীগ</button>
+          <button type="button" class="mrep-step-btn" data-step="2">২. বিভাগভিত্তিক তথ্য</button>
+          <button type="button" class="mrep-step-btn" data-step="3">৩. দাওয়াহ, প্রকাশনা ও কর্মসূচি</button>
+          <button type="button" class="mrep-step-btn" data-step="4">৪. সাংগঠনিক কাঠামো</button>
+          <button type="button" class="mrep-step-btn" data-step="5">৫. প্রশিক্ষণ</button>
+          <button type="button" class="mrep-step-btn" data-step="6">৬. সমাজসেবা ও রাষ্ট্রীয় সংস্কার</button>
+          <button type="button" class="mrep-step-btn" data-step="7">৭. নির্বাচন ও বায়তুলমাল</button>
+        </div>
+
+        <!-- ============ ধাপ ১: দাওয়াত ও তাবলীগ ============ -->
+        <div class="card mrep-step-panel" id="mrep-panel-1">
+          <h3 class="sub-title">ক) দাওয়াত ও তাবলীগঃ</h3>
+
+          <div class="mrep-label-inline-row">
+            <div class="mrep-label-inline">
+              <label>জনসাধারণের মাঝে সর্বমোট দাওয়াত প্রদান সংখ্যা:</label>
+              <input type="text" id="mrep1-totalDawat" readonly style="background:#f3f4f6;">
+            </div>
+            <div class="mrep-label-inline">
+              <label>মোট জনশক্তি:</label>
+              <input type="text" id="mrep1-totalJonoshokti">
+            </div>
+          </div>
+          <div class="mrep-label-inline-row">
+            <div class="mrep-label-inline mrep-label-inline-full">
+              <label>টার্গেট (মাসিক/ত্রৈমাসিক/ষান্মাসিক/নয় মাসিক/বার্ষিক):</label>
+              <input type="text" id="mrep1-target">
+            </div>
+          </div>
+          <p class="no-result" style="margin:2px 0 10px;">☑ দাওয়াত ও তাবলিগের 'ক' এর অধীনে ক্রমিক ১ থেকে ৪ নং পর্যন্ত দাওয়াত প্রদানের সংখ্যা যোগ করে এখানে বসাতে হবে।</p>
+
+          <h4 class="mrep-sub-h">১. নিয়মিত গ্রুপভিত্তিক দাওয়াত</h4>
+          <div style="overflow-x:auto;">
+            <table class="dhajjo-table" style="min-width:600px;">
+  <colgroup>
+      <col style="width:34%;">
+          <col style="width:22%;">
+              <col style="width:22%;">
+                  <col style="width:22%;">
+                    </colgroup>
+                                  <thead><tr><th>বিবরণ</th><th>মোট</th><th>পুরুষ</th><th>মহিলা</th></tr></thead>
+                                                <tbody>
+
+              <thead><tr><th>বিবরণ</th><th>মোট</th><th>পুরুষ</th><th>মহিলা</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td data-label="বিবরণ">কতটি গ্রুপ বের হয়েছে</td>
+                  <td data-label="মোট"><input type="text" id="mrep1-g1-total" class="mrep-calc-src" data-group="g1"></td>
+                  <td data-label="পুরুষ"><input type="text" id="mrep1-g1-male"></td>
+                  <td data-label="মহিলা"><input type="text" id="mrep1-g1-female"></td>
+                </tr>
+                <tr>
+                  <td data-label="বিবরণ">অংশগ্রহণকারীর সংখ্যা</td>
+                  <td data-label="মোট"><input type="text" id="mrep1-g2-total"></td>
+                  <td data-label="পুরুষ"><input type="text" id="mrep1-g2-male"></td>
+                  <td data-label="মহিলা"><input type="text" id="mrep1-g2-female"></td>
+                </tr>
+                <tr>
+                  <td data-label="বিবরণ">কতজনের নিকট দাওয়াত পৌঁছানো হয়েছে</td>
+                  <td data-label="মোট"><input type="text" id="mrep1-g3-total" class="mrep-dawat-src"></td>
+                  <td data-label="পুরুষ"><input type="text" id="mrep1-g3-male"></td>
+                  <td data-label="মহিলা"><input type="text" id="mrep1-g3-female"></td>
+                </tr>
+                <tr>
+                  <td data-label="বিবরণ">কতজন সহযোগী সদস্য হয়েছেন</td>
+                  <td data-label="মোট"><input type="text" id="mrep1-g4-total"></td>
+                  <td data-label="পুরুষ"><input type="text" id="mrep1-g4-male"></td>
+                  <td data-label="মহিলা"><input type="text" id="mrep1-g4-female"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4 class="mrep-sub-h">২. ব্যক্তিগত ও টার্গেটভিত্তিক দাওয়াত</h4>
+          <div style="overflow-x:auto;">
+            <table class="dhajjo-table" style="min-width:650px;">
+  <colgroup>
+    <col style="width:30%;">
+    <col style="width:17.5%;">
+    <col style="width:17.5%;">
+    <col style="width:17.5%;">
+    <col style="width:17.5%;">
+  </colgroup>
+
+              <thead>
+                <tr><th rowspan="2">বিবরণ</th><th colspan="2">পুরুষ</th><th colspan="2">মহিলা</th></tr>
+                <tr><th>সদস্য (রুকন)</th><th>কর্মী</th><th>সদস্য (রুকন)</th><th>কর্মী</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-label="বিবরণ">মোট জনশক্তি সংখ্যা</td>
+                  <td data-label="পুরুষ সদস্য"><input type="text" id="mrep1-h1-pm"></td>
+                  <td data-label="পুরুষ কর্মী"><input type="text" id="mrep1-h1-pk"></td>
+                  <td data-label="মহিলা সদস্য"><input type="text" id="mrep1-h1-mm"></td>
+                  <td data-label="মহিলা কর্মী"><input type="text" id="mrep1-h1-mk"></td>
+                </tr>
+                <tr>
+                  <td data-label="বিবরণ">কতজন ব্যক্তিগতভাবে দাওয়াতি কাজ করেছেন</td>
+                  <td data-label="পুরুষ সদস্য"><input type="text" id="mrep1-h2-pm"></td>
+                  <td data-label="পুরুষ কর্মী"><input type="text" id="mrep1-h2-pk"></td>
+                  <td data-label="মহিলা সদস্য"><input type="text" id="mrep1-h2-mm"></td>
+                  <td data-label="মহিলা কর্মী"><input type="text" id="mrep1-h2-mk"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="overflow-x:auto; margin-top:10px;">
+            <table class="dhajjo-table" style="min-width:600px;">
+  <colgroup>
+    <col style="width:34%;">
+    <col style="width:22%;">
+    <col style="width:22%;">
+    <col style="width:22%;">
+  </colgroup>
+              <thead><tr><th>বিবরণ</th><th>মোট</th><th>পুরুষ</th><th>মহিলা</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td data-label="বিবরণ">কতজনের নিকট দাওয়াত পৌঁছানো হয়েছে</td>
+                  <td data-label="মোট"><input type="text" id="mrep1-h3-total" class="mrep-dawat-src"></td>
+                  <td data-label="পুরুষ"><input type="text" id="mrep1-h3-male"></td>
+                  <td data-label="মহিলা"><input type="text" id="mrep1-h3-female"></td>
+                </tr>
+                <tr>
+                  <td data-label="বিবরণ">কতজন সহযোগী সদস্য হয়েছেন</td>
+                  <td data-label="মোট"><input type="text" id="mrep1-h4-total"></td>
+                  <td data-label="পুরুষ"><input type="text" id="mrep1-h4-male"></td>
+                  <td data-label="মহিলা"><input type="text" id="mrep1-h4-female"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4 class="mrep-sub-h">৩. সাধারণ সভা/দাওয়াতি সভা ও অন্যান্য কার্যক্রমের মাধ্যমে দাওয়াত</h4>
+          <div style="overflow-x:auto;">
+            <table class="dhajjo-table" style="min-width:600px;">
+  <colgroup>
+    <col style="width:34%;">
+    <col style="width:22%;">
+    <col style="width:22%;">
+    <col style="width:22%;">
+  </colgroup>
+              <thead><tr><th>বিবরণ</th><th>মোট</th><th>পুরুষ</th><th>মহিলা</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td data-label="বিবরণ">কতজনের নিকট দাওয়াত পৌঁছানো হয়েছে</td>
+                  <td data-label="মোট"><input type="text" id="mrep1-i1-total" class="mrep-dawat-src"></td>
+                  <td data-label="পুরুষ"><input type="text" id="mrep1-i1-male"></td>
+                  <td data-label="মহিলা"><input type="text" id="mrep1-i1-female"></td>
+                </tr>
+                <tr>
+                  <td data-label="বিবরণ">কতজন সহযোগী সদস্য হয়েছেন</td>
+                  <td data-label="মোট"><input type="text" id="mrep1-i2-total"></td>
+                  <td data-label="পুরুষ"><input type="text" id="mrep1-i2-male"></td>
+                  <td data-label="মহিলা"><input type="text" id="mrep1-i2-female"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4 class="mrep-sub-h">৪. গণসংযোগ ও দাওয়াতি অভিযান পালন*</h4>
+          <div class="mrep-campaign-wrap">
+            <table class="mrep-campaign-table">
+  <colgroup>
+    <col style="width:30%;">
+    <col style="width:17.5%;">
+    <col style="width:17.5%;">
+    <col style="width:17.5%;">
+    <col style="width:17.5%;">
+  </colgroup>
+              <thead>
+                <tr>
+                  <th>বিবরণ</th>
+                  <th>মোট গ্রুপ সংখ্যা</th>
+                  <th>মোট অংশগ্রহণকারীর সংখ্যা</th>
+                  <th>মোট কতজনের নিকট দাওয়াত পৌঁছানো হয়েছে</th>
+                  <th>মোট কতজন সহযোগী সদস্য হয়েছেন</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="category-cell"><span class="category-label">গণসংযোগ দশক/পক্ষ (পুরুষ/মহিলা)</span></td>
+                  <td class="data-cell"><div class="slash-input"><input type="text" id="mrep1-j1-group-m" class="mrep-slash-input"><span class="slash">/</span><input type="text" id="mrep1-j1-group-f" class="mrep-slash-input"></div></td>
+                  <td class="data-cell"><div class="slash-input"><input type="text" id="mrep1-j1-part-m" class="mrep-slash-input"><span class="slash">/</span><input type="text" id="mrep1-j1-part-f" class="mrep-slash-input"></div></td>
+                  <td class="data-cell"><div class="slash-input"><input type="text" id="mrep1-j1-dawat-m" class="mrep-slash-input"><span class="slash">/</span><input type="text" id="mrep1-j1-dawat-f" class="mrep-slash-input"></div></td>
+                  <td class="data-cell"><div class="slash-input"><input type="text" id="mrep1-j1-sohojogi-m" class="mrep-slash-input"><span class="slash">/</span><input type="text" id="mrep1-j1-sohojogi-f" class="mrep-slash-input"></div></td>
+                </tr>
+                <tr class="mrep-row-tall">
+                  <td class="category-cell"><span class="category-label">জেলা/শহর ঘোষিত গণসংযোগ ও দাও: অভিযান</span></td>
+                  <td class="data-cell"><input type="text" id="mrep1-j2-group" class="normal-input"></td>
+                  <td class="data-cell"><input type="text" id="mrep1-j2-part" class="normal-input"></td>
+                  <td class="data-cell"><input type="text" id="mrep1-j2-dawat" class="normal-input"></td>
+                  <td class="data-cell"><input type="text" id="mrep1-j2-sohojogi" class="normal-input"></td>
+                </tr>
+                <tr>
+                  <td class="category-cell"><span class="category-label">নির্বাচনী আসনে গণসংযোগ সপ্তাহ (পু/ম)</span></td>
+                  <td class="data-cell"><div class="slash-input"><input type="text" id="mrep1-j3-group-m" class="mrep-slash-input"><span class="slash">/</span><input type="text" id="mrep1-j3-group-f" class="mrep-slash-input"></div></td>
+                  <td class="data-cell"><div class="slash-input"><input type="text" id="mrep1-j3-part-m" class="mrep-slash-input"><span class="slash">/</span><input type="text" id="mrep1-j3-part-f" class="mrep-slash-input"></div></td>
+                  <td class="data-cell"><div class="slash-input"><input type="text" id="mrep1-j3-dawat-m" class="mrep-slash-input"><span class="slash">/</span><input type="text" id="mrep1-j3-dawat-f" class="mrep-slash-input"></div></td>
+                  <td class="data-cell"><div class="slash-input"><input type="text" id="mrep1-j3-sohojogi-m" class="mrep-slash-input"><span class="slash">/</span><input type="text" id="mrep1-j3-sohojogi-f" class="mrep-slash-input"></div></td>
+                </tr>
+                <tr>
+                  <td class="category-cell"><span class="category-label">উলামা/পেশাজীবী গণসংযোগ সপ্তাহ (পু/ম)</span></td>
+                  <td class="data-cell"><div class="slash-input"><input type="text" id="mrep1-j4-group-m" class="mrep-slash-input"><span class="slash">/</span><input type="text" id="mrep1-j4-group-f" class="mrep-slash-input"></div></td>
+                  <td class="data-cell"><div class="slash-input"><input type="text" id="mrep1-j4-part-m" class="mrep-slash-input"><span class="slash">/</span><input type="text" id="mrep1-j4-part-f" class="mrep-slash-input"></div></td>
+                  <td class="data-cell"><div class="slash-input"><input type="text" id="mrep1-j4-dawat-m" class="mrep-slash-input"><span class="slash">/</span><input type="text" id="mrep1-j4-dawat-f" class="mrep-slash-input"></div></td>
+                  <td class="data-cell"><div class="slash-input"><input type="text" id="mrep1-j4-sohojogi-m" class="mrep-slash-input"><span class="slash">/</span><input type="text" id="mrep1-j4-sohojogi-f" class="mrep-slash-input"></div></td>
+                </tr>
+                <tr class="mrep-row-tall">
+                  <td class="category-cell"><span class="category-label">অন্যান্য</span></td>
+                  <td class="data-cell"><input type="text" id="mrep1-j5-group" class="normal-input"></td>
+                  <td class="data-cell"><input type="text" id="mrep1-j5-part" class="normal-input"></td>
+                  <td class="data-cell"><input type="text" id="mrep1-j5-dawat" class="normal-input"></td>
+                  <td class="data-cell"><input type="text" id="mrep1-j5-sohojogi" class="normal-input"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="no-result" style="margin-top:6px;">* গণসংযোগ অভিযান পালনের সময় গ্রুপ সংখ্যা, ব্যক্তিগত ও গ্রুপভিত্তিক সহযোগী সদস্য বৃদ্ধি সংখ্যা শুধুমাত্র এই ছকেই বসাতে হবে।</p>
+
+          <h3 class="sub-title" style="margin-top:20px;">খ) বিভাগভিত্তিক তথ্য</h3>
+          <h4 class="mrep-sub-h">১. তা'লীমুল কুরআনের মাধ্যমে দাওয়াত</h4>
+          <div class="mrep-campaign-wrap">
+            <table class="mrep-campaign-table">
+              <thead>
+                <tr>
+                  <th>ব্যক্তিগত উদ্যোগ</th>
+                  <th>সদস্য (রুকন) (পু/ম)</th>
+                  <th>কর্মী (পু/ম)</th>
+                  <th>মোট</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="category-cell"><span class="category-label">কতজন কুরআন শিক্ষা প্রদান করেছেন</span></td>
+                  <td class="data-cell"><div class="slash-input"><input type="text" id="mrep1-a1-rp" class="mrep-slash-input"><span class="slash">/</span><input type="text" id="mrep1-a1-rm" class="mrep-slash-input"></div></td>
+                  <td class="data-cell"><div class="slash-input"><input type="text" id="mrep1-a1-kp" class="mrep-slash-input"><span class="slash">/</span><input type="text" id="mrep1-a1-km" class="mrep-slash-input"></div></td>
+                  <td class="data-cell"><input type="text" id="mrep1-a1-total" class="normal-input" readonly style="background:#f8f9fb;"></td>
+                </tr>
+                <tr>
+                  <td class="category-cell"><span class="category-label">কতজনকে কুরআন শিক্ষা প্রদান করা হয়েছে</span></td>
+                  <td class="data-cell"><div class="slash-input"><input type="text" id="mrep1-a2-rp" class="mrep-slash-input"><span class="slash">/</span><input type="text" id="mrep1-a2-rm" class="mrep-slash-input"></div></td>
+                  <td class="data-cell"><div class="slash-input"><input type="text" id="mrep1-a2-kp" class="mrep-slash-input"><span class="slash">/</span><input type="text" id="mrep1-a2-km" class="mrep-slash-input"></div></td>
+                  <td class="data-cell"><input type="text" id="mrep1-a2-total" class="normal-input" readonly style="background:#f8f9fb;"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="form-group-row mrep-side-by-side" style="align-items:start;">
+            <div class="mrep-campaign-wrap">
+              <table class="mrep-campaign-table">
+                <thead>
+                  <tr>
+                    <th>সামষ্টিক উদ্যোগ</th>
+                    <th>মোট সংখ্যা</th>
+                    <th>মোট শিক্ষার্থী সংখ্যা</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="category-cell"><span class="category-label">কুরআন শিক্ষার গ্রুপ</span></td>
+                    <td class="data-cell"><input type="text" id="mrep1-a3-total" class="normal-input"></td>
+                    <td class="data-cell"><input type="text" id="mrep1-a3-students" class="normal-input"></td>
+                  </tr>
+                  <tr>
+                    <td class="category-cell"><span class="category-label">মক্তব/ফোরকানিয়া মাদ্রাসা</span></td>
+                    <td class="data-cell"><input type="text" id="mrep1-a4-total" class="normal-input"></td>
+                    <td class="data-cell"><input type="text" id="mrep1-a4-students" class="normal-input"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="mrep-campaign-wrap">
+              <table class="mrep-campaign-table">
+                <tbody>
+                  <tr>
+                    <td class="category-cell"><span class="category-label">মোট কতজন সহীহ তিলাওয়াত শিখেছেন</span></td>
+                    <td class="data-cell"><input type="text" id="mrep1-a3-tilawat" class="normal-input"></td>
+                  </tr>
+                  <tr>
+                    <td class="category-cell"><span class="category-label">মোট কতজনের নিকট দাওয়াত পৌঁছানো হয়েছে</span></td>
+                    <td class="data-cell"><div class="slash-input"><input type="text" id="mrep1-a3-dawat-m" class="mrep-slash-input"><span class="slash">/</span><input type="text" id="mrep1-a3-dawat-f" class="mrep-slash-input"></div></td>
+                  </tr>
+                  <tr>
+                    <td class="category-cell"><span class="category-label">মোট কতজন সহযোগী সদস্য হয়েছেন</span></td>
+                    <td class="data-cell"><div class="slash-input"><input type="text" id="mrep1-a4-sohojogi-m" class="mrep-slash-input"><span class="slash">/</span><input type="text" id="mrep1-a4-sohojogi-f" class="mrep-slash-input"></div></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div style="overflow-x:auto;">
+            <table class="dhajjo-table" style="min-width:700px;">
+  <colgroup>
+    <col style="width:24%;">
+    <col style="width:15%;">
+    <col style="width:15%;">
+    <col style="width:19%;">
+    <col style="width:13.5%;">
+    <col style="width:13.5%;">
+  </colgroup>
+              <thead><tr><th>সর্বমোট মুয়াল্লিম/মুয়াল্লিমা সংখ্যা</th><th>পুরুষ</th><th>মহিলা</th><th>বৃদ্ধি সংখ্যা</th><th>পুরুষ</th><th>মহিলা</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><input type="text" id="mrep1-a5-total" readonly style="background:#f3f4f6;"></td>
+                  <td><input type="text" id="mrep1-a5-male"></td>
+                  <td><input type="text" id="mrep1-a5-female"></td>
+                  <td><input type="text" id="mrep1-a5-growthTotal" readonly style="background:#f3f4f6;"></td>
+                  <td><input type="text" id="mrep1-a5-growth-male"></td>
+                  <td><input type="text" id="mrep1-a5-growth-female"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+
+          <div class="form-actions" style="margin-top:16px;">
+            <button type="button" class="btn btn-primary mrep-next-btn" data-next="2">পরবর্তী ধাপ ➜</button>
+          </div>
+        </div>
+
+        <!-- ============ ধাপ ২-৬: পরবর্তীতে যোগ হবে ============ -->
+        <div class="card mrep-step-panel" id="mrep-panel-2" style="display:none;">
+          <h4 class="mrep-sub-h">২. গ্রাম ও মহল্লাভিত্তিক দাওয়াত</h4>
+          <div class="form-group-row mrep-side-by-side" style="align-items:start;">
+            <div style="overflow-x:auto;">
+              <table class="dhajjo-table" style="min-width:320px;">
+  <colgroup>
+    <col style="width:50%;">
+    <col style="width:25%;">
+    <col style="width:25%;">
+  </colgroup>
+                <thead><tr><th>বিবরণ</th><th>সরকারি হিসেবে সংখ্যা</th><th>বৃদ্ধি</th></tr></thead>
+                <tbody>
+                  <tr><td data-label="বিবরণ">গ্রাম/মহল্লা সংখ্যা</td><td><input type="text" id="mrep2-b1-total"></td><td><input type="text" id="mrep2-b1-growth"></td></tr>
+                  <tr><td data-label="বিবরণ">কুরআন শিক্ষার গ্রুপ</td><td><input type="text" id="mrep2-b2-total"></td><td><input type="text" id="mrep2-b2-growth"></td></tr>
+                  <tr><td data-label="বিবরণ">মক্তব/ফোরকানিয়া মাদ্রাসা</td><td><input type="text" id="mrep2-b3-total"></td><td><input type="text" id="mrep2-b3-growth"></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div style="overflow-x:auto;">
+              <table class="dhajjo-table" style="min-width:280px;">
+  <colgroup>
+    <col style="width:70%;">
+    <col style="width:30%;">
+  </colgroup>
+                <tbody>
+                  <tr><td data-label="বিবরণ">মোট কতজনের নিকট দাওয়াত পৌঁছানো হয়েছে</td><td><input type="text" id="mrep2-b1-dawat"></td></tr>
+                  <tr><td data-label="বিবরণ">মোট কতজন সহযোগী সদস্য হয়েছেন</td><td><input type="text" id="mrep2-b1-sohojogi"></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <h4 class="mrep-sub-h">৩. যুব সমাজের মাঝে দাওয়াত</h4>
+          <p class="no-result" style="margin:4px 0 10px;">নোট: যুব বিভাগের কাজের ক্ষেত্রে ছাত্র সংগঠনের সাবেক জনশক্তি ব্যতীত সাধারণ যুবকগণই যুবক হিসেবে গণ্য হবে।</p>
+          <div class="form-group-row mrep-side-by-side" style="align-items:start;">
+            <div style="overflow-x:auto;">
+              <table class="dhajjo-table" style="min-width:280px;">
+  <colgroup>
+    <col style="width:65%;">
+    <col style="width:35%;">
+  </colgroup>
+                <thead><tr><th>বিবরণ</th><th>মোট সংখ্যা</th></tr></thead>
+                <tbody>
+                  <tr><td data-label="বিবরণ">কতজন যুবকের মাঝে দাওয়াত পৌঁছানো হয়েছে</td><td><input type="text" id="mrep2-c1"></td></tr>
+                  <tr><td data-label="বিবরণ">কতজন যুবক সহযোগী সদস্য হয়েছেন</td><td><input type="text" id="mrep2-c3"></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div style="overflow-x:auto;">
+              <table class="dhajjo-table" style="min-width:340px;">
+  <colgroup>
+    <col style="width:55%;">
+    <col style="width:22.5%;">
+    <col style="width:22.5%;">
+  </colgroup>
+                <thead><tr><th>বিবরণ</th><th>মোট সংখ্যা</th><th>বৃদ্ধি</th></tr></thead>
+                <tbody>
+                  <tr><td data-label="বিবরণ">যুব কমিটি</td><td><input type="text" id="mrep2-c2"></td><td><input type="text" id="mrep2-c2-growth"></td></tr>
+                  <tr><td data-label="বিবরণ">নতুন সমিতি/ক্লাব প্রতিষ্ঠা করা হয়েছে</td><td><input type="text" id="mrep2-c4"></td><td><input type="text" id="mrep2-c4-growth"></td></tr>
+                  <tr><td data-label="বিবরণ">প্রতিষ্ঠিত সমিতি/ক্লাবে দাওয়াত পৌঁছানো হয়েছে</td><td><input type="text" id="mrep2-c5"></td><td><input type="text" id="mrep2-c5-growth"></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <h4 class="mrep-sub-h">৪. বিভিন্ন শ্রেণী-পেশার মানুষের মাঝে দাওয়াত</h4>
+          <div style="overflow-x:auto;">
+            <table class="dhajjo-table" style="min-width:700px;">
+  <colgroup>
+    <col style="width:35%;">
+    <col style="width:16.2%;">
+    <col style="width:16.2%;">
+    <col style="width:16.2%;">
+    <col style="width:16.4%;">
+  </colgroup>
+              <thead><tr><th>শ্রেণী-পেশার বিবরণ</th><th>কতজনের নিকট দাওয়াত পৌঁছানো হয়েছে</th><th>কতজন সহযোগী সদস্য হয়েছেন</th><th>টার্গেট</th><th>বাস্তবায়নের হার</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td data-label="শ্রেণী-পেশা">রাজনৈতিক ও বিশিষ্ট ব্যক্তিবর্গ</td>
+                  <td><input type="text" id="mrep2-d1-dawat"></td><td><input type="text" id="mrep2-d1-sohojogi"></td>
+                  <td><input type="text" id="mrep2-d1-target" class="mrep-rate-src" data-actual="mrep2-d1-dawat" data-target-rate="mrep2-d1-rate"></td>
+                  <td><input type="text" id="mrep2-d1-rate" readonly style="background:#f3f4f6;"></td>
+                </tr>
+                <tr>
+                  <td data-label="শ্রেণী-পেশা">পেশাজীবী</td>
+                  <td><input type="text" id="mrep2-d2-dawat"></td><td><input type="text" id="mrep2-d2-sohojogi"></td>
+                  <td><input type="text" id="mrep2-d2-target" class="mrep-rate-src" data-actual="mrep2-d2-dawat" data-target-rate="mrep2-d2-rate"></td>
+                  <td><input type="text" id="mrep2-d2-rate" readonly style="background:#f3f4f6;"></td>
+                </tr>
+                <tr>
+                  <td data-label="শ্রেণী-পেশা">উলামা-মাশায়েখ</td>
+                  <td><input type="text" id="mrep2-d3-dawat"></td><td><input type="text" id="mrep2-d3-sohojogi"></td>
+                  <td><input type="text" id="mrep2-d3-target" class="mrep-rate-src" data-actual="mrep2-d3-dawat" data-target-rate="mrep2-d3-rate"></td>
+                  <td><input type="text" id="mrep2-d3-rate" readonly style="background:#f3f4f6;"></td>
+                </tr>
+                <tr>
+                  <td data-label="শ্রেণী-পেশা">শ্রমজীবী</td>
+                  <td><input type="text" id="mrep2-d4-dawat"></td><td><input type="text" id="mrep2-d4-sohojogi"></td>
+                  <td><input type="text" id="mrep2-d4-target" class="mrep-rate-src" data-actual="mrep2-d4-dawat" data-target-rate="mrep2-d4-rate"></td>
+                  <td><input type="text" id="mrep2-d4-rate" readonly style="background:#f3f4f6;"></td>
+                </tr>
+                <tr>
+                  <td data-label="শ্রেণী-পেশা">প্রান্তিক জনগোষ্ঠী (অতি দরিদ্র)</td>
+                  <td><input type="text" id="mrep2-d5-dawat"></td><td><input type="text" id="mrep2-d5-sohojogi"></td>
+                  <td><input type="text" id="mrep2-d5-target" class="mrep-rate-src" data-actual="mrep2-d5-dawat" data-target-rate="mrep2-d5-rate"></td>
+                  <td><input type="text" id="mrep2-d5-rate" readonly style="background:#f3f4f6;"></td>
+                </tr>
+                <tr>
+                  <td data-label="শ্রেণী-পেশা">ভিন্নধর্মাবলম্বী</td>
+                  <td><input type="text" id="mrep2-d6-dawat"></td><td><input type="text" id="mrep2-d6-sohojogi"></td>
+                  <td><input type="text" id="mrep2-d6-target" class="mrep-rate-src" data-actual="mrep2-d6-dawat" data-target-rate="mrep2-d6-rate"></td>
+                  <td><input type="text" id="mrep2-d6-rate" readonly style="background:#f3f4f6;"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4 class="mrep-sub-h">৫. পারিবারিকভিত্তিক দাওয়াত</h4>
+          <div style="overflow-x:auto;">
+            <table class="dhajjo-table" style="min-width:600px;">
+  <colgroup>
+    <col style="width:35%;">
+    <col style="width:65%;">
+  </colgroup>
+              <thead><tr><th>বিবরণ</th><th>সংখ্যা</th></tr></thead>
+              <tbody>
+                <tr><td data-label="বিবরণ">দাওয়াতি কাজে অংশগ্রহণকারী মোট পরিবার</td><td><input type="text" id="mrep2-e1"></td></tr>
+                <tr><td data-label="বিবরণ">মোট কতটি নতুন পরিবারে দাওয়াত পৌঁছানো হয়েছে</td><td><input type="text" id="mrep2-e2"></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4 class="mrep-sub-h">৬. মসজিদ/দাওয়াহ সেন্টার/তথ্যসেবা কেন্দ্রভিত্তিক দাওয়াত</h4>
+          <div class="form-group-row mrep-side-by-side" style="align-items:start;">
+            <div style="overflow-x:auto;">
+              <table class="dhajjo-table" style="min-width:340px;">
+  <colgroup>
+    <col style="width:55%;">
+    <col style="width:22.5%;">
+    <col style="width:22.5%;">
+  </colgroup>
+                <thead><tr><th>বিবরণ</th><th>মোট সংখ্যা</th><th>বৃদ্ধি</th></tr></thead>
+                <tbody>
+                  <tr><td data-label="বিবরণ">মসজিদ</td><td><input type="text" id="mrep2-f1-total"></td><td><input type="text" id="mrep2-f1-growth"></td></tr>
+                  <tr><td data-label="বিবরণ">দাওয়াতের আওতাভুক্ত মসজিদ</td><td><input type="text" id="mrep2-f2-total"></td><td><input type="text" id="mrep2-f2-growth"></td></tr>
+                  <tr><td data-label="বিবরণ">মসজিদভিত্তিক দাওয়াহ সেন্টার</td><td><input type="text" id="mrep2-f4-total"></td><td><input type="text" id="mrep2-f4-growth"></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div style="overflow-x:auto;">
+              <table class="dhajjo-table" style="min-width:340px;">
+  <colgroup>
+    <col style="width:55%;">
+    <col style="width:22.5%;">
+    <col style="width:22.5%;">
+  </colgroup>
+                <thead><tr><th>বিবরণ</th><th>মোট সংখ্যা</th><th>বৃদ্ধি</th></tr></thead>
+                <tbody>
+                  <tr><td data-label="বিবরণ">সাধারণ দাওয়াহ সেন্টার</td><td><input type="text" id="mrep2-f3-total"></td><td><input type="text" id="mrep2-f3-growth"></td></tr>
+                  <tr><td data-label="বিবরণ">তথ্যসেবা কেন্দ্র (মসজিদভিত্তিক/সাধারণ)</td><td><input type="text" id="mrep2-f5-total"></td><td><input type="text" id="mrep2-f5-growth"></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <h4 class="mrep-sub-h">৭. তথ্যপ্রযুক্তির মাধ্যমে দাওয়াত</h4>
+          <div style="overflow-x:auto;">
+            <table class="dhajjo-table" style="min-width:500px;">
+  <colgroup>
+    <col style="width:50%%;">
+    <col style="width:50%;">
+  </colgroup>
+              <thead><tr><th>মোট উপযুক্ত জনশক্তি</th><th>মোট অংশগ্রহণকারী সংখ্যা</th></tr></thead>
+              <tbody>
+                <tr><td><input type="text" id="mrep2-g1"></td><td><input type="text" id="mrep2-g2"></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4 class="mrep-sub-h">৮. সাংস্কৃতিক কাজের মাধ্যমে দাওয়াত</h4>
+          <div style="overflow-x:auto;">
+            <table class="dhajjo-table" style="min-width:650px;">
+  <colgroup>
+    <col style="width:35%;">
+    <col style="width:32.5%;">
+    <col style="width:32.5%;">
+  </colgroup>
+              <thead><tr><th>প্রফেশনাল সাংস্কৃতিক টিম সংখ্যা</th><th>দাওয়াতি সাংস্কৃতিক প্রোগ্রাম সংখ্যা</th><th>কতজনের নিকট দাওয়াত পৌঁছানো হয়েছে</th></tr></thead>
+              <tbody>
+                <tr><td><input type="text" id="mrep2-h1"></td><td><input type="text" id="mrep2-h2"></td><td><input type="text" id="mrep2-h3"></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 class="sub-title">গ) দাওয়াহ ও প্রকাশনা</h3>
+          <div class="form-group-row mrep-side-by-side" style="align-items:start;">
+            <div>
+              <div style="overflow-x:auto;">
+                <table class="dhajjo-table" style="min-width:400px;">
+  <colgroup>
+    <col style="width:35%;">
+    <col style="width:21.7%;">
+    <col style="width:21.7%;">
+    <col style="width:21.6%;">
+  </colgroup>
+                  <thead><tr><th>বিবরণ</th><th>মোট সংখ্যা</th><th>বৃদ্ধি</th><th>টার্গেট</th></tr></thead>
+                  <tbody>
+                    <tr><td data-label="বিবরণ">পাঠাগার</td><td><input type="text" id="mrep3-a1-total"></td><td><input type="text" id="mrep3-a1-growth"></td><td><input type="text" id="mrep3-a1-target"></td></tr>
+                    <tr><td data-label="বিবরণ">বই সংখ্যা</td><td><input type="text" id="mrep3-a2-total"></td><td><input type="text" id="mrep3-a2-growth"></td><td><input type="text" id="mrep3-a2-target"></td></tr>
+                    <tr><td data-label="বিবরণ">ইউনিটে বই বিলি কেন্দ্র</td><td><input type="text" id="mrep3-a3-total"></td><td><input type="text" id="mrep3-a3-growth"></td><td><input type="text" id="mrep3-a3-target"></td></tr>
+                    <tr><td data-label="বিবরণ">ইউনিটি বই বিলি</td><td><input type="text" id="mrep3-a4-total"></td><td><input type="text" id="mrep3-a4-growth"></td><td><input type="text" id="mrep3-a4-target"></td></tr>
+                    <tr><td data-label="বিবরণ">ওয়ার্ডে বই বিক্রয় কেন্দ্র</td><td><input type="text" id="mrep3-a5-total"></td><td><input type="text" id="mrep3-a5-growth"></td><td><input type="text" id="mrep3-a5-target"></td></tr>
+                    <tr><td data-label="বিবরণ">সংগঠন অনুমোদিত</td><td><input type="text" id="mrep3-a6-total"></td><td><input type="text" id="mrep3-a6-growth"></td><td><input type="text" id="mrep3-a6-target"></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div>
+              <div style="overflow-x:auto;">
+                <table class="dhajjo-table" style="min-width:350px;">
+  <colgroup>
+    <col style="width:35%;">
+    <col style="width:32.5%;">
+    <col style="width:32.5%;">
+  </colgroup>
+                  <thead><tr><th>বিবরণ</th><th>মোট সংখ্যা</th><th>বৃদ্ধি</th></tr></thead>
+                  <tbody>
+                    <tr><td data-label="বিবরণ">ওয়ার্ডে বই বিক্রয়</td><td><input type="text" id="mrep3-b1-total"></td><td><input type="text" id="mrep3-b1-growth"></td></tr>
+                    <tr><td data-label="বিবরণ">বইয়ের সফট কপি বিলি</td><td><input type="text" id="mrep3-b2-total"></td><td><input type="text" id="mrep3-b2-growth"></td></tr>
+                    <tr><td data-label="বিবরণ">দাওয়াতি লিংক বিতরণ</td><td><input type="text" id="mrep3-b3-total"></td><td><input type="text" id="mrep3-b3-growth"></td></tr>
+                    <tr><td data-label="বিবরণ">সোনার বাংলা/সংগ্রাম/পৃথিবী</td><td><input type="text" id="mrep3-b4-total"></td><td><input type="text" id="mrep3-b4-growth"></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-actions" style="margin-top:16px;">
+            <button type="button" class="btn btn-secondary mrep-prev-btn" data-prev="1">◄ পূর্ববর্তী</button>
+            <button type="button" class="btn btn-primary mrep-next-btn" data-next="3">পরবর্তী ধাপ ➜</button>
+          </div>
+        </div>
+
+        <div class="card mrep-step-panel" id="mrep-panel-3" style="display:none;">
+          <h3 class="sub-title" style="margin-top:26px;">ঘ) কর্মসূচি বাস্তবায়ন</h3>
+          <div style="overflow-x:auto;">
+            <table class="dhajjo-table" style="min-width:650px;">
+  <colgroup>
+    <col style="width:5%;">
+    <col style="width:35%;">
+    <col style="width:20%;">
+    <col style="width:20%;">
+    <col style="width:20%;">
+  </colgroup>
+              <thead><tr><th>ক্রম</th><th>কর্মসূচির বিবরণ</th><th>মোট সংখ্যা</th><th>টার্গেট</th><th>গড় উপস্থিতি</th></tr></thead>
+              <tbody>
+                <tr><td>১</td><td data-label="বিবরণ">ইউনিটে মাসিক সাধারণ সভা</td><td><input type="text" id="mrep3-c1-total"></td><td><input type="text" id="mrep3-c1-target"></td><td><input type="text" id="mrep3-c1-avg"></td></tr>
+                <tr><td>২</td><td data-label="বিবরণ">আলোচনা সভা/সুধী সমাবেশ</td><td><input type="text" id="mrep3-c2-total"></td><td><input type="text" id="mrep3-c2-target"></td><td><input type="text" id="mrep3-c2-avg"></td></tr>
+                <tr><td>৩</td><td data-label="বিবরণ">সিরাতুন্নবী (সা.) মাহফিল</td><td><input type="text" id="mrep3-c3-total"></td><td><input type="text" id="mrep3-c3-target"></td><td><input type="text" id="mrep3-c3-avg"></td></tr>
+                <tr><td>৪</td><td data-label="বিবরণ">ঈদ পুনর্মিলনী</td><td><input type="text" id="mrep3-c4-total"></td><td><input type="text" id="mrep3-c4-target"></td><td><input type="text" id="mrep3-c4-avg"></td></tr>
+                <tr><td>৫</td><td data-label="বিবরণ">দরস/তাফসীর/দাওয়াতি জনসভা ও ইসলামী মাহফিল</td><td><input type="text" id="mrep3-c5-total"></td><td><input type="text" id="mrep3-c5-target"></td><td><input type="text" id="mrep3-c5-avg"></td></tr>
+                <tr><td>৬</td><td data-label="বিবরণ">ইফতার মাহফিল (ব্যক্তিগত/সাংগঠনিক)</td><td><input type="text" id="mrep3-c6-total"></td><td><input type="text" id="mrep3-c6-target"></td><td><input type="text" id="mrep3-c6-avg"></td></tr>
+                <tr><td>৭</td><td data-label="বিবরণ">চা চক্র/সামষ্টিক খাওয়া/শিক্ষা সফর</td><td><input type="text" id="mrep3-c7-total"></td><td><input type="text" id="mrep3-c7-target"></td><td><input type="text" id="mrep3-c7-avg"></td></tr>
+                <tr><td>৮</td><td data-label="বিবরণ">কিরাত/হামদ-নাত প্রতিযোগিতা</td><td><input type="text" id="mrep3-c8-total"></td><td><input type="text" id="mrep3-c8-target"></td><td><input type="text" id="mrep3-c8-avg"></td></tr>
+                <tr><td>৯</td><td data-label="বিবরণ">অন্যান্য</td><td><input type="text" id="mrep3-c9-total"></td><td><input type="text" id="mrep3-c9-target"></td><td><input type="text" id="mrep3-c9-avg"></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 class="sub-title" style="margin-top:20px;">সংগঠন:</h3>
+          <h4 class="mrep-sub-h">১. জনশক্তি</h4>
+          <div style="overflow-x:auto;">
+            <table class="dhajjo-table" style="min-width:750px;">
+  <colgroup>
+    <col style="width:22%;">
+    <col style="width:13%;">
+    <col style="width:13%;">
+    <col style="width:13%;">
+    <col style="width:13%;">
+    <col style="width:13%;">
+    <col style="width:13%;">
+  </colgroup>
+              <thead><tr><th>জনশক্তির ধরন</th><th>বিগত সংখ্যা</th><th>বর্তমান সংখ্যা</th><th>বৃদ্ধি</th><th>ঘাটতি*</th><th>টার্গেট</th><th>বাস্তবায়নের হার</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td data-label="ধরন">সর্বমোট সদস্য (রুকন)</td>
+                  <td><input type="text" id="mrep4-a1-prev" class="mrep-diff-src" data-target="mrep4-a1"></td>
+                  <td><input type="text" id="mrep4-a1-now" class="mrep-diff-src" data-target="mrep4-a1"></td>
+                  <td><input type="text" id="mrep4-a1-growth" readonly style="background:#f3f4f6;"></td>
+                  <td><input type="text" id="mrep4-a1-shortage" readonly style="background:#f3f4f6;"></td>
+                  <td><input type="text" id="mrep4-a1-target" class="mrep-rate-src" data-actual="mrep4-a1-now" data-target-rate="mrep4-a1-rate"></td>
+                  <td><input type="text" id="mrep4-a1-rate" readonly style="background:#f3f4f6;"></td>
+                </tr>
+                <tr>
+                  <td data-label="ধরন">সর্বমোট কর্মী</td>
+                  <td><input type="text" id="mrep4-a2-prev" class="mrep-diff-src" data-target="mrep4-a2"></td>
+                  <td><input type="text" id="mrep4-a2-now" class="mrep-diff-src" data-target="mrep4-a2"></td>
+                  <td><input type="text" id="mrep4-a2-growth" readonly style="background:#f3f4f6;"></td>
+                  <td><input type="text" id="mrep4-a2-shortage" readonly style="background:#f3f4f6;"></td>
+                  <td><input type="text" id="mrep4-a2-target" class="mrep-rate-src" data-actual="mrep4-a2-now" data-target-rate="mrep4-a2-rate"></td>
+                  <td><input type="text" id="mrep4-a2-rate" readonly style="background:#f3f4f6;"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="no-result" style="margin-top:6px;">* সদস্য (রুকন) ঘাটতির ক্ষেত্রে স্থানান্তর, ইন্তেকাল, বাতিল, ইস্তফা ও বিদেশ গমন সংখ্যার হিসাব আলাদাভাবে সংরক্ষণ করে মোট সংখ্যাটি এই ঘরে বসাতে হবে এবং এতদসংক্রান্ত তালিকা ঊর্ধ্বতন সংগঠনে জমা দিতে হবে।</p>
+
+          <h4 class="mrep-sub-h">২. সহযোগী সদস্য</h4>
+          <div style="overflow-x:auto;">
+            <table class="dhajjo-table" style="min-width:750px;">
+  <colgroup>
+    <col style="width:22%;">
+    <col style="width:13%;">
+    <col style="width:13%;">
+    <col style="width:13%;">
+    <col style="width:13%;">
+    <col style="width:13%;">
+    <col style="width:13%;">
+  </colgroup>
+              <thead><tr><th>জনশক্তির ধরন</th><th>বিগত সংখ্যা</th><th>বর্তমান সংখ্যা</th><th>বৃদ্ধি</th><th>ঘাটতি</th><th>টার্গেট</th><th>বাস্তবায়নের হার</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td data-label="ধরন">মোট সহযোগী সদস্য (পুরুষ)</td>
+                  <td><input type="text" id="mrep4-b1-prev" class="mrep-diff-src" data-target="mrep4-b1"></td>
+                  <td><input type="text" id="mrep4-b1-now" class="mrep-diff-src" data-target="mrep4-b1"></td>
+                  <td><input type="text" id="mrep4-b1-growth" readonly style="background:#f3f4f6;"></td>
+                  <td><input type="text" id="mrep4-b1-shortage" readonly style="background:#f3f4f6;"></td>
+                  <td><input type="text" id="mrep4-b1-target" class="mrep-rate-src" data-actual="mrep4-b1-now" data-target-rate="mrep4-b1-rate"></td>
+                  <td><input type="text" id="mrep4-b1-rate" readonly style="background:#f3f4f6;"></td>
+                </tr>
+                <tr>
+                  <td data-label="ধরন">মোট সহযোগী সদস্য (মহিলা)</td>
+                  <td><input type="text" id="mrep4-b2-prev" class="mrep-diff-src" data-target="mrep4-b2"></td>
+                  <td><input type="text" id="mrep4-b2-now" class="mrep-diff-src" data-target="mrep4-b2"></td>
+                  <td><input type="text" id="mrep4-b2-growth" readonly style="background:#f3f4f6;"></td>
+                  <td><input type="text" id="mrep4-b2-shortage" readonly style="background:#f3f4f6;"></td>
+                  <td><input type="text" id="mrep4-b2-target" class="mrep-rate-src" data-actual="mrep4-b2-now" data-target-rate="mrep4-b2-rate"></td>
+                  <td><input type="text" id="mrep4-b2-rate" readonly style="background:#f3f4f6;"></td>
+                </tr>
+                <tr>
+                  <td data-label="ধরন"><b>সর্বমোট সহযোগী সদস্য**</b></td>
+                  <td><input type="text" id="mrep4-b3-prev"></td>
+                  <td><input type="text" id="mrep4-b3-now" readonly style="background:#f3f4f6;"></td>
+                  <td>—</td><td>—</td><td>—</td><td>—</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="no-result" style="margin-top:6px;">** দাওয়াত ও তাবলীগের 'ক' এর অধীনে উল্লিখিত সকল সহযোগী সদস্যের সংখ্যা এই ঘরে বসবে (স্বয়ংক্রিয়ভাবে ধাপ ১ থেকে যোগ হয়)।</p>
+
+          <h4 class="mrep-sub-h">৩. বিভাগভিত্তিক তথ্য (জনশক্তি)</h4>
+          <div style="overflow-x:auto;">
+            <table class="dhajjo-table" style="min-width:800px;">
+  <colgroup>
+    <col style="width:10%;">
+    <col style="width:12%;">
+    <col style="width:13%;">
+    <col style="width:13%;">
+    <col style="width:13%;">
+    <col style="width:13%;">
+    <col style="width:13%;">
+    <col style="width:13%;">
+  </colgroup>
+              <thead><tr><th>বিভাগ</th><th>ধরন</th><th>বিগত সংখ্যা</th><th>বর্তমান সংখ্যা</th><th>বৃদ্ধি</th><th>ঘাটতি</th><th>টার্গেট</th><th>বাস্তবায়নের হার</th></tr></thead>
+              <tbody id="mrep4-c-body"></tbody>
+            </table>
+          </div>
+
+          <div class="form-actions" style="margin-top:16px;">
+            <button type="button" class="btn btn-secondary mrep-prev-btn" data-prev="2">◄ পূর্ববর্তী</button>
+            <button type="button" class="btn btn-primary mrep-next-btn" data-next="4">পরবর্তী ধাপ ➜</button>
+          </div>
+        </div>
+
+        <div class="card mrep-step-panel" id="mrep-panel-4" style="display:none;">
+          <h3 class="sub-title">সাংগঠনিক কাঠামো</h3>
+
+          <h4 class="mrep-sub-h">৪. সাংগঠনিক কাঠামো (ওয়ার্ড ও ইউনিট)</h4>
+          <div style="overflow-x:auto;">
+            <table class="dhajjo-table" style="min-width:750px;">
+  <colgroup>
+    <col style="width:28%;">
+    <col style="width:12%;">
+    <col style="width:12%;">
+    <col style="width:12%;">
+    <col style="width:12%;">
+    <col style="width:12%;">
+    <col style="width:12%;">
+  </colgroup>
+              <thead><tr><th>সংগঠনের ধরন</th><th>বিগত সংখ্যা</th><th>বর্তমান সংখ্যা</th><th>বৃদ্ধি</th><th>ঘাটতি</th><th>টার্গেট</th><th>বাস্তবায়নের হার</th></tr></thead>
+              <tbody id="mrep4-d-body"></tbody>
+            </table>
+          </div>
+
+          <h4 class="mrep-sub-h">৫. দাওয়াতি ও পারিবারিক ইউনিট</h4>
+          <div style="overflow-x:auto;">
+            <table class="dhajjo-table" style="min-width:750px;">
+  <colgroup>
+    <col style="width:22%;">
+    <col style="width:13%;">
+    <col style="width:13%;">
+    <col style="width:13%;">
+    <col style="width:13%;">
+    <col style="width:13%;">
+    <col style="width:13%;">
+  </colgroup>
+              <thead><tr><th>ইউনিটের ধরন</th><th>বিগত সংখ্যা</th><th>বর্তমান সংখ্যা</th><th>বৃদ্ধি</th><th>ঘাটতি</th><th>টার্গেট</th><th>বাস্তবায়নের হার</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td data-label="ধরন">মোট দাওয়াতি ইউনিট</td>
+                  <td><input type="text" id="mrep4-e1-prev" class="mrep-diff-src" data-target="mrep4-e1"></td>
+                  <td><input type="text" id="mrep4-e1-now" class="mrep-diff-src" data-target="mrep4-e1"></td>
+                  <td><input type="text" id="mrep4-e1-growth" readonly style="background:#f3f4f6;"></td>
+                  <td><input type="text" id="mrep4-e1-shortage" readonly style="background:#f3f4f6;"></td>
+                  <td><input type="text" id="mrep4-e1-target" class="mrep-rate-src" data-actual="mrep4-e1-now" data-target-rate="mrep4-e1-rate"></td>
+                  <td><input type="text" id="mrep4-e1-rate" readonly style="background:#f3f4f6;"></td>
+                </tr>
+                <tr>
+                  <td data-label="ধরন">মোট পারিবারিক ইউনিট</td>
+                  <td><input type="text" id="mrep4-e2-prev" class="mrep-diff-src" data-target="mrep4-e2"></td>
+                  <td><input type="text" id="mrep4-e2-now" class="mrep-diff-src" data-target="mrep4-e2"></td>
+                  <td><input type="text" id="mrep4-e2-growth" readonly style="background:#f3f4f6;"></td>
+                  <td><input type="text" id="mrep4-e2-shortage" readonly style="background:#f3f4f6;"></td>
+                  <td><input type="text" id="mrep4-e2-target" class="mrep-rate-src" data-actual="mrep4-e2-now" data-target-rate="mrep4-e2-rate"></td>
+                  <td><input type="text" id="mrep4-e2-rate" readonly style="background:#f3f4f6;"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4 class="mrep-sub-h">৬. কতটি ওয়ার্ডে এমারত রয়েছে</h4>
+          <div class="mrep-label-inline-row" style="margin-top:6px;">
+            <div class="mrep-label-inline">
+              <label>কতটি ওয়ার্ডে এমারত রয়েছে:</label>
+              <input type="text" id="mrep4-f1-count">
+            </div>
+            <div class="mrep-label-inline">
+              <label>বৃদ্ধি:</label>
+              <input type="text" id="mrep4-f1-growth">
+            </div>
+          </div>
+
+          <h4 class="mrep-sub-h">৭. বিদায়ী ছাত্র-ছাত্রী জনশক্তির সংগঠনে যোগদান</h4>
+          <div style="overflow-x:auto;">
+            <table class="dhajjo-table" style="min-width:500px;">
+  <colgroup>
+    <col style="width:34%;">
+    <col style="width:22%;">
+    <col style="width:22%;">
+    <col style="width:22%;">
+  </colgroup>
+              <thead><tr><th>বিবরণ</th><th>সদস্য/সদস্যা</th><th>সাথী/অগ্রসর কর্মী</th><th>কর্মী</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td data-label="বিবরণ">মোট যোগদানকৃত ছাত্র-ছাত্রী সংখ্যা</td>
+                  <td><input type="text" id="mrep4-g1"></td>
+                  <td><input type="text" id="mrep4-g2"></td>
+                  <td><input type="text" id="mrep4-g3"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4 class="mrep-sub-h">৮. সফর</h4>
+          <div style="overflow-x:auto;">
+            <table class="dhajjo-table" style="min-width:650px;">
+  <colgroup>
+    <col style="width:35%;">
+    <col style="width:32.5%;">
+    <col style="width:32.5%;">
+  </colgroup>
+              <thead><tr><th>উপজেলা/থানা দায়িত্বশীলদের সফর</th><th>পৌরসভা/ইউনিয়ন আমীর/সভাপতির সফর</th><th>কর্মপরিষদ/টিম সদস্যদের সফর</th></tr></thead>
+              <tbody>
+                <tr><td><input type="text" id="mrep4-h1"></td><td><input type="text" id="mrep4-h2"></td><td><input type="text" id="mrep4-h3"></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4 class="mrep-sub-h">৯. এয়ানত দাতা</h4>
+          <div style="overflow-x:auto;">
+            <table class="dhajjo-table" style="min-width:500px;">
+  <colgroup>
+    <col style="width:35%;">
+    <col style="width:32.5%;">
+    <col style="width:32.5%;">
+  </colgroup>
+              <thead><tr><th>বিবরণ</th><th>নতুন এয়ানত দাতা মোট সংখ্যা</th><th>অর্থের পরিমাণ (৳)</th></tr></thead>
+              <tbody>
+                <tr><td data-label="বিবরণ">সহযোগী সদস্য</td><td><input type="text" id="mrep4-i1-count"></td><td><input type="text" id="mrep4-i1-amount"></td></tr>
+                <tr><td data-label="বিবরণ">সুধী</td><td><input type="text" id="mrep4-i2-count"></td><td><input type="text" id="mrep4-i2-amount"></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="form-actions" style="margin-top:16px;">
+            <button type="button" class="btn btn-secondary mrep-prev-btn" data-prev="3">◄ পূর্ববর্তী</button>
+            <button type="button" class="btn btn-primary mrep-next-btn" data-next="5">পরবর্তী ধাপ ➜</button>
+          </div>
+        </div>
+
+        <div class="card mrep-step-panel" id="mrep-panel-5" style="display:none;">
+          <h3 class="sub-title">প্রশিক্ষণ</h3>
+
+          <h4 class="mrep-sub-h">১০. সাংগঠনিক বৈঠকাদি</h4>
+          <div style="overflow-x:auto;">
+            <table class="dhajjo-table" style="min-width:750px;">
+  <colgroup>
+    <col style="width:28%;">
+    <col style="width:12%;">
+    <col style="width:12%;">
+    <col style="width:12%;">
+    <col style="width:12%;">
+    <col style="width:12%;">
+    <col style="width:12%;">
+  </colgroup>
+              <thead><tr><th>বৈঠকের ধরন</th><th>মোট পুরুষ</th><th>মোট মহিলা</th><th>টার্গেট পুরুষ</th><th>টার্গেট মহিলা</th><th>গড় উপস্থিতি পুরুষ</th><th>গড় উপস্থিতি মহিলা</th></tr></thead>
+              <tbody id="mrep4-j-body"></tbody>
+            </table>
+          </div>
+
+
+          <h3 class="sub-title" style="margin-top:20px;">প্রশিক্ষণ:</h3>
+          <h4 class="mrep-sub-h">ক. তারবিয়াত (নৈতিক শিক্ষা ও সাংগঠনিক প্রশিক্ষণ)</h4>
+          <div style="overflow-x:auto;">
+            <table class="dhajjo-table" style="min-width:750px;">
+  <colgroup>
+    <col style="width:28%;">
+    <col style="width:12%;">
+    <col style="width:12%;">
+    <col style="width:12%;">
+    <col style="width:12%;">
+    <col style="width:12%;">
+    <col style="width:12%;">
+  </colgroup>
+              <thead><tr><th>বৈঠকের ধরন</th><th>মোট পুরুষ</th><th>মোট মহিলা</th><th>টার্গেট পুরুষ</th><th>টার্গেট মহিলা</th><th>গড় উপস্থিতি পুরুষ</th><th>গড় উপস্থিতি মহিলা</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td data-label="বৈঠক">ইউনিটে তারবিয়াতী বৈঠক</td>
+                  <td><input type="text" id="mrep5-a1-mp"></td><td><input type="text" id="mrep5-a1-mf"></td>
+                  <td><input type="text" id="mrep5-a1-tp"></td><td><input type="text" id="mrep5-a1-tf"></td>
+                  <td><input type="text" id="mrep5-a1-ap"></td><td><input type="text" id="mrep5-a1-af"></td>
+                </tr>
+                <tr>
+                  <td data-label="বৈঠক">ওয়ার্ডভিত্তিক কর্মী শিক্ষা বৈঠক</td>
+                  <td><input type="text" id="mrep5-a2-mp"></td><td><input type="text" id="mrep5-a2-mf"></td>
+                  <td><input type="text" id="mrep5-a2-tp"></td><td><input type="text" id="mrep5-a2-tf"></td>
+                  <td><input type="text" id="mrep5-a2-ap"></td><td><input type="text" id="mrep5-a2-af"></td>
+                </tr>
+                <tr>
+                  <td data-label="বৈঠক">পৌরসভা/ইউনিয়নভিত্তিক কর্মী শিক্ষা বৈঠক</td>
+                  <td><input type="text" id="mrep5-a3-mp"></td><td><input type="text" id="mrep5-a3-mf"></td>
+                  <td><input type="text" id="mrep5-a3-tp"></td><td><input type="text" id="mrep5-a3-tf"></td>
+                  <td><input type="text" id="mrep5-a3-ap"></td><td><input type="text" id="mrep5-a3-af"></td>
+                </tr>
+                <tr>
+                  <td data-label="বৈঠক">গণশিক্ষা বৈঠক/গণ নৈশ ইবাদত</td>
+                  <td><input type="text" id="mrep5-a4-mp"></td><td><input type="text" id="mrep5-a4-mf"></td>
+                  <td><input type="text" id="mrep5-a4-tp"></td><td><input type="text" id="mrep5-a4-tf"></td>
+                  <td><input type="text" id="mrep5-a4-ap"></td><td><input type="text" id="mrep5-a4-af"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div style="overflow-x:auto; margin-top:14px;">
+            <table class="dhajjo-table" style="min-width:750px;">
+  <colgroup>
+    <col style="width:28%;">
+    <col style="width:12%;">
+    <col style="width:12%;">
+    <col style="width:12%;">
+    <col style="width:12%;">
+    <col style="width:12%;">
+    <col style="width:12%;">
+  </colgroup>
+              <thead><tr><th>প্রোগ্রামের ধরন</th><th>মোট গ্রুপ পুরুষ</th><th>মোট গ্রুপ মহিলা</th><th>অধিবেশন পুরুষ</th><th>অধিবেশন মহিলা</th><th>গড় উপস্থিতি পুরুষ</th><th>গড় উপস্থিতি মহিলা</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td data-label="প্রোগ্রাম">সদস্য (রুকন) পাঠচক্র</td>
+                  <td><input type="text" id="mrep5-b1-gp"></td><td><input type="text" id="mrep5-b1-gf"></td>
+                  <td><input type="text" id="mrep5-b1-sp"></td><td><input type="text" id="mrep5-b1-sf"></td>
+                  <td><input type="text" id="mrep5-b1-ap"></td><td><input type="text" id="mrep5-b1-af"></td>
+                </tr>
+                <tr>
+                  <td data-label="প্রোগ্রাম">কর্মী পাঠচক্র/আলোচনা চক্র</td>
+                  <td><input type="text" id="mrep5-b2-gp"></td><td><input type="text" id="mrep5-b2-gf"></td>
+                  <td><input type="text" id="mrep5-b2-sp"></td><td><input type="text" id="mrep5-b2-sf"></td>
+                  <td><input type="text" id="mrep5-b2-ap"></td><td><input type="text" id="mrep5-b2-af"></td>
+                </tr>
+                <tr>
+                  <td data-label="প্রোগ্রাম">কুরআন স্টাডি সার্কেল</td>
+                  <td><input type="text" id="mrep5-b3-gp"></td><td><input type="text" id="mrep5-b3-gf"></td>
+                  <td><input type="text" id="mrep5-b3-sp"></td><td><input type="text" id="mrep5-b3-sf"></td>
+                  <td><input type="text" id="mrep5-b3-ap"></td><td><input type="text" id="mrep5-b3-af"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="form-group-row" style="margin-top:10px;">
+            <div class="form-group">
+              <label>দারস/সহীহ কুরআন তিলাওয়াত অনুশীলন — প্রোগ্রাম সংখ্যা</label>
+              <input type="text" id="mrep5-b4-count">
+            </div>
+          </div>
+
+          <h4 class="mrep-sub-h">খ. মানব সম্পদ উন্নয়ন কোর্স</h4>
+          <div style="overflow-x:auto;">
+            <table class="dhajjo-table" style="min-width:500px;">
+  <colgroup>
+    <col style="width:35%;">
+    <col style="width:32.5%;">
+    <col style="width:32.5%;">
+  </colgroup>
+              <thead><tr><th>কোর্সের ধরন</th><th>অংশগ্রহণকারী পুরুষ</th><th>অংশগ্রহণকারী মহিলা</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td data-label="কোর্স">দাওয়াহ/সমাজকর্ম/মিডিয়া</td>
+                  <td><input type="text" id="mrep5-c1-p"></td><td><input type="text" id="mrep5-c1-f"></td>
+                </tr>
+                <tr>
+                  <td data-label="কোর্স">আইসিটি/অফিস/ফিন্যান্সিয়াল ম্যানেজমেন্ট/ইংরেজি/আরবি ভাষা</td>
+                  <td><input type="text" id="mrep5-c2-p"></td><td><input type="text" id="mrep5-c2-f"></td>
+                </tr>
+                <tr>
+                  <td data-label="কোর্স">ট্রেডভিত্তিক কারিগরি প্রশিক্ষণ*</td>
+                  <td><input type="text" id="mrep5-c3-p"></td><td><input type="text" id="mrep5-c3-f"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="no-result" style="margin-top:6px;">* ট্রেডভিত্তিক কারিগরি প্রশিক্ষণের আওতায় ফার্মিং (পোল্ট্রি, ফিশারিজ, ডেইরি), সেলাই/এমব্রয়ডারি মেশিন অপারেটর, ড্রাইভিং কাম অটোমেকানিক, রন্ধন শিল্প, হর্টিকালচার/নার্সারি, তাঁত শিল্প/বুটিকস, হস্তশিল্প, ইলেকট্রিক্যাল অ্যান্ড ইলেকট্রনিক্স সার্ভিসিং, সিভিল কনস্ট্রাকশন/প্লাম্বিং, আমিনশিপ ইত্যাদি কোর্সসমূহের বাস্তবায়ন রিপোর্টও যোগফল এখানে বসাতে হবে।</p>
+
+          <h3 class="sub-title" style="margin-top:20px;">সমাজ সংস্কার ও সমাজ সেবা:</h3>
+          <h4 class="mrep-sub-h">১. প্রশিক্ষিত সমাজকর্মী তৈরি</h4>
+          <p class="no-result" style="margin:4px 0 10px;">প্রশিক্ষিত সমাজকর্মী বলতে কেন্দ্রীয় মডিউলের আলোকে সমাজকর্ম মাস্টার ট্রেইনার দ্বারা প্রশিক্ষণপ্রাপ্ত জনশক্তিকে বুঝানো হয়েছে।</p>
+          <div style="overflow-x:auto;">
+            <table class="dhajjo-table mrep-alldata-table" style="min-width:750px;">
+  <colgroup>
+    <col style="width:24%;">
+    <col style="width:19%;">
+    <col style="width:19%;">
+    <col style="width:19%;">
+    <col style="width:19%;">
+  </colgroup>
+              <thead>
+                <tr>
+                  <th>মোট প্রশিক্ষিত সমাজকর্মী সংখ্যা</th>
+                  <th>এই বছর কয়টি প্রশিক্ষণ কোর্স হয়েছে</th>
+                  <th>টার্গেট</th>
+                  <th>এ বছর কতজন প্রশিক্ষণ কোর্স সম্পন্ন করেছেন</th>
+                  <th>টার্গেট</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><input type="text" id="mrep6-a1"></td>
+                  <td><input type="text" id="mrep6-a2"></td>
+                  <td><input type="text" id="mrep6-a3"></td>
+                  <td><input type="text" id="mrep6-a4"></td>
+                  <td><input type="text" id="mrep6-a5"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4 class="mrep-sub-h">২. ব্যক্তিগত উদ্যোগে সামাজিক কাজ</h4>
+          <div style="overflow-x:auto;">
+            <table class="dhajjo-table mrep-alldata-table" style="min-width:500px;">
+  <colgroup>
+    <col style="width:50%;">
+    <col style="width:50%;">
+  </colgroup>
+              <thead>
+                <tr>
+                  <th>মোট কতজন ব্যক্তিগত উদ্যোগে সামাজিক কাজ করেছেন</th>
+                  <th>মোট সেবাপ্রাপ্ত সংখ্যা</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><input type="text" id="mrep6-b1"></td>
+                  <td><input type="text" id="mrep6-b2"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="form-actions" style="margin-top:16px;">
+            <button type="button" class="btn btn-secondary mrep-prev-btn" data-prev="4">◄ পূর্ববর্তী</button>
+            <button type="button" class="btn btn-primary mrep-next-btn" data-next="6">পরবর্তী ধাপ ➜</button>
+          </div>
+        </div>
+
+        <div class="card mrep-step-panel" id="mrep-panel-6" style="display:none;">
+          <h4 class="mrep-sub-h">৩. সামষ্টিক/সেবা টিমের মাধ্যমে সামাজিক কাজ (প্রযোজ্য ক্ষেত্রে)</h4>
+          <div style="overflow-x:auto;">
+            <table class="dhajjo-table mrep-alldata-table" style="min-width:600px;">
+  <colgroup>
+    <col style="width:34%;">
+    <col style="width:33%;">
+    <col style="width:33%;">
+  </colgroup>
+              <thead>
+                <tr>
+                  <th>সাধারণ সেবা টিম সংখ্যা</th>
+                  <th>টেকনিক্যাল সেবা টিম সংখ্যা</th>
+                  <th>স্বেচ্ছাসেবক সেবা টিম সংখ্যা</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><input type="text" id="mrep6-c1"></td>
+                  <td><input type="text" id="mrep6-c2"></td>
+                  <td><input type="text" id="mrep6-c3"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="overflow-x:auto; margin-top:10px;">
+            <table class="dhajjo-table" style="min-width:700px;">
+  <colgroup>
+    <col style="width:30%;">
+    <col style="width:20%;">
+    <col style="width:30%;">
+    <col style="width:20%;">
+  </colgroup>
+              <thead><tr><th>বিবরণ</th><th>সংখ্যা</th><th>বিবরণ</th><th>সংখ্যা</th></tr></thead>
+              <tbody id="mrep6-c-body"></tbody>
+            </table>
+          </div>
+
+          <h4 class="mrep-sub-h">৪. প্রাতিষ্ঠানিক উদ্যোগে সামাজিক কাজ</h4>
+          <div style="overflow-x:auto;">
+            <table class="dhajjo-table" style="min-width:600px;">
+  <colgroup>
+    <col style="width:60%;">
+    <col style="width:40%;">
+  </colgroup>
+              <thead><tr><th>বিবরণ</th><th>সংখ্যা</th></tr></thead>
+              <tbody>
+                <tr><td data-label="বিবরণ">কতটি সাংগঠনিক ওয়ার্ডে</td><td><input type="text" id="mrep6-d1"></td></tr>
+                <tr><td data-label="বিবরণ">কতটি সামাজিক প্রতিষ্ঠান রয়েছে</td><td><input type="text" id="mrep6-d2"></td></tr>
+                <tr><td data-label="বিবরণ">কতটি প্রতিষ্ঠানে সামাজিক কাজ হয়েছে</td><td><input type="text" id="mrep6-d3"></td></tr>
+                <tr><td data-label="বিবরণ">কতটি নতুন সামাজিক প্রতিষ্ঠান চালু হয়েছে (প্রযোজ্য ক্ষেত্রে)</td><td><input type="text" id="mrep6-d4"></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4 class="mrep-sub-h">৫. স্বাস্থ্য ও পরিবার কল্যাণমূলক কাজ</h4>
+          <div style="overflow-x:auto;">
+            <table class="dhajjo-table" style="min-width:700px;">
+  <colgroup>
+    <col style="width:27%;">
+    <col style="width:18%;">
+    <col style="width:37%;">
+    <col style="width:18%;">
+  </colgroup>
+              <tbody>
+                <tr><td data-label="বিবরণ">স্বাস্থ্যকর্মী তৈরি সংখ্যা</td><td><input type="text" id="mrep6-e1-count"></td><td data-label="বিবরণ">স্বাস্থ্যকর্মী প্রশিক্ষণ প্রোগ্রামে মোট অংশগ্রহণকারীর সংখ্যা</td><td><input type="text" id="mrep6-e1-part"></td></tr>
+                <tr><td data-label="বিবরণ">নার্স তৈরি সংখ্যা</td><td><input type="text" id="mrep6-e2-count"></td><td data-label="বিবরণ">কতজন স্বাস্থ্যসেবা কাজে অংশগ্রহণ করেছেন</td><td><input type="text" id="mrep6-e2-part"></td></tr>
+                <tr><td data-label="বিবরণ">ধাত্রী তৈরি সংখ্যা</td><td><input type="text" id="mrep6-e3-count"></td><td data-label="বিবরণ">সেবাপ্রাপ্ত সংখ্যা</td><td><input type="text" id="mrep6-e3-part"></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="mrep-label-inline-row" style="margin-top:14px;">
+            <div class="mrep-label-inline mrep-label-inline-full">
+              <label>৬. সামাজিক কাজের জন্য মোট আয়ের কত শতাংশ ব্যয় করা হয়েছে:</label>
+              <input type="text" id="mrep6-f1" placeholder="যেমনঃ ৫" style="max-width:120px;">
+              <span>%</span>
+            </div>
+          </div>
+
+          <h4 class="mrep-sub-h">রাষ্ট্রীয় সংস্কার ও সংশোধন — ১. রাজনৈতিক ও প্রশাসনিক যোগাযোগ</h4>
+          <div style="overflow-x:auto;">
+            <table class="dhajjo-table" style="min-width:600px;">
+  <colgroup>
+    <col style="width:35%;">
+    <col style="width:32.5%;">
+    <col style="width:32.5%;">
+  </colgroup>
+              <thead><tr><th>যোগাযোগের ধরন</th><th>মোট কতজন যোগাযোগ করেছেন</th><th>মোট কতজনের সাথে যোগাযোগ হয়েছে</th></tr></thead>
+              <tbody>
+                <tr><td data-label="ধরন">রাজনৈতিক ব্যক্তিবর্গ</td><td><input type="text" id="mrep6-g1-by"></td><td><input type="text" id="mrep6-g1-with"></td></tr>
+                <tr><td data-label="ধরন">প্রশাসনিক ব্যক্তিবর্গ</td><td><input type="text" id="mrep6-g2-by"></td><td><input type="text" id="mrep6-g2-with"></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4 class="mrep-sub-h">২. কর্মসূচি বাস্তবায়ন</h4>
+          <div style="overflow-x:auto;">
+            <table class="dhajjo-table" style="min-width:600px;">
+  <colgroup>
+    <col style="width:35%;">
+    <col style="width:32.5%;">
+    <col style="width:32.5%;">
+  </colgroup>
+              <thead><tr><th>কর্মসূচির বিবরণ</th><th>মোট সংখ্যা</th><th>গড় উপস্থিতি</th></tr></thead>
+              <tbody>
+                <tr><td data-label="বিবরণ">কেন্দ্র ঘোষিত রাজনৈতিক কর্মসূচি পালন</td><td><input type="text" id="mrep6-h1-total"></td><td><input type="text" id="mrep6-h1-avg"></td></tr>
+                <tr><td data-label="বিবরণ">স্থানীয়ভাবে ঘোষিত কর্মসূচি: জনসভা/সমাবেশ/মিছিল</td><td><input type="text" id="mrep6-h2-total"></td><td><input type="text" id="mrep6-h2-avg"></td></tr>
+                <tr><td data-label="বিবরণ">পোস্টার/লিফলেট/বুকলেট/স্মারকলিপি বিতরণ</td><td><input type="text" id="mrep6-h3-total"></td><td>—</td></tr>
+                <tr><td data-label="বিবরণ">অন্যান্য</td><td><input type="text" id="mrep6-h4-total"></td><td><input type="text" id="mrep6-h4-avg"></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4 class="mrep-sub-h">৩. জাতীয় ও আন্তর্জাতিক দিবস পালন</h4>
+          <div style="overflow-x:auto;">
+            <table class="dhajjo-table" style="min-width:700px;">
+  <colgroup>
+    <col style="width:24%;">
+    <col style="width:12%;">
+    <col style="width:14%;">
+    <col style="width:24%;">
+    <col style="width:12%;">
+    <col style="width:14%;">
+  </colgroup>
+              <thead><tr><th>দিবস</th><th>মোট প্রোগ্রাম সংখ্যা</th><th>গড় উপস্থিতি</th><th>দিবস</th><th>মোট প্রোগ্রাম সংখ্যা</th><th>গড় উপস্থিতি</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td data-label="দিবস">স্বাধীনতা ও জাতীয় দিবস</td><td><input type="text" id="mrep6-i1-total"></td><td><input type="text" id="mrep6-i1-avg"></td>
+                  <td data-label="দিবস">আন্তর্জাতিক মাতৃভাষা দিবস</td><td><input type="text" id="mrep6-i3-total"></td><td><input type="text" id="mrep6-i3-avg"></td>
+                </tr>
+                <tr>
+                  <td data-label="দিবস">বিজয় দিবস</td><td><input type="text" id="mrep6-i2-total"></td><td><input type="text" id="mrep6-i2-avg"></td>
+                  <td data-label="দিবস">আন্তর্জাতিক নারী দিবস</td><td><input type="text" id="mrep6-i4-total"></td><td><input type="text" id="mrep6-i4-avg"></td>
+                </tr>
+                <tr>
+                  <td data-label="দিবস">অন্যান্য</td><td><input type="text" id="mrep6-i6-total"></td><td><input type="text" id="mrep6-i6-avg"></td>
+                  <td data-label="দিবস">মে দিবস</td><td><input type="text" id="mrep6-i5-total"></td><td><input type="text" id="mrep6-i5-avg"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="form-actions" style="margin-top:16px;">
+            <button type="button" class="btn btn-secondary mrep-prev-btn" data-prev="5">◄ পূর্ববর্তী</button>
+            <button type="button" class="btn btn-primary mrep-next-btn" data-next="7">পরবর্তী ধাপ ➜</button>
+          </div>
+        </div>
+
+        <!-- ============ ধাপ ৭: নির্বাচনভিত্তিক কার্যক্রম ও বায়তুলমাল ============ -->
+        <div class="card mrep-step-panel" id="mrep-panel-7" style="display:none;">
+          <h3 class="sub-title">৭. জাতীয় ও স্থানীয় নির্বাচনভিত্তিক কার্যক্রম</h3>
+
+          <div style="overflow-x:auto;">
+            <table class="dhajjo-table" id="mrep7ElectionTable" style="min-width:900px;">
+  <colgroup>
+    <col style="width:14%;">
+    <col style="width:12%;">
+    <col style="width:13%;">
+    <col style="width:12%;">
+    <col style="width:13%;">
+    <col style="width:20%;">
+    <col style="width:16%;">
+  </colgroup>
+              <thead>
+                <tr>
+                  <th rowspan="2">নির্বাচনের ধরন</th>
+                  <th rowspan="2">মোট ওয়ার্ড সংখ্যা</th>
+                  <th rowspan="2">মোট প্রার্থী সংখ্যা (পুরুষ/মহিলা)</th>
+                  <th rowspan="2">অংশগ্রহণ সংখ্যা</th>
+                  <th colspan="2">নির্বাচিত সংখ্যা</th>
+                  <th rowspan="2">দ্বিতীয় অবস্থান (পু/ম)</th>
+                </tr>
+                <tr>
+                  <th>মেয়র/চেয়ারম্যান</th>
+                  <th>কাউন্সিলর/মেম্বার (পুরুষ/মহিলা)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-label="নির্বাচনের ধরন"><b>পৌরসভা</b></td>
+                  <td data-label="মোট ওয়ার্ড সংখ্যা"><input type="text" id="mrep7el-pou-ward"></td>
+                  <td data-label="মোট প্রার্থী সংখ্যা"><input type="text" id="mrep7el-pou-candidate"></td>
+                  <td data-label="অংশগ্রহণ সংখ্যা"><input type="text" id="mrep7el-pou-participation"></td>
+                  <td data-label="মেয়র/চেয়ারম্যান"><input type="text" id="mrep7el-pou-mayor"></td>
+                  <td data-label="কাউন্সিলর/মেম্বার"><input type="text" id="mrep7el-pou-councillor"></td>
+                  <td data-label="দ্বিতীয় অবস্থান"><input type="text" id="mrep7el-pou-runnerup"></td>
+                </tr>
+                <tr>
+                  <td data-label="নির্বাচনের ধরন"><b>ইউনিয়ন পরিষদ</b></td>
+                  <td data-label="মোট ওয়ার্ড সংখ্যা"><input type="text" id="mrep7el-uni-ward"></td>
+                  <td data-label="মোট প্রার্থী সংখ্যা"><input type="text" id="mrep7el-uni-candidate"></td>
+                  <td data-label="অংশগ্রহণ সংখ্যা"><input type="text" id="mrep7el-uni-participation"></td>
+                  <td data-label="মেয়র/চেয়ারম্যান"><input type="text" id="mrep7el-uni-mayor"></td>
+                  <td data-label="কাউন্সিলর/মেম্বার"><input type="text" id="mrep7el-uni-councillor"></td>
+                  <td data-label="দ্বিতীয় অবস্থান"><input type="text" id="mrep7el-uni-runnerup"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div style="overflow-x:auto; margin-top:16px;">
+            <table class="dhajjo-table" id="mrep7PrepTable" style="min-width:600px;">
+              <thead>
+                <tr>
+                  <th>প্রস্তুতিমূলক কার্যক্রমের ধরন</th>
+                  <th>মোট সংখ্যা</th>
+                  <th>বৃদ্ধি</th>
+                  <th>টার্গেট</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-label="ধরন"><b>মোট ভোট কেন্দ্র (জাতীয়/স্থানীয়)</b></td>
+                  <td data-label="মোট সংখ্যা"><input type="text" id="mrep7el-center-total"></td>
+                  <td data-label="বৃদ্ধি"><input type="text" id="mrep7el-center-growth"></td>
+                  <td data-label="টার্গেট">—</td>
+                </tr>
+                <tr>
+                  <td data-label="ধরন"><b>মোট ভোট কমিটি/কেন্দ্র/বুথভিত্তিক ইউনিট</b></td>
+                  <td data-label="মোট সংখ্যা"><input type="text" id="mrep7el-unit-total"></td>
+                  <td data-label="বৃদ্ধি"><input type="text" id="mrep7el-unit-growth"></td>
+                  <td data-label="টার্গেট"><input type="text" id="mrep7el-unit-target"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="form-group" style="margin-top:16px;">
+            <label>পৌরসভা/ইউনিয়ন/ওয়ার্ডভিত্তিক নির্বাচন পরিচালনা কমিটির বৈঠক সংখ্যা</label>
+            <input type="text" id="mrep7el-meetingCount" placeholder="বৈঠক সংখ্যা">
+          </div>
+
+          <div class="mrep-bayt-heading"><span>বায়তুলমাল</span></div>
+
+          <div class="form-group">
+            <label>ধার্যকৃত নিছাব (৳)</label>
+            <input type="text" id="mrep7-dhorjoNisab" placeholder="ধার্যকৃত নিছাবের পরিমাণ">
+          </div>
+
+          <hr class="divider">
+
+          <div class="form-group-row mrep-side-by-side" style="align-items:start;">
+            <div>
+              <div class="sub-title">আয়ের বিবরণ</div>
+              <table class="dhajjo-table">
+                <thead><tr><th>খাতের নাম</th><th>পরিমাণ (৳)</th><th></th></tr></thead>
+                <tbody id="mrep7IncomeBody"></tbody>
+              </table>
+              <button type="button" class="btn btn-outline btn-sm" id="mrep7IncomeAddRowBtn" style="margin-top:10px;">➕ নতুন খাত</button>
+            </div>
+            <div>
+              <div class="sub-title">ব্যয়ের বিবরণ</div>
+              <table class="dhajjo-table">
+                <thead><tr><th>খাতের নাম</th><th>পরিমাণ (৳)</th><th></th></tr></thead>
+                <tbody id="mrep7ExpenseBody"></tbody>
+              </table>
+              <button type="button" class="btn btn-outline btn-sm" id="mrep7ExpenseAddRowBtn" style="margin-top:10px;">➕ নতুন খাত</button>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <div class="form-group-row">
+            <div>
+              <div class="info-row"><span class="info-label">মোট আয়</span><span class="info-value" id="mrep7-totalIncome">৳0</span></div>
+              <div class="info-row"><span class="info-label">গত মাসের উদ্বৃত্ত</span><span class="info-value" id="mrep7-prevSurplus" data-value="0">৳0</span></div>
+              <div class="info-row"><span class="info-label"><b>সর্বমোট আয়</b></span><span class="info-value" id="mrep7-grandTotalIncome"><b>৳0</b></span></div>
+            </div>
+            <div>
+              <div class="info-row"><span class="info-label">মোট ব্যয়</span><span class="info-value" id="mrep7-totalExpense">৳0</span></div>
+              <div class="info-row"><span class="info-label">গত মাসের ঘাটতি</span><span class="info-value" id="mrep7-prevDeficit" data-value="0">৳0</span></div>
+              <div class="info-row"><span class="info-label"><b>সর্বমোট ব্যয়</b></span><span class="info-value" id="mrep7-grandTotalExpense"><b>৳0</b></span></div>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <span class="info-label"><b>নীট উদ্বৃত্ত / ঘাটতি</b></span>
+            <span class="info-value" id="mrep7-netBalance"><b>৳0</b></span>
+          </div>
+
+          <div class="form-group" style="margin-top:6px;">
+            <label>উদ্বৃত্ত / ঘাটতি টাকার বিবরণ (কার কাছে কত টাকা আছে)</label>
+            <textarea id="mrep7-balanceDetails" rows="3" placeholder="যেমনঃ ক্যাশিয়ারের কাছে ৫,০০০৳, ব্যাংক হিসাবে ১০,০০০৳ ইত্যাদি"></textarea>
+          </div>
+
+          <p class="no-result" style="margin-top:10px;">এই ধাপের তথ্য "বায়তুলমাল ➜ মাসিক আয়-ব্যয়" পেজের ডাটার সাথে অভিন্ন (একই মাস/বছরের একই রেকর্ড) — যেকোনো একটি থেকে হালনাগাদ করলে অন্যটিতেও প্রতিফলিত হবে।</p>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary mrep-prev-btn" data-prev="6">◄ পূর্ববর্তী</button>
+          </div>
+        </div>
+
+        <div class="form-actions" style="margin-top:20px;">
+          <button type="button" class="btn btn-primary" id="mrepSaveBtn">💾 সংরক্ষণ (এই ধাপ)</button>
+          <button type="button" class="btn btn-secondary" id="mrepResetBtn">↺ এই ধাপ রিসেট</button>
+        </div>
+      </section>
+
+
+      <!-- ================= প্রকাশনা ক্রয় ফরম ================= -->
+      <section id="page-prakashona-kroy" class="page">
+        <h2 class="page-title">প্রকাশনা ক্রয় ফরম</h2>
+
+        <div class="card">
+          <input type="hidden" id="pk-id">
+          <div class="form-group">
+            <label>তারিখ</label>
+            <input type="date" id="pk-date">
+          </div>
+
+          <table class="dhajjo-table">
+  <colgroup>
+    <col style="width:35%;">
+    <col style="width:13.0%;">
+    <col style="width:13.0%;">
+    <col style="width:13.0%;">
+    <col style="width:13.0%;">
+    <col style="width:13.0%;">
+  </colgroup>
+            <thead><tr><th>ক্রম</th><th>বইয়ের নাম</th><th>সংখ্যা</th><th>একক মূল্য</th><th>মোট</th><th></th></tr></thead>
+            <tbody id="pkItemsBody"></tbody>
+          </table>
+          <button type="button" class="btn btn-outline btn-sm" id="pkAddRowBtn" style="margin-top:10px;">➕ নতুন সারি</button>
+
+          <hr class="divider">
+          <div class="year-summary-item"><span>সাবটোটাল</span><span class="ys-total" id="pk-subtotal">৳০</span></div>
+          <div class="form-group-row" style="margin-top:12px;">
+            <div class="form-group">
+              <label>ডিসকাউন্ট (৳)</label>
+              <input type="text" id="pk-discount" placeholder="০" value="0">
+            </div>
+            <div class="form-group">
+              <label>পরিশোধ (৳)</label>
+              <input type="text" id="pk-paid" placeholder="০" value="0">
+            </div>
+          </div>
+          <div class="year-summary-item"><span>বকেয়া</span><span class="ys-total" id="pk-due">৳০</span></div>
+
+          <div class="form-actions" style="margin-top:20px;">
+            <button type="button" class="btn btn-primary" id="pkSaveBtn">💾 সংরক্ষণ</button>
+            <button type="button" class="btn btn-primary" id="pkUpdateBtn">🔄 আপডেট</button>
+            <button type="button" class="btn btn-outline" id="pkPrintBtn">🖨️ প্রিন্ট</button>
+            <button type="button" class="btn btn-secondary" id="pkResetBtn">↺ রিসেট</button>
+            <button type="button" class="btn btn-danger" id="pkDeleteBtn">🗑️ ডিলেট</button>
+          </div>
+        </div>
+
+        <div class="card list-card" style="margin-top:16px;">
+          <h3 class="sub-title">সাম্প্রতিক ক্রয় (ক্লিক করলে ফরমে লোড হবে)</h3>
+          <div id="pkList" class="simple-list"></div>
+        </div>
+      </section>
+
+      <!-- ================= বিক্রয় ফরম ================= -->
+      <section id="page-prakashona-bikroy" class="page">
+        <h2 class="page-title">বিক্রয় ফরম</h2>
+
+        <div class="card">
+          <input type="hidden" id="pb-id">
+          <div class="form-group-row">
+            <div class="form-group">
+              <label>তারিখ</label>
+              <input type="date" id="pb-date">
+            </div>
+            <div class="form-group">
+              <label>গ্রাহক / উপশাখার নাম</label>
+              <input type="text" id="pb-customer" placeholder="গ্রাহকের নাম লিখুন অথবা নিচে থেকে উপশাখা বাছাই করুন">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>উপশাখা থেকে দ্রুত বাছাই করুন (ঐচ্ছিক)</label>
+            <select id="pb-upashakha-picker"><option value="">নির্বাচন করুন</option></select>
+          </div>
+
+          <table class="dhajjo-table">
+  <colgroup>
+    <col style="width:35%;">
+    <col style="width:13.0%;">
+    <col style="width:13.0%;">
+    <col style="width:13.0%;">
+    <col style="width:13.0%;">
+    <col style="width:13.0%;">
+  </colgroup>
+            <thead><tr><th>ক্রম</th><th>বইয়ের নাম</th><th>সংখ্যা</th><th>একক মূল্য</th><th>মোট</th><th></th></tr></thead>
+            <tbody id="pbItemsBody"></tbody>
+          </table>
+          <button type="button" class="btn btn-outline btn-sm" id="pbAddRowBtn" style="margin-top:10px;">➕ নতুন সারি</button>
+
+          <hr class="divider">
+          <div class="year-summary-item"><span>সাবটোটাল</span><span class="ys-total" id="pb-subtotal">৳০</span></div>
+          <div class="form-group-row" style="margin-top:12px;">
+            <div class="form-group">
+              <label>ডিসকাউন্ট (৳)</label>
+              <input type="text" id="pb-discount" placeholder="০" value="0">
+            </div>
+            <div class="form-group">
+              <label>আদায় (৳)</label>
+              <input type="text" id="pb-paid" placeholder="০" value="0">
+            </div>
+          </div>
+          <div class="year-summary-item"><span>বকেয়া</span><span class="ys-total" id="pb-due">৳০</span></div>
+
+          <div class="form-actions" style="margin-top:20px;">
+            <button type="button" class="btn btn-primary" id="pbSaveBtn">💾 সংরক্ষণ</button>
+            <button type="button" class="btn btn-primary" id="pbUpdateBtn">🔄 আপডেট</button>
+            <button type="button" class="btn btn-outline" id="pbPrintBtn">🖨️ প্রিন্ট</button>
+            <button type="button" class="btn btn-secondary" id="pbResetBtn">↺ রিসেট</button>
+            <button type="button" class="btn btn-danger" id="pbDeleteBtn">🗑️ ডিলেট</button>
+          </div>
+        </div>
+
+        <div class="card list-card" style="margin-top:16px;">
+          <h3 class="sub-title">সাম্প্রতিক বিক্রয় (ক্লিক করলে ফরমে লোড হবে)</h3>
+          <div id="pbList" class="simple-list"></div>
+        </div>
+      </section>
+
+      <!-- ================= বিলি ফরম ================= -->
+      <section id="page-prakashona-bili" class="page">
+        <h2 class="page-title">বিলি ফরম</h2>
+
+        <div class="card">
+          <input type="hidden" id="pd-id">
+          <div class="form-group-row">
+            <div class="form-group">
+              <label>তারিখ</label>
+              <input type="date" id="pd-date">
+            </div>
+            <div class="form-group">
+              <label>উপশাখার নাম</label>
+              <select id="pd-upashakha"><option value="">নির্বাচন করুন</option></select>
+            </div>
+          </div>
+
+          <table class="dhajjo-table">
+  <colgroup>
+    <col style="width:35%;">
+    <col style="width:21.7%;">
+    <col style="width:21.7%;">
+    <col style="width:21.6%;">
+  </colgroup>
+            <thead><tr><th>ক্রম</th><th>বইয়ের নাম</th><th>সংখ্যা</th><th></th></tr></thead>
+            <tbody id="pdItemsBody"></tbody>
+          </table>
+          <button type="button" class="btn btn-outline btn-sm" id="pdAddRowBtn" style="margin-top:10px;">➕ নতুন সারি</button>
+
+          <hr class="divider">
+          <div class="year-summary-item"><span>সাবটোটাল (মোট সংখ্যা)</span><span class="ys-total" id="pd-subtotal">০</span></div>
+
+          <div class="form-actions" style="margin-top:20px;">
+            <button type="button" class="btn btn-primary" id="pdSaveBtn">💾 সংরক্ষণ</button>
+            <button type="button" class="btn btn-primary" id="pdUpdateBtn">🔄 আপডেট</button>
+            <button type="button" class="btn btn-outline" id="pdPrintBtn">🖨️ প্রিন্ট</button>
+            <button type="button" class="btn btn-secondary" id="pdResetBtn">↺ রিসেট</button>
+            <button type="button" class="btn btn-danger" id="pdDeleteBtn">🗑️ ডিলেট</button>
+          </div>
+        </div>
+
+        <div class="card list-card" style="margin-top:16px;">
+          <h3 class="sub-title">সাম্প্রতিক বিলি (ক্লিক করলে ফরমে লোড হবে)</h3>
+          <div id="pdList" class="simple-list"></div>
+        </div>
+      </section>
+
+      <!-- ================= বাতিল প্রকাশনা ফরম ================= -->
+      <section id="page-prakashona-batil" class="page">
+        <h2 class="page-title">বাতিল প্রকাশনা ফরম</h2>
+
+        <div class="card">
+          <input type="hidden" id="pc-id">
+          <div class="form-group">
+            <label>তারিখ</label>
+            <input type="date" id="pc-date">
+          </div>
+
+          <table class="dhajjo-table">
+  <colgroup>
+    <col style="width:35%;">
+    <col style="width:13.0%;">
+    <col style="width:13.0%;">
+    <col style="width:13.0%;">
+    <col style="width:13.0%;">
+    <col style="width:13.0%;">
+  </colgroup>
+            <thead><tr><th>ক্রম</th><th>বইয়ের নাম</th><th>সংখ্যা</th><th>একক মূল্য</th><th>মোট</th><th></th></tr></thead>
+            <tbody id="pcItemsBody"></tbody>
+          </table>
+          <button type="button" class="btn btn-outline btn-sm" id="pcAddRowBtn" style="margin-top:10px;">➕ নতুন সারি</button>
+
+          <hr class="divider">
+          <div class="year-summary-item"><span>সাবটোটাল</span><span class="ys-total" id="pc-subtotal">৳০</span></div>
+
+          <div class="form-actions" style="margin-top:20px;">
+            <button type="button" class="btn btn-primary" id="pcSaveBtn">💾 সংরক্ষণ</button>
+            <button type="button" class="btn btn-primary" id="pcUpdateBtn">🔄 আপডেট</button>
+            <button type="button" class="btn btn-outline" id="pcPrintBtn">🖨️ প্রিন্ট</button>
+            <button type="button" class="btn btn-secondary" id="pcResetBtn">↺ রিসেট</button>
+            <button type="button" class="btn btn-danger" id="pcDeleteBtn">🗑️ ডিলেট</button>
+          </div>
+        </div>
+
+        <div class="card list-card" style="margin-top:16px;">
+          <h3 class="sub-title">সাম্প্রতিক বাতিল এন্ট্রি (ক্লিক করলে ফরমে লোড হবে)</h3>
+          <div id="pcList" class="simple-list"></div>
+        </div>
+      </section>
+
+      <!-- ================= প্রকাশনা তালিকা ================= -->
+      <section id="page-prakashona-talika" class="page">
+        <h2 class="page-title">প্রকাশনা তালিকা</h2>
+
+        <div class="card">
+          <h3 class="sub-title">নতুন বই যোগ করুন</h3>
+          <div class="form-group-row">
+            <div class="form-group">
+              <label>বইয়ের নাম</label>
+              <input type="text" id="pt-name" placeholder="বইয়ের নাম লিখুন">
+            </div>
+            <div class="form-group">
+              <label>সংখ্যা (প্রাথমিক স্টক)</label>
+              <input type="text" id="pt-qty" placeholder="০" value="0">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>এককমূল্য (৳)</label>
+            <input type="text" id="pt-price" placeholder="০" value="0">
+          </div>
+          <button type="button" class="btn btn-primary" id="ptAddBtn">➕ যোগ করুন</button>
+        </div>
+
+        <div class="card list-card" style="margin-top:16px;">
+          <div class="page-header-row">
+            <h3 class="sub-title">সকল প্রকাশনার তালিকা</h3>
+            <button type="button" class="btn btn-outline btn-sm" id="ptPrintBtn">🖨️ প্রিন্ট</button>
+          </div>
+          <table class="dhajjo-table">
+  <colgroup>
+    <col style="width:35%;">
+    <col style="width:16.2%;">
+    <col style="width:16.2%;">
+    <col style="width:16.2%;">
+    <col style="width:16.4%;">
+  </colgroup>
+            <thead><tr><th>ক্রম</th><th>প্রকাশনা/বইয়ের নাম</th><th>সংখ্যা</th><th>এককমূল্য</th><th>মোট</th></tr></thead>
+            <tbody id="ptListBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ================= কর্মপরিষদ ================= -->
+      <section id="page-kormo-parishad" class="page">
+        <h2 class="page-title">কর্মপরিষদ</h2>
+        <div class="card">
+          <table class="dhajjo-table">
+  <colgroup>
+    <col style="width:35%;">
+    <col style="width:16.2%;">
+    <col style="width:16.2%;">
+    <col style="width:16.2%;">
+    <col style="width:16.4%;">
+  </colgroup>
+            <thead><tr><th>ক্রম</th><th>নাম</th><th>মোবাইল</th><th>বিভাগ সমূহ</th><th></th></tr></thead>
+            <tbody id="kpBody"></tbody>
+          </table>
+          <button type="button" class="btn btn-outline btn-sm" id="kpAddRowBtn" style="margin-top:10px;">➕ নতুন সারি</button>
+
+          <div class="form-actions" style="margin-top:20px;">
+            <button type="button" class="btn btn-primary" id="kpSaveBtn">💾 সংরক্ষণ</button>
+            <button type="button" class="btn btn-secondary" id="kpResetBtn">↺ রিসেট</button>
+            <button type="button" class="btn btn-outline" id="kpPrintBtn">🖨️ প্রিন্ট</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= শুরা সদস্য ================= -->
+      <section id="page-shura-sodossho" class="page">
+        <h2 class="page-title">শুরা সদস্য</h2>
+        <div class="card">
+          <table class="dhajjo-table">
+  <colgroup>
+    <col style="width:35%;">
+    <col style="width:21.7%;">
+    <col style="width:21.7%;">
+    <col style="width:21.6%;">
+  </colgroup>
+            <thead><tr><th>ক্রম</th><th>নাম</th><th>মোবাইল</th><th></th></tr></thead>
+            <tbody id="ssBody"></tbody>
+          </table>
+          <button type="button" class="btn btn-outline btn-sm" id="ssAddRowBtn" style="margin-top:10px;">➕ নতুন সারি</button>
+
+          <div class="form-actions" style="margin-top:20px;">
+            <button type="button" class="btn btn-primary" id="ssSaveBtn">💾 সংরক্ষণ</button>
+            <button type="button" class="btn btn-secondary" id="ssResetBtn">↺ রিসেট</button>
+            <button type="button" class="btn btn-outline" id="ssPrintBtn">🖨️ প্রিন্ট</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ==================== ফুটার ==================== -->
+  <footer class="app-footer">
+    <div class="footer-content">
+      <div class="footer-col">
+        <h4>যোগাযোগ</h4>
+        <p id="footerAddress">ঠিকানা শাখা সেটাপ থেকে আসবে</p>
+        <p id="footerPhone">—</p>
+        <p id="footerEmail">—</p>
+      </div>
+      <div class="footer-col">
+        <h4>সোশ্যাল মিডিয়া</h4>
+        <div class="social-links">
+          <a href="#" target="_blank">Facebook</a>
+          <a href="#" target="_blank">YouTube</a>
+          <a href="#" target="_blank">Twitter</a>
+          <a href="#" target="_blank">Instagram</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>@Am Shahed : 01605721296</p>
+    </div>
+  </footer>
+
+  <!-- সদস্যের প্রিন্ট টেমপ্লেট (শুধু প্রিন্টের সময় দেখাবে) -->
+  <div id="memberPrintTemplate" class="print-only print-member">
+    <h2 id="print-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
+    <h3>সদস্য তথ্য</h3>
+    <table class="print-table">
+      <tr><td class="p-label">নাম</td><td id="print-name"></td></tr>
+      <tr><td class="p-label">মোবাইল</td><td id="print-mobile"></td></tr>
+      <tr><td class="p-label">শাখা</td><td id="print-branch"></td></tr>
+      <tr><td class="p-label">মান</td><td id="print-maan"></td></tr>
+      <tr><td class="p-label">সদস্য হওয়ার তারিখ</td><td id="print-joinDate"></td></tr>
+      <tr><td class="p-label">পেশা</td><td id="print-profession"></td></tr>
+      <tr><td class="p-label">ঠিকানা</td><td id="print-address"></td></tr>
+    </table>
+    <p class="print-footer">@Am Shahed : 01605721296</p>
+  </div>
+
+  <!-- স্থানান্তরের প্রিন্ট টেমপ্লেট -->
+  <div id="transferPrintTemplate" class="print-only print-transfer">
+    <h2 id="tprint-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
+    <h3>স্থানান্তর তথ্য</h3>
+    <table class="print-table">
+      <tr><td class="p-label">সদস্যের নাম</td><td id="tprint-name"></td></tr>
+      <tr><td class="p-label">মোবাইল</td><td id="tprint-mobile"></td></tr>
+      <tr><td class="p-label">পূর্বের শাখা</td><td id="tprint-fromBranch"></td></tr>
+      <tr><td class="p-label">নতুন শাখা</td><td id="tprint-toBranch"></td></tr>
+      <tr><td class="p-label">নতুন শাখার ঠিকানা</td><td id="tprint-toBranchAddress"></td></tr>
+      <tr><td class="p-label">স্থানান্তরের তারিখ</td><td id="tprint-date"></td></tr>
+    </table>
+    <p class="print-footer">@Am Shahed : 01605721296</p>
+  </div>
+
+  <!-- ধার্য্যের প্রিন্ট টেমপ্লেট -->
+  <div id="dhajjoPrintTemplate" class="print-only print-dhajjo">
+    <h2 id="dprint-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
+    <h3>ধার্য্য তথ্য — <span id="dprint-year"></span></h3>
+    <p style="text-align:center;">সদস্যের নামঃ <b id="dprint-name"></b> | শাখাঃ <span id="dprint-branch"></span></p>
+    <table class="print-table" id="dprint-table">
+      <tr><td class="p-label">খাতের নাম</td><td class="p-label">পরিমাণ (৳)</td><td class="p-label">তারিখ</td></tr>
+    </table>
+    <p class="print-footer">@Am Shahed : 01605721296</p>
+  </div>
+
+  <!-- কমিটির প্রিন্ট টেমপ্লেট -->
+  <div id="committeePrintTemplate" class="print-only print-committee">
+    <h2 id="cprint-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
+    <h3>কমিটির তালিকা</h3>
+    <table class="print-table" id="cprint-table">
+      <tr><td class="p-label">পদবি</td><td class="p-label">নাম</td><td class="p-label">মোবাইল</td></tr>
+    </table>
+    <p class="print-footer">@Am Shahed : 01605721296</p>
+  </div>
+
+  <!-- উপশাখা সেটাপের প্রিন্ট টেমপ্লেট -->
+  <div id="upashakhaPrintTemplate" class="print-only print-upashakha">
+    <h2 id="uprint-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
+    <h3>উপশাখা তথ্য</h3>
+    <table class="print-table" id="uprint-table"></table>
+    <p class="print-footer">@Am Shahed : 01605721296</p>
+  </div>
+
+  <!-- উপশাখা ধার্য্যের প্রিন্ট টেমপ্লেট -->
+  <div id="upashakhaDhajjoPrintTemplate" class="print-only print-upashakha-dhajjo">
+    <h2 id="udprint-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
+    <h3>উপশাখা ধার্য্য — <span id="udprint-year"></span></h3>
+    <p style="text-align:center;">উপশাখাঃ <b id="udprint-name"></b></p>
+    <table class="print-table" id="udprint-table">
+      <tr><td class="p-label">খাতের নাম</td><td class="p-label">পরিমাণ (৳)</td><td class="p-label">তারিখ</td></tr>
+    </table>
+    <p class="print-footer">@Am Shahed : 01605721296</p>
+  </div>
+
+  <!-- উপশাখা এন্ট্রি তালিকার প্রিন্ট টেমপ্লেট (সব উপশাখার নাম ও মান একসাথে) -->
+  <div id="uentryPrintTemplate" class="print-only print-uentry">
+    <h2 id="uentryprint-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
+    <h3>উপশাখার তালিকা</h3>
+    <table class="print-table" id="uentryprint-table">
+      <tr><td class="p-label">ক্রম</td><td class="p-label">উপশাখার নাম</td><td class="p-label">মান</td></tr>
+    </table>
+    <p class="print-footer">@Am Shahed : 01605721296</p>
+  </div>
+
+  <!-- জনশক্তি আয়ের প্রিন্ট টেমপ্লেট -->
+  <div id="jiPrintTemplate" class="print-only print-ji">
+    <h2 id="jiprint-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
+    <h3>জনশক্তি আয় — <span id="jiprint-monthYear"></span></h3>
+    <p style="text-align:center;">শাখাঃ <b id="jiprint-branch"></b> | মানঃ <span id="jiprint-maan"></span></p>
+    <div id="jiprint-content"></div>
+    <p class="print-footer">@Am Shahed : 01605721296</p>
+  </div>
+
+  <!-- উপশাখা আয়ের প্রিন্ট টেমপ্লেট -->
+  <div id="uiPrintTemplate" class="print-only print-ui">
+    <h2 id="uiprint-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
+    <h3>উপশাখা আয় — <span id="uiprint-monthYear"></span></h3>
+    <p style="text-align:center;">উপশাখাঃ <b id="uiprint-name"></b></p>
+    <table class="print-table" id="uiprint-table">
+      <tr><td class="p-label">খাতের নাম</td><td class="p-label">ধার্য্য</td><td class="p-label">পরিশোধ</td><td class="p-label">বকেয়া</td></tr>
+    </table>
+    <p class="print-footer">@Am Shahed : 01605721296</p>
+  </div>
+
+  <!-- অন্যান্য আয়ের রশিদ প্রিন্ট টেমপ্লেট -->
+  <div id="oaPrintTemplate" class="print-only print-oa">
+    <h2 id="oaprint-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
+    <h3>আয়ের রশিদ</h3>
+    <table class="print-table" id="oaprint-table">
+      <tr><td class="p-label">তারিখ</td><td class="p-label">খাত</td><td class="p-label col-serial">ক্রম</td><td class="p-label">বিবরণ</td><td class="p-label">পরিমাণ</td></tr>
+    </table>
+    <p class="print-footer">@Am Shahed : 01605721296</p>
+  </div>
+
+  <!-- ব্যয়ের রশিদ প্রিন্ট টেমপ্লেট -->
+  <div id="byayPrintTemplate" class="print-only print-byay">
+    <h2 id="byayprint-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
+    <h3>ব্যয়ের রশিদ</h3>
+    <table class="print-table">
+      <tr><td class="p-label">ভাউচার নং</td><td id="byayprint-voucherNo"></td></tr>
+      <tr><td class="p-label">তারিখ</td><td id="byayprint-date"></td></tr>
+      <tr><td class="p-label">খাত</td><td id="byayprint-khat"></td></tr>
+      <tr><td class="p-label">ক্রম</td><td id="byayprint-serial"></td></tr>
+      <tr><td class="p-label">বিবরণ</td><td id="byayprint-description"></td></tr>
+      <tr><td class="p-label">পরিমাণ</td><td id="byayprint-amount"></td></tr>
+    </table>
+    <p class="print-footer">@Am Shahed : 01605721296</p>
+  </div>
+
+  <!-- বায়তুলমাল: মাসিক আয়-ব্যয় প্রিন্ট টেমপ্লেট -->
+  <!-- মাসিক আয়-ব্যয় সম্পূর্ণ ফরম প্রিন্ট টেমপ্লেট (নির্বাচনভিত্তিক কার্যক্রম + আয়-ব্যয়, একই পেইজে, অফিসিয়াল ফরম্যাট অনুযায়ী) -->
+  <div id="mabPrintTemplate" style="display:none;">
+    <h2 id="mabprint-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
+    <p style="text-align:center; font-weight:600; margin:0 0 14px;" id="mabprint-monthYear"></p>
+
+    <p style="font-weight:700; margin:0 0 6px;">৪. জাতীয় ও স্থানীয় নির্বাচনভিত্তিক কার্যক্রম:</p>
+    <table class="print-table mab-official-table">
+      <tr>
+        <td class="p-label" rowspan="2">নির্বাচনের ধরন</td>
+        <td class="p-label" rowspan="2">মোট ওয়ার্ড সংখ্যা</td>
+        <td class="p-label" rowspan="2">মোট প্রার্থী সংখ্যা (পুরুষ/মহিলা)</td>
+        <td class="p-label" rowspan="2">অংশগ্রহণ সংখ্যা</td>
+        <td class="p-label" colspan="2">নির্বাচিত সংখ্যা</td>
+        <td class="p-label" rowspan="2">দ্বিতীয় অবস্থান (পু/ম)</td>
+      </tr>
+      <tr>
+        <td class="p-label">মেয়র/চেয়ারম্যান</td>
+        <td class="p-label">কাউন্সিলর/মেম্বার (পুরুষ/মহিলা)</td>
+      </tr>
+      <tr>
+        <td><b>পৌরসভা</b></td>
+        <td id="mabprint-pou-ward"></td>
+        <td id="mabprint-pou-candidate"></td>
+        <td id="mabprint-pou-participation"></td>
+        <td id="mabprint-pou-mayor"></td>
+        <td id="mabprint-pou-councillor"></td>
+        <td id="mabprint-pou-runnerup"></td>
+      </tr>
+      <tr>
+        <td><b>ইউনিয়ন পরিষদ</b></td>
+        <td id="mabprint-uni-ward"></td>
+        <td id="mabprint-uni-candidate"></td>
+        <td id="mabprint-uni-participation"></td>
+        <td id="mabprint-uni-mayor"></td>
+        <td id="mabprint-uni-councillor"></td>
+        <td id="mabprint-uni-runnerup"></td>
+      </tr>
+    </table>
+
+    <table class="print-table mab-official-table" style="margin-top:10px;">
+      <tr>
+        <td class="p-label">প্রস্তুতিমূলক কার্যক্রমের ধরন</td>
+        <td class="p-label">মোট সংখ্যা</td>
+        <td class="p-label">বৃদ্ধি</td>
+        <td class="p-label">টার্গেট</td>
+      </tr>
+      <tr>
+        <td><b>মোট ভোট কেন্দ্র (জাতীয়/স্থানীয়)</b></td>
+        <td id="mabprint-center-total"></td>
+        <td id="mabprint-center-growth"></td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td><b>মোট ভোট কমিটি/কেন্দ্র/বুথভিত্তিক ইউনিট</b></td>
+        <td id="mabprint-unit-total"></td>
+        <td id="mabprint-unit-growth"></td>
+        <td id="mabprint-unit-target"></td>
+      </tr>
+    </table>
+
+    <table class="print-table mab-official-table" style="margin-top:10px;">
+      <tr><td>পৌরসভা/ইউনিয়ন/ওয়ার্ডভিত্তিক নির্বাচন পরিচালনা কমিটির বৈঠক সংখ্যা</td><td id="mabprint-meetingCount"></td></tr>
+    </table>
+
+    <h3 style="text-align:center;margin:16px 0 6px;">বায়তুলমাল</h3>
+    <p style="margin:0 0 8px;"><b>ধার্যকৃত নিছাব : </b><span id="mabprint-dhorjoNisab"></span></p>
+
+    <div class="mab-print-grid">
+      <table class="print-table mab-print-col">
+        <thead><tr><td class="p-label" colspan="2" style="text-align:center;">আয়ের বিবরণ</td></tr></thead>
+        <tbody id="mabprint-incomeTable"></tbody>
+      </table>
+      <table class="print-table mab-print-col">
+        <thead><tr><td class="p-label" colspan="2" style="text-align:center;">ব্যয়ের বিবরণ</td></tr></thead>
+        <tbody id="mabprint-expenseTable"></tbody>
+      </table>
+    </div>
+
+    <p style="margin-top:16px;"><b>উদ্বৃত্ত / ঘাটতি টাকার বিবরণ : </b><span id="mabprint-balanceDetails" style="white-space:pre-wrap;"></span></p>
+
+    <p style="margin-top:22px;"><b>পৌরসভা/ইউনিয়ন আমীর/সভাপতির মন্তব্য : </b></p>
+  
+
+    <div style="margin-top:34px; text-align:right;">
+      <div style="display:inline-block; border-top:1px solid #333; padding-top:4px; min-width:220px; text-align:center;">স্বাক্ষর ও তারিখ</div>
+    </div>
+  </div>
+
+  <!-- বায়তুলমাল: মাসিক আয়-ব্যয় রিপোর্ট প্রিন্ট টেমপ্লেট -->
+  <div id="mabrepPrintTemplate" style="display:none;">
+    <h2 id="mabrepprint-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
+    <h3 style="margin-top:-4px;">বায়তুলমাল — আয়-ব্যয় রিপোর্ট</h3>
+    <p style="text-align:center; font-weight:600; margin:0 0 14px;" id="mabrepprint-periodLabel"></p>
+    <div class="mab-print-grid">
+      <table class="print-table mab-print-col">
+        <thead><tr><td class="p-label" colspan="2" style="text-align:center;">আয়ের বিবরণ (খাত-ভিত্তিক)</td></tr></thead>
+        <tbody id="mabrepprint-incomeTable"></tbody>
+      </table>
+      <table class="print-table mab-print-col">
+        <thead><tr><td class="p-label" colspan="2" style="text-align:center;">ব্যয়ের বিবরণ (খাত-ভিত্তিক)</td></tr></thead>
+        <tbody id="mabrepprint-expenseTable"></tbody>
+      </table>
+    </div>
+    <table class="print-table" style="margin-top:16px;">
+      <tr><td class="p-label">সূচনা উদ্বৃত্ত/ঘাটতি</td><td id="mabrepprint-opening"></td></tr>
+      <tr><td class="p-label">সমাপনী উদ্বৃত্ত/ঘাটতি</td><td id="mabrepprint-closing"></td></tr>
+    </table>
+    <p class="print-footer">@Am Shahed : 01605721296</p>
+  </div>
+
+  <!-- প্রকাশনা ক্রয়ের রশিদ প্রিন্ট টেমপ্লেট -->
+  <div id="pkPrintTemplate" class="print-only print-pkroy">
+    <div class="shop-receipt">
+      <div class="r-header">
+        <h2 id="pkr-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
+        <p class="r-subtitle">প্রকাশনা ক্রয় রশিদ</p>
+      </div>
+      <hr class="r-divider">
+      <div class="r-meta"><div><span>তারিখ:</span><span id="pkr-date"></span></div></div>
+      <table class="r-items">
+        <thead><tr><th>ক্রম</th><th>বইয়ের নাম</th><th class="r-num">সংখ্যা</th><th class="r-num">একক</th><th class="r-num">মোট</th></tr></thead>
+        <tbody id="pkr-items"></tbody>
+      </table>
+      <div class="r-summary">
+        <div><span>সাবটোটাল</span><span id="pkr-subtotal"></span></div>
+        <div><span>ডিসকাউন্ট</span><span id="pkr-discount"></span></div>
+        <div><span>পরিশোধ</span><span id="pkr-paid"></span></div>
+        <div class="r-grand"><span>বকেয়া</span><span id="pkr-due"></span></div>
+      </div>
+      <p class="r-thanks">@Am Shahed : 01605721296</p>
+    </div>
+  </div>
+
+  <!-- বিক্রয়ের রশিদ প্রিন্ট টেমপ্লেট -->
+  <div id="pbPrintTemplate" class="print-only print-pbikroy">
+    <div class="shop-receipt">
+      <div class="r-header">
+        <h2 id="pbr-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
+        <p class="r-subtitle">বিক্রয় রশিদ</p>
+      </div>
+      <hr class="r-divider">
+      <div class="r-meta">
+        <div><span>তারিখ:</span><span id="pbr-date"></span></div>
+        <div><span>গ্রাহক:</span><span id="pbr-customer"></span></div>
+      </div>
+      <table class="r-items">
+        <thead><tr><th>ক্রম</th><th>বইয়ের নাম</th><th class="r-num">সংখ্যা</th><th class="r-num">একক</th><th class="r-num">মোট</th></tr></thead>
+        <tbody id="pbr-items"></tbody>
+      </table>
+      <div class="r-summary">
+        <div><span>সাবটোটাল</span><span id="pbr-subtotal"></span></div>
+        <div><span>ডিসকাউন্ট</span><span id="pbr-discount"></span></div>
+        <div><span>আদায়</span><span id="pbr-paid"></span></div>
+        <div class="r-grand"><span>বকেয়া</span><span id="pbr-due"></span></div>
+      </div>
+      <p class="r-thanks">ধন্যবাদ! @Am Shahed : 01605721296</p>
+    </div>
+  </div>
+
+  <!-- বিলি রশিদ প্রিন্ট টেমপ্লেট -->
+  <div id="pdPrintTemplate" class="print-only print-pbili">
+    <div class="shop-receipt">
+      <div class="r-header">
+        <h2 id="pdr-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
+        <p class="r-subtitle">প্রকাশনা বিলি রশিদ</p>
+      </div>
+      <hr class="r-divider">
+      <div class="r-meta">
+        <div><span>তারিখ:</span><span id="pdr-date"></span></div>
+        <div><span>উপশাখা:</span><span id="pdr-upashakha"></span></div>
+      </div>
+      <table class="r-items">
+        <thead><tr><th>ক্রম</th><th>বইয়ের নাম</th><th class="r-num">সংখ্যা</th></tr></thead>
+        <tbody id="pdr-items"></tbody>
+      </table>
+      <div class="r-summary">
+        <div class="r-grand"><span>সর্বমোট সংখ্যা</span><span id="pdr-subtotal"></span></div>
+      </div>
+      <p class="r-thanks">@Am Shahed : 01605721296</p>
+    </div>
+  </div>
+
+  <!-- বাতিল প্রকাশনার রশিদ প্রিন্ট টেমপ্লেট -->
+  <div id="pcPrintTemplate" class="print-only print-pbatil">
+    <div class="shop-receipt">
+      <div class="r-header">
+        <h2 id="pcr-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
+        <p class="r-subtitle">বাতিল প্রকাশনার হিসাব</p>
+      </div>
+      <hr class="r-divider">
+      <div class="r-meta"><div><span>তারিখ:</span><span id="pcr-date"></span></div></div>
+      <table class="r-items">
+        <thead><tr><th>ক্রম</th><th>বইয়ের নাম</th><th class="r-num">সংখ্যা</th><th class="r-num">একক</th><th class="r-num">মোট</th></tr></thead>
+        <tbody id="pcr-items"></tbody>
+      </table>
+      <div class="r-summary">
+        <div class="r-grand"><span>সাবটোটাল</span><span id="pcr-subtotal"></span></div>
+      </div>
+      <p class="r-thanks">@Am Shahed : 01605721296</p>
+    </div>
+  </div>
+
+  <!-- এয়ানত বৃদ্ধি ফরমের প্রিন্ট টেমপ্লেট -->
+  <div id="eiPrintTemplate" class="print-only print-ei">
+    <h2 id="eiprint-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
+    <h3>এয়ানত বৃদ্ধি তালিকা</h3>
+    <p style="text-align:center;">শাখাঃ <b id="eiprint-branch"></b> | মানঃ <span id="eiprint-maan"></span> | তারিখঃ <span id="eiprint-date"></span></p>
+    <table class="print-table" id="eiprint-table">
+      <tr><td class="p-label col-serial">ক্রম</td><td class="p-label">নাম</td><td class="p-label">পূর্বের ধার্য্য</td><td class="p-label">বৃদ্ধি</td><td class="p-label">নতুন ধার্য্য</td></tr>
+    </table>
+    <p class="print-footer">@Am Shahed : 01605721296</p>
+  </div>
+
+  <!-- নিসাব বৃদ্ধি ফরমের প্রিন্ট টেমপ্লেট -->
+  <div id="niPrintTemplate" class="print-only print-ni">
+    <h2 id="niprint-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
+    <h3>নিসাব বৃদ্ধি তালিকা</h3>
+    <p style="text-align:center;">তারিখঃ <span id="niprint-date"></span></p>
+    <table class="print-table" id="niprint-table">
+      <tr><td class="p-label col-serial">ক্রম</td><td class="p-label">উপশাখার নাম</td><td class="p-label">পূর্বের ধার্য্য</td><td class="p-label">বৃদ্ধি</td><td class="p-label">নতুন ধার্য্য</td></tr>
+    </table>
+    <p class="print-footer">@Am Shahed : 01605721296</p>
+  </div>
+
+  <!-- জনশক্তি খাত-ভিত্তিক আয়/বকেয়া রিপোর্ট প্রিন্ট টেমপ্লেট -->
+  <div id="jrepPrintTemplate" class="print-only print-jrep">
+    <h2 id="jrepprint-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
+    <h3 id="jrepprint-title">খাত-ভিত্তিক আয় রিপোর্ট</h3>
+    <p style="text-align:center;" id="jrepprint-meta"></p>
+    <table class="print-table" id="jrepprint-table"></table>
+    <p class="print-footer">@Am Shahed : 01605721296</p>
+  </div>
+
+  <!-- জনশক্তি ব্যক্তিগত রিপোর্ট প্রিন্ট টেমপ্লেট -->
+  <div id="jrepIndPrintTemplate" class="print-only print-jrepInd">
+    <h2 id="jrepIndprint-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
+    <h3>সদস্যের সম্পূর্ণ আর্থিক রিপোর্ট</h3>
+    <table class="print-table">
+      <tr><td class="p-label">নাম</td><td id="jrepIndprint-name"></td></tr>
+      <tr><td class="p-label">মোবাইল</td><td id="jrepIndprint-mobile"></td></tr>
+      <tr><td class="p-label">শাখা / মান</td><td id="jrepIndprint-branchMaan"></td></tr>
+    </table>
+    <h3 style="margin-top:20px;">খাত-ভিত্তিক ধার্য্য/পরিশোধ/বকেয়া</h3>
+    <table class="print-table" id="jrepIndprint-khatTable">
+      <tr><td class="p-label">খাতের নাম</td><td class="p-label">ধার্য্য</td><td class="p-label">পরিশোধ</td><td class="p-label">বকেয়া</td></tr>
+    </table>
+    <h3 style="margin-top:20px;">পরিশোধের ইতিহাস</h3>
+    <table class="print-table" id="jrepIndprint-payTable">
+      <tr><td class="p-label">খাত</td><td class="p-label">মাস/বছর</td><td class="p-label">পরিমাণ</td><td class="p-label">তারিখ</td></tr>
+    </table>
+    <p class="print-footer">@Am Shahed : 01605721296</p>
+  </div>
+
+  <!-- উপশাখা খাত-ভিত্তিক আয়/বকেয়া রিপোর্ট প্রিন্ট টেমপ্লেট -->
+  <div id="urepPrintTemplate" class="print-only print-urep">
+    <h2 id="urepprint-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
+    <h3 id="urepprint-title">খাত-ভিত্তিক আয় রিপোর্ট (উপশাখা)</h3>
+    <p style="text-align:center;" id="urepprint-meta"></p>
+    <table class="print-table" id="urepprint-table"></table>
+    <p class="print-footer">@Am Shahed : 01605721296</p>
+  </div>
+
+  <!-- উপশাখা ব্যক্তিগত (নির্দিষ্ট উপশাখা) রিপোর্ট প্রিন্ট টেমপ্লেট -->
+  <div id="urepIndPrintTemplate" class="print-only print-urepInd">
+    <h2 id="urepIndprint-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
+    <h3>উপশাখার সম্পূর্ণ আর্থিক রিপোর্ট</h3>
+    <p style="text-align:center;">উপশাখাঃ <b id="urepIndprint-name"></b></p>
+    <table class="print-table" id="urepIndprint-khatTable">
+      <tr><td class="p-label">খাতের নাম</td><td class="p-label">ধার্য্য</td><td class="p-label">পরিশোধ</td><td class="p-label">বকেয়া</td></tr>
+    </table>
+    <h3 style="margin-top:20px;">পরিশোধের ইতিহাস</h3>
+    <table class="print-table" id="urepIndprint-payTable">
+      <tr><td class="p-label">খাত</td><td class="p-label">মাস/বছর</td><td class="p-label">পরিমাণ</td><td class="p-label">তারিখ</td></tr>
+    </table>
+    <p class="print-footer">@Am Shahed : 01605721296</p>
+  </div>
+
+  <!-- প্রকাশনা তালিকার প্রিন্ট টেমপ্লেট -->
+  <div id="ptPrintTemplate" class="print-only print-pt">
+    <h2 id="ptprint-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
+    <h3>প্রকাশনা তালিকা</h3>
+    <table class="print-table" id="ptprint-table">
+      <tr><td class="p-label col-serial">ক্রম</td><td class="p-label">বইয়ের নাম</td><td class="p-label">সংখ্যা</td><td class="p-label">এককমূল্য</td><td class="p-label">মোট</td></tr>
+    </table>
+    <p class="print-footer">@Am Shahed : 01605721296</p>
+  </div>
+
+  <!-- কর্মপরিষদের প্রিন্ট টেমপ্লেট -->
+  <div id="kpPrintTemplate" class="print-only print-kp">
+    <h2 id="kpprint-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
+    <h3>কর্মপরিষদ</h3>
+    <table class="print-table" id="kpprint-table">
+      <tr><td class="p-label col-serial">ক্রম</td><td class="p-label">নাম</td><td class="p-label">মোবাইল</td><td class="p-label">বিভাগ সমূহ</td></tr>
+    </table>
+    <p class="print-footer">@Am Shahed : 01605721296</p>
+  </div>
+
+  <!-- শুরা সদস্যদের প্রিন্ট টেমপ্লেট -->
+  <div id="ssPrintTemplate" class="print-only print-ss">
+    <h2 id="ssprint-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
+    <h3>শুরা সদস্য তালিকা</h3>
+    <table class="print-table" id="ssprint-table">
+      <tr><td class="p-label col-serial">ক্রম</td><td class="p-label">নাম</td><td class="p-label">মোবাইল</td></tr>
+    </table>
+    <p class="print-footer">@Am Shahed : 01605721296</p>
+  </div>
+
+  <!-- সদস্য তালিকার প্রিন্ট টেমপ্লেট -->
+  <div id="memberListPrintTemplate" class="print-only print-memberList">
+    <h2 id="mlprint-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
+    <h3>সদস্য তালিকা</h3>
+    <p style="text-align:center;" id="mlprint-meta"></p>
+    <table class="print-table" id="mlprint-table">
+      <tr><td class="p-label col-serial">ক্রম</td><td class="p-label">নাম</td><td class="p-label">মোবাইল নং</td><td class="p-label">অঞ্চলের নাম</td></tr>
+    </table>
+    <p class="print-footer">@Am Shahed : 01605721296</p>
+  </div>
+
+  <!-- টোস্ট নোটিফিকেশন -->
+  <div id="toast" class="toast"></div>
+
+  <script src="config.js"></script>
+  <script src="js/gas-shim.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
