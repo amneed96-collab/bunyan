@@ -755,7 +755,7 @@
       box-shadow: none !important;
     }
 
-    .app-header, .side-nav, .app-footer, .menu-toggle, .page-actions, .toast,
+    .app-header, .side-nav, .app-footer, .menu-toggle, .page-actions, .toggle-bar, .toast,
     .search-card, #memberFormCard, #transferSelectedCard, #transferHistoryCard,
     #dhajjoSelectedCard, #dhajjoHistoryCard {
       display: none !important;
@@ -875,3 +875,16 @@
   }
   #mrep-panel-1 .no-result,
   #mrep-panel-2 .no-result { font-size: 12px; }
+
+  /* ===== টগল বাটন (ফরম খোলা/বন্ধ) ও তথ্য প্রদর্শন ===== */
+  .toggle-bar { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
+  .toggle-btn.is-open { background: var(--navy); color: #fff; }
+  .info-table { width: 100%; border-collapse: collapse; }
+  .info-table td { border-bottom: 1px solid var(--border-color); padding: 10px 12px; font-size: 14px; vertical-align: top; }
+  .info-table tr:last-child td { border-bottom: none; }
+  .info-table td.info-label { width: 34%; font-weight: 700; color: var(--navy); background: #f6f8fc; }
+  .info-img { max-height: 70px; max-width: 160px; border: 1px solid var(--border-color); border-radius: 6px; padding: 3px; background: #fff; }
+  .list-scroll { overflow-x: auto; }
+  .list-scroll .dhajjo-table td, .list-scroll .dhajjo-table th { white-space: nowrap; }
+  .list-scroll .dhajjo-table td.col-wrap { white-space: normal; min-width: 160px; }
+

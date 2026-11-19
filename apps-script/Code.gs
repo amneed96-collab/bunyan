@@ -2796,6 +2796,18 @@ function saveKormoParishad(items) {
   }
 }
 
+function deleteKormoParishad() {
+  try {
+    const sheet = getOrCreateSheet_(SHEET_NAMES.KORMO_PARISHAD, KORMO_PARISHAD_HEADERS);
+    const lastRow = sheet.getLastRow();
+    if (lastRow >= 2) sheet.deleteRows(2, lastRow - 1);
+    SpreadsheetApp.flush();
+    return { success: true, message: 'কর্মপরিষদের পুরো তালিকা মুছে ফেলা হয়েছে' };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+}
+
 // ================== শাখা সেটাপ: শুরা সদস্য ==================
 const SHURA_SODOSSHO_HEADERS = ['আইডি', 'ক্রম', 'সদস্য আইডি', 'নাম', 'মোবাইল'];
 
@@ -2831,6 +2843,18 @@ function saveShuraSodossho(items) {
     }
     SpreadsheetApp.flush();
     return { success: true, message: 'শুরা সদস্যদের তথ্য সংরক্ষণ করা হয়েছে' };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+}
+
+function deleteShuraSodossho() {
+  try {
+    const sheet = getOrCreateSheet_(SHEET_NAMES.SHURA_SODOSSHO, SHURA_SODOSSHO_HEADERS);
+    const lastRow = sheet.getLastRow();
+    if (lastRow >= 2) sheet.deleteRows(2, lastRow - 1);
+    SpreadsheetApp.flush();
+    return { success: true, message: 'শুরা সদস্যদের পুরো তালিকা মুছে ফেলা হয়েছে' };
   } catch (err) {
     return { success: false, error: err.message };
   }

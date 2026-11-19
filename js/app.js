@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initMainZone();
     initTransferredList();
     initMemberListPrint();
+    initFormToggles();
     setMemberFormMode('new');
   });
 
@@ -224,6 +225,45 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
+  // ==================== ফরম টগল (বাটনে ক্লিক করলে ফরম খোলে, আবার ক্লিক করলে বন্ধ হয়) ====================
+  function setFormCardOpen_(cardId, btnId, open, doScroll) {
+    const card = document.getElementById(cardId);
+    const btn = document.getElementById(btnId);
+    if (card) card.style.display = open ? 'block' : 'none';
+    if (btn) btn.classList.toggle('is-open', !!open);
+    if (open && doScroll && card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function bindFormToggle_(btnId, cardId) {
+    document.getElementById(btnId).addEventListener('click', function () {
+      const card = document.getElementById(cardId);
+      setFormCardOpen_(cardId, btnId, card.style.display !== 'block', true);
+    });
+  }
+
+  // প্রতিটি পেজের ফরম-টগল জোড়া (বাটন, ফরম) — পেজে ঢুকলে ফরম বন্ধ থাকে, সরাসরি তালিকা/তথ্য দেখায়
+  function pageFormToggles_() {
+    return {
+    'member-form': [['memberFormToggleBtn', 'memberFormCard']],
+    'branch': [['branchFormToggleBtn', 'branchFormCard'], ['committeeFormToggleBtn', 'committeeCard'], ['zoneFormToggleBtn', 'mainZoneCard']],
+    'kormo-parishad': [['kpFormToggleBtn', 'kpFormCard']],
+    'shura-sodossho': [['ssFormToggleBtn', 'ssFormCard']]
+  };
+  }
+
+  function initFormToggles() {
+    const map = pageFormToggles_();
+    Object.keys(map).forEach(function (page) {
+      map[page].forEach(function (pair) { bindFormToggle_(pair[0], pair[1]); });
+    });
+  }
+
+  function closePageForms_(page) {
+    (pageFormToggles_()[page] || []).forEach(function (pair) {
+      setFormCardOpen_(pair[1], pair[0], false, false);
+    });
+  }
+
   // ==================== নেভিগেশন ====================
   function goToPage(targetPage) {
     document.querySelectorAll('.nav-link').forEach(function (l) { l.classList.remove('active'); });
@@ -233,6 +273,10 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.page').forEach(function (p) { p.classList.remove('active'); });
     const targetSection = document.getElementById('page-' + targetPage);
     if (targetSection) targetSection.classList.add('active');
+
+    // পেজে ঢুকলে ফরম বন্ধ রেখে সরাসরি তালিকা দেখানো
+    closePageForms_(targetPage);
+    if (targetPage === 'member-form') loadMemberList();
 
     // খোলা থাকা সব ড্রপডাউন সাবমেনু বন্ধ করা (হোম/আমাদের সম্পর্কের মতো টপ-লেভেল লিংকে গেলেও)
     document.querySelectorAll('.nav-group-toggle').forEach(function (t) { t.classList.remove('open'); });
@@ -326,6 +370,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
           window._currentLogoUrl = d.logoUrl || '';
           window._currentSymbolUrl = d.symbolUrl || '';
+          _branchViewData = d;
+          renderBranchView_();
 
           // মূল শাখার অঞ্চল তথ্য লোড
           _mainZoneRows = (d.zones && d.zones.length) ? d.zones : [];
@@ -334,6 +380,7 @@ document.addEventListener('DOMContentLoaded', function () {
             zoneCountInput.value = _mainZoneRows.length;
             renderMainZoneTable();
           }
+          renderZoneView_();
           populateMemberZoneSelect();
 
           document.getElementById('branch-level').addEventListener('change', function () {
@@ -497,6 +544,67 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // ==================== শাখা সেটাপ ====================
+
+  // ==================== শাখা সেটাপ পেজের তথ্য প্রদর্শন (শাখা / কমিটি / অঞ্চল) ====================
+  let _branchViewData = null;
+  let _committeeSaved = [];
+
+  function attrEsc_(s) {
+    return escapeHtml(s).replace(/"/g, '&quot;');
+  }
+
+  function renderBranchView_() {
+    const el = document.getElementById('branchViewBody');
+    const d = _branchViewData;
+    if (!d || !(d.name || d.level || d.address || d.phone || d.email || d.logoUrl || d.symbolUrl)) {
+      el.innerHTML = '<div class="no-result">এখনো শাখার তথ্য দেওয়া হয়নি</div>';
+      return;
+    }
+    function row(label, val) {
+      return '<tr><td class="info-label">' + label + '</td><td>' + val + '</td></tr>';
+    }
+    function img(url) {
+      return url ? '<img class="info-img" src="' + attrEsc_(url) + '" alt="">' : '—';
+    }
+    el.innerHTML = '<table class="info-table"><tbody>' +
+      row('শাখার নাম', escapeHtml(d.name || '—')) +
+      row('মান', escapeHtml(d.level || '—')) +
+      row('ঠিকানা', escapeHtml(d.address || '—')) +
+      row('ফোন নম্বর', escapeHtml(d.phone || '—')) +
+      row('ইমেইল', escapeHtml(d.email || '—')) +
+      row('লোগো', img(d.logoUrl)) +
+      row('প্রতীক', img(d.symbolUrl)) +
+      '</tbody></table>';
+  }
+
+  function renderCommitteeView_() {
+    const el = document.getElementById('committeeViewBody');
+    const rows = (_committeeSaved || []).filter(function (r) { return r.name; });
+    if (!rows.length) {
+      el.innerHTML = '<div class="no-result">এখনো কমিটির তথ্য দেওয়া হয়নি</div>';
+      return;
+    }
+    let html = '<div class="list-scroll"><table class="dhajjo-table"><thead><tr><th>ক্রম</th><th>পদবি</th><th>নাম</th><th>মোবাইল নং</th></tr></thead><tbody>';
+    rows.forEach(function (r, idx) {
+      html += '<tr><td>' + toBnNumber(idx + 1) + '</td><td>' + escapeHtml(r.position || '—') + '</td><td>' + escapeHtml(r.name) + '</td><td>' + escapeHtml(r.mobile || '—') + '</td></tr>';
+    });
+    el.innerHTML = html + '</tbody></table></div>';
+  }
+
+  function renderZoneView_() {
+    const el = document.getElementById('zoneViewBody');
+    const rows = (_mainZoneRows || []).filter(function (z) { return z.name; });
+    if (!rows.length) {
+      el.innerHTML = '<div class="no-result">এখনো অঞ্চলের তথ্য দেওয়া হয়নি</div>';
+      return;
+    }
+    let html = '<div class="list-scroll"><table class="dhajjo-table"><thead><tr><th>ক্রম</th><th>অঞ্চলের নাম</th><th>পরিচালকের নাম</th><th>মোবাইল</th><th>সহকারী পরিচালকের নাম</th><th>মোবাইল</th></tr></thead><tbody>';
+    rows.forEach(function (z, idx) {
+      html += '<tr><td>' + toBnNumber(idx + 1) + '</td><td>' + escapeHtml(z.name) + '</td><td>' + escapeHtml(z.directorName || '—') + '</td><td>' + escapeHtml(z.directorMobile || '—') + '</td><td>' + escapeHtml(z.assistantName || '—') + '</td><td>' + escapeHtml(z.assistantMobile || '—') + '</td></tr>';
+    });
+    el.innerHTML = html + '</tbody></table></div>';
+  }
+
   function bindBranchSetupEvents() {
     document.getElementById('branch-logo-file').addEventListener('change', function (e) {
       handleImagePreview(e.target, 'logoPreview');
@@ -585,6 +693,7 @@ document.addEventListener('DOMContentLoaded', function () {
         btn.textContent = '💾 সংরক্ষণ করুন';
         if (res.success) {
           showToast(res.message, 'success');
+          setFormCardOpen_('branchFormCard', 'branchFormToggleBtn', false, false);
           loadBranchInfo();
         } else {
           showToast('সংরক্ষণ করতে সমস্যা হয়েছে: ' + res.error, 'error');
@@ -604,12 +713,72 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('memberSearchInput').addEventListener('keypress', function (e) {
       if (e.key === 'Enter') { e.preventDefault(); doMemberSearch(); }
     });
-    document.getElementById('memberNewBtn').addEventListener('click', clearMemberForm);
+    document.getElementById('memberNewBtn').addEventListener('click', function () {
+      clearMemberForm();
+      setFormCardOpen_('memberFormCard', 'memberFormToggleBtn', true, true);
+    });
     document.getElementById('memberClearBtn').addEventListener('click', clearMemberForm);
     document.getElementById('memberSaveBtn').addEventListener('click', saveMemberForm);
     document.getElementById('memberEditBtn').addEventListener('click', enableMemberEdit);
     document.getElementById('memberDeleteBtn').addEventListener('click', deleteMemberForm);
     document.getElementById('memberPrintBtn').addEventListener('click', printMemberForm);
+  }
+
+
+  // ==================== সকল সদস্য তালিকা ====================
+  let _memberAll = [];
+
+  function loadMemberList() {
+    const wrap = document.getElementById('memberListWrap');
+    wrap.innerHTML = '<div class="no-result">লোড হচ্ছে...</div>';
+    google.script.run
+      .withSuccessHandler(function (res) {
+        if (!res.success) { wrap.innerHTML = '<div class="no-result">তালিকা লোড করতে সমস্যা হয়েছে</div>'; return; }
+        _memberAll = res.data || [];
+        renderMemberList();
+      })
+      .withFailureHandler(function (err) {
+        wrap.innerHTML = '<div class="no-result">তালিকা লোড করতে সমস্যা হয়েছে: ' + escapeHtml(err.message) + '</div>';
+      })
+      .getAllMembers();
+  }
+
+  function renderMemberList() {
+    const wrap = document.getElementById('memberListWrap');
+    const countEl = document.getElementById('memberListCount');
+    if (!_memberAll.length) {
+      wrap.innerHTML = '<div class="no-result">এখনো কোনো সদস্য যোগ করা হয়নি</div>';
+      countEl.textContent = '';
+      return;
+    }
+    countEl.textContent = '(মোট ' + toBnNumber(_memberAll.length) + ' জন)';
+    let html = '<div class="list-scroll"><table class="dhajjo-table"><thead><tr>' +
+      '<th>ক্রম</th><th>নাম</th><th>মোবাইল</th><th>শাখা</th><th>মান</th><th>অঞ্চল</th><th>সদস্য হওয়ার তারিখ</th><th>পেশা</th><th>ঠিকানা</th><th></th>' +
+      '</tr></thead><tbody>';
+    _memberAll.forEach(function (m, idx) {
+      html += '<tr>' +
+        '<td>' + toBnNumber(idx + 1) + '</td>' +
+        '<td>' + escapeHtml(m.name) + '</td>' +
+        '<td>' + escapeHtml(m.mobile || '—') + '</td>' +
+        '<td>' + escapeHtml(m.branch || '—') + '</td>' +
+        '<td>' + escapeHtml(m.maan || '—') + '</td>' +
+        '<td>' + escapeHtml(m.zone || '—') + '</td>' +
+        '<td>' + escapeHtml(m.joinDate || '—') + '</td>' +
+        '<td>' + escapeHtml(m.profession || '—') + '</td>' +
+        '<td class="col-wrap">' + escapeHtml(m.address || '—') + '</td>' +
+        '<td><button type="button" class="btn btn-outline btn-sm" data-idx="' + idx + '">👁️ দেখুন</button></td>' +
+        '</tr>';
+    });
+    html += '</tbody></table></div>';
+    wrap.innerHTML = html;
+    wrap.querySelectorAll('button[data-idx]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        const m = _memberAll[parseInt(btn.getAttribute('data-idx'), 10)];
+        if (!m) return;
+        fillMemberForm(m);
+        setFormCardOpen_('memberFormCard', 'memberFormToggleBtn', true, true);
+      });
+    });
   }
 
   function doMemberSearch() {
@@ -651,6 +820,7 @@ document.addEventListener('DOMContentLoaded', function () {
         '<div>▶</div>';
       item.addEventListener('click', function () {
         fillMemberForm(m);
+        setFormCardOpen_('memberFormCard', 'memberFormToggleBtn', true, true);
       });
       resultsBox.appendChild(item);
     });
@@ -743,6 +913,7 @@ document.addEventListener('DOMContentLoaded', function () {
           document.getElementById('member-id').value = res.id;
           setMemberFormMode('view');
           loadDashboardStats();
+          loadMemberList();
         } else {
           showToast('সংরক্ষণ করতে সমস্যা হয়েছে: ' + res.error, 'error');
         }
@@ -781,7 +952,9 @@ document.addEventListener('DOMContentLoaded', function () {
         if (res.success) {
           showToast(res.message, 'success');
           clearMemberForm();
+          setFormCardOpen_('memberFormCard', 'memberFormToggleBtn', false, false);
           loadDashboardStats();
+          loadMemberList();
         } else {
           showToast('মুছতে সমস্যা হয়েছে: ' + res.error, 'error');
         }
@@ -1254,6 +1427,8 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             buildCommitteeRowsFromSaved_(res.data);
             renderCommitteeTable();
+            _committeeSaved = res.data || [];
+            renderCommitteeView_();
           })
           .withFailureHandler(function (err) {
             showToast('কমিটির তথ্য লোড করতে সমস্যা হয়েছে: ' + err.message, 'error');
@@ -1401,6 +1576,9 @@ document.addEventListener('DOMContentLoaded', function () {
       .withSuccessHandler(function (res) {
         if (res.success) {
           showToast(actionLabel + ' সম্পন্ন হয়েছে', 'success');
+          _committeeSaved = items.slice();
+          renderCommitteeView_();
+          setFormCardOpen_('committeeCard', 'committeeFormToggleBtn', false, false);
         } else {
           showToast('সমস্যা হয়েছে: ' + res.error, 'error');
         }
@@ -5877,22 +6055,16 @@ document.addEventListener('DOMContentLoaded', function () {
   // ==================== কর্মপরিষদ ====================
   let _kpRows = [];
 
+  let _kpSaved = [];
+
+  function kpBlank_() { return { memberId: '', name: '', mobile: '', departments: '' }; }
+  function kpClone_(r) { return { memberId: r.memberId, name: r.name, mobile: r.mobile, departments: r.departments }; }
+
   function initKormoParishad() {
-    google.script.run
-      .withSuccessHandler(function (res) {
-        _kpRows = res.success && res.data.length ? res.data.map(function (r) {
-          return { memberId: r.memberId, name: r.name, mobile: r.mobile, departments: r.departments };
-        }) : [{ memberId: '', name: '', mobile: '', departments: '' }];
-        renderKpTable();
-      })
-      .withFailureHandler(function () {
-        _kpRows = [{ memberId: '', name: '', mobile: '', departments: '' }];
-        renderKpTable();
-      })
-      .getKormoParishad();
+    loadKpList_();
 
     document.getElementById('kpAddRowBtn').addEventListener('click', function () {
-      _kpRows.push({ memberId: '', name: '', mobile: '', departments: '' });
+      _kpRows.push(kpBlank_());
       renderKpTable();
     });
     document.getElementById('kpSaveBtn').addEventListener('click', function () {
@@ -5900,25 +6072,103 @@ document.addEventListener('DOMContentLoaded', function () {
       if (!validRows.length) { showToast('অনুগ্রহ করে অন্তত একজনের তথ্য দিন', 'error'); return; }
       google.script.run
         .withSuccessHandler(function (res) {
-          if (res.success) { showToast(res.message, 'success'); }
-          else { showToast('সমস্যা হয়েছে: ' + res.error, 'error'); }
+          if (res.success) {
+            showToast(res.message, 'success');
+            _kpSaved = validRows.map(kpClone_);
+            renderKpView_();
+            setFormCardOpen_('kpFormCard', 'kpFormToggleBtn', false, false);
+          } else {
+            showToast('সমস্যা হয়েছে: ' + res.error, 'error');
+          }
         })
         .withFailureHandler(function (err) { showToast('সমস্যা হয়েছে: ' + err.message, 'error'); })
         .saveKormoParishad(validRows);
     });
     document.getElementById('kpResetBtn').addEventListener('click', function () {
-      _kpRows = [{ memberId: '', name: '', mobile: '', departments: '' }];
+      _kpRows = [kpBlank_()];
       renderKpTable();
     });
     document.getElementById('kpPrintBtn').addEventListener('click', function () {
-      const table = document.getElementById('kpprint-table');
-      let rows = '<tr><td class="p-label col-serial">ক্রম</td><td class="p-label">নাম</td><td class="p-label">মোবাইল</td><td class="p-label">বিভাগ সমূহ</td></tr>';
-      _kpRows.filter(function (r) { return r.name; }).forEach(function (r, idx) {
-        rows += '<tr><td class="col-serial">' + toBnNumber(idx + 1) + '</td><td>' + escapeHtml(r.name) + '</td><td>' + escapeHtml(r.mobile || '—') + '</td><td>' + escapeHtml(r.departments || '—') + '</td></tr>';
-      });
-      table.innerHTML = rows;
-      printViaWindow('kpPrintTemplate');
+      printKpRows_(_kpRows);
     });
+
+    // ---- তালিকার এডিট / ডিলেট / প্রিন্ট ----
+    document.getElementById('kpListEditBtn').addEventListener('click', function () {
+      _kpRows = _kpSaved.length ? _kpSaved.map(kpClone_) : [kpBlank_()];
+      renderKpTable();
+      setFormCardOpen_('kpFormCard', 'kpFormToggleBtn', true, true);
+    });
+    document.getElementById('kpListDeleteBtn').addEventListener('click', function () {
+      if (!confirm('আপনি কি নিশ্চিত "কর্মপরিষদ"-এর পুরো তালিকা মুছে ফেলতে চান? এটি আর ফিরিয়ে আনা যাবে না।')) return;
+      const btn = this;
+      btn.disabled = true;
+      google.script.run
+        .withSuccessHandler(function (res) {
+          btn.disabled = false;
+          if (res.success) {
+            showToast(res.message, 'success');
+            _kpSaved = [];
+            _kpRows = [kpBlank_()];
+            renderKpTable();
+            renderKpView_();
+            setFormCardOpen_('kpFormCard', 'kpFormToggleBtn', false, false);
+          } else {
+            showToast('মুছতে সমস্যা হয়েছে: ' + res.error, 'error');
+          }
+        })
+        .withFailureHandler(function (err) {
+          btn.disabled = false;
+          showToast('মুছতে সমস্যা হয়েছে: ' + err.message, 'error');
+        })
+        .deleteKormoParishad();
+    });
+    document.getElementById('kpListPrintBtn').addEventListener('click', function () {
+      printKpRows_(_kpSaved);
+    });
+  }
+
+  function loadKpList_() {
+    google.script.run
+      .withSuccessHandler(function (res) {
+        _kpSaved = res.success && res.data && res.data.length ? res.data.map(kpClone_) : [];
+        _kpRows = _kpSaved.length ? _kpSaved.map(kpClone_) : [kpBlank_()];
+        renderKpTable();
+        renderKpView_();
+      })
+      .withFailureHandler(function (err) {
+        _kpRows = [kpBlank_()];
+        renderKpTable();
+        document.getElementById('kpViewWrap').innerHTML = '<div class="no-result">তালিকা লোড করতে সমস্যা হয়েছে: ' + escapeHtml(err.message) + '</div>';
+      })
+      .getKormoParishad();
+  }
+
+  function renderKpView_() {
+    const wrap = document.getElementById('kpViewWrap');
+    const actions = document.getElementById('kpListActions');
+    if (!_kpSaved.length) {
+      wrap.innerHTML = '<div class="no-result">এখনো কোনো তথ্য দেওয়া হয়নি</div>';
+      actions.style.display = 'none';
+      return;
+    }
+    let html = '<div class="list-scroll"><table class="dhajjo-table"><thead><tr><th>ক্রম</th><th>নাম</th><th>মোবাইল</th><th>বিভাগ সমূহ</th></tr></thead><tbody>';
+    _kpSaved.forEach(function (r, idx) {
+      html += '<tr><td>' + toBnNumber(idx + 1) + '</td><td>' + escapeHtml(r.name) + '</td><td>' + escapeHtml(r.mobile || '—') + '</td>' + '<td>' + escapeHtml(r.departments || '—') + '</td>' + '</tr>';
+    });
+    wrap.innerHTML = html + '</tbody></table></div>';
+    actions.style.display = 'flex';
+  }
+
+  function printKpRows_(rows) {
+    const valid = rows.filter(function (r) { return r.name; });
+    if (!valid.length) { showToast('প্রিন্ট করার মতো কোনো তথ্য নেই', 'error'); return; }
+    const table = document.getElementById('kpprint-table');
+    let html = '<tr><td class="p-label col-serial">ক্রম</td><td class="p-label">নাম</td><td class="p-label">মোবাইল</td><td class="p-label">বিভাগ সমূহ</td></tr>';
+    valid.forEach(function (r, idx) {
+      html += '<tr><td class="col-serial">' + toBnNumber(idx + 1) + '</td><td>' + escapeHtml(r.name) + '</td><td>' + escapeHtml(r.mobile || '—') + '</td>' + '<td>' + escapeHtml(r.departments || '—') + '</td>' + '</tr>';
+    });
+    table.innerHTML = html;
+    printViaWindow('kpPrintTemplate');
   }
 
   function renderKpTable() {
@@ -5971,22 +6221,16 @@ document.addEventListener('DOMContentLoaded', function () {
   // ==================== শুরা সদস্য ====================
   let _ssRows = [];
 
+  let _ssSaved = [];
+
+  function ssBlank_() { return { memberId: '', name: '', mobile: '' }; }
+  function ssClone_(r) { return { memberId: r.memberId, name: r.name, mobile: r.mobile }; }
+
   function initShuraSodossho() {
-    google.script.run
-      .withSuccessHandler(function (res) {
-        _ssRows = res.success && res.data.length ? res.data.map(function (r) {
-          return { memberId: r.memberId, name: r.name, mobile: r.mobile };
-        }) : [{ memberId: '', name: '', mobile: '' }];
-        renderSsTable();
-      })
-      .withFailureHandler(function () {
-        _ssRows = [{ memberId: '', name: '', mobile: '' }];
-        renderSsTable();
-      })
-      .getShuraSodossho();
+    loadSsList_();
 
     document.getElementById('ssAddRowBtn').addEventListener('click', function () {
-      _ssRows.push({ memberId: '', name: '', mobile: '' });
+      _ssRows.push(ssBlank_());
       renderSsTable();
     });
     document.getElementById('ssSaveBtn').addEventListener('click', function () {
@@ -5994,25 +6238,103 @@ document.addEventListener('DOMContentLoaded', function () {
       if (!validRows.length) { showToast('অনুগ্রহ করে অন্তত একজনের তথ্য দিন', 'error'); return; }
       google.script.run
         .withSuccessHandler(function (res) {
-          if (res.success) { showToast(res.message, 'success'); }
-          else { showToast('সমস্যা হয়েছে: ' + res.error, 'error'); }
+          if (res.success) {
+            showToast(res.message, 'success');
+            _ssSaved = validRows.map(ssClone_);
+            renderSsView_();
+            setFormCardOpen_('ssFormCard', 'ssFormToggleBtn', false, false);
+          } else {
+            showToast('সমস্যা হয়েছে: ' + res.error, 'error');
+          }
         })
         .withFailureHandler(function (err) { showToast('সমস্যা হয়েছে: ' + err.message, 'error'); })
         .saveShuraSodossho(validRows);
     });
     document.getElementById('ssResetBtn').addEventListener('click', function () {
-      _ssRows = [{ memberId: '', name: '', mobile: '' }];
+      _ssRows = [ssBlank_()];
       renderSsTable();
     });
     document.getElementById('ssPrintBtn').addEventListener('click', function () {
-      const table = document.getElementById('ssprint-table');
-      let rows = '<tr><td class="p-label col-serial">ক্রম</td><td class="p-label">নাম</td><td class="p-label">মোবাইল</td></tr>';
-      _ssRows.filter(function (r) { return r.name; }).forEach(function (r, idx) {
-        rows += '<tr><td class="col-serial">' + toBnNumber(idx + 1) + '</td><td>' + escapeHtml(r.name) + '</td><td>' + escapeHtml(r.mobile || '—') + '</td></tr>';
-      });
-      table.innerHTML = rows;
-      printViaWindow('ssPrintTemplate');
+      printSsRows_(_ssRows);
     });
+
+    // ---- তালিকার এডিট / ডিলেট / প্রিন্ট ----
+    document.getElementById('ssListEditBtn').addEventListener('click', function () {
+      _ssRows = _ssSaved.length ? _ssSaved.map(ssClone_) : [ssBlank_()];
+      renderSsTable();
+      setFormCardOpen_('ssFormCard', 'ssFormToggleBtn', true, true);
+    });
+    document.getElementById('ssListDeleteBtn').addEventListener('click', function () {
+      if (!confirm('আপনি কি নিশ্চিত "শুরা সদস্য"-এর পুরো তালিকা মুছে ফেলতে চান? এটি আর ফিরিয়ে আনা যাবে না।')) return;
+      const btn = this;
+      btn.disabled = true;
+      google.script.run
+        .withSuccessHandler(function (res) {
+          btn.disabled = false;
+          if (res.success) {
+            showToast(res.message, 'success');
+            _ssSaved = [];
+            _ssRows = [ssBlank_()];
+            renderSsTable();
+            renderSsView_();
+            setFormCardOpen_('ssFormCard', 'ssFormToggleBtn', false, false);
+          } else {
+            showToast('মুছতে সমস্যা হয়েছে: ' + res.error, 'error');
+          }
+        })
+        .withFailureHandler(function (err) {
+          btn.disabled = false;
+          showToast('মুছতে সমস্যা হয়েছে: ' + err.message, 'error');
+        })
+        .deleteShuraSodossho();
+    });
+    document.getElementById('ssListPrintBtn').addEventListener('click', function () {
+      printSsRows_(_ssSaved);
+    });
+  }
+
+  function loadSsList_() {
+    google.script.run
+      .withSuccessHandler(function (res) {
+        _ssSaved = res.success && res.data && res.data.length ? res.data.map(ssClone_) : [];
+        _ssRows = _ssSaved.length ? _ssSaved.map(ssClone_) : [ssBlank_()];
+        renderSsTable();
+        renderSsView_();
+      })
+      .withFailureHandler(function (err) {
+        _ssRows = [ssBlank_()];
+        renderSsTable();
+        document.getElementById('ssViewWrap').innerHTML = '<div class="no-result">তালিকা লোড করতে সমস্যা হয়েছে: ' + escapeHtml(err.message) + '</div>';
+      })
+      .getShuraSodossho();
+  }
+
+  function renderSsView_() {
+    const wrap = document.getElementById('ssViewWrap');
+    const actions = document.getElementById('ssListActions');
+    if (!_ssSaved.length) {
+      wrap.innerHTML = '<div class="no-result">এখনো কোনো তথ্য দেওয়া হয়নি</div>';
+      actions.style.display = 'none';
+      return;
+    }
+    let html = '<div class="list-scroll"><table class="dhajjo-table"><thead><tr><th>ক্রম</th><th>নাম</th><th>মোবাইল</th></tr></thead><tbody>';
+    _ssSaved.forEach(function (r, idx) {
+      html += '<tr><td>' + toBnNumber(idx + 1) + '</td><td>' + escapeHtml(r.name) + '</td><td>' + escapeHtml(r.mobile || '—') + '</td>' + '</tr>';
+    });
+    wrap.innerHTML = html + '</tbody></table></div>';
+    actions.style.display = 'flex';
+  }
+
+  function printSsRows_(rows) {
+    const valid = rows.filter(function (r) { return r.name; });
+    if (!valid.length) { showToast('প্রিন্ট করার মতো কোনো তথ্য নেই', 'error'); return; }
+    const table = document.getElementById('ssprint-table');
+    let html = '<tr><td class="p-label col-serial">ক্রম</td><td class="p-label">নাম</td><td class="p-label">মোবাইল</td></tr>';
+    valid.forEach(function (r, idx) {
+      html += '<tr><td class="col-serial">' + toBnNumber(idx + 1) + '</td><td>' + escapeHtml(r.name) + '</td><td>' + escapeHtml(r.mobile || '—') + '</td>' + '</tr>';
+    });
+    table.innerHTML = html;
+    printViaWindow('ssPrintTemplate');
   }
 
   function renderSsTable() {
@@ -6067,7 +6389,11 @@ document.addEventListener('DOMContentLoaded', function () {
       formData.zones = _mainZoneRows.filter(function (z) { return z.name; });
       google.script.run
         .withSuccessHandler(function (res) {
-          if (res.success) { showToast('অঞ্চলের তথ্য সংরক্ষণ করা হয়েছে', 'success'); }
+          if (res.success) {
+            showToast('অঞ্চলের তথ্য সংরক্ষণ করা হয়েছে', 'success');
+            renderZoneView_();
+            setFormCardOpen_('mainZoneCard', 'zoneFormToggleBtn', false, false);
+          }
           else { showToast('সমস্যা হয়েছে: ' + res.error, 'error'); }
         })
         .withFailureHandler(function (err) { showToast('সমস্যা হয়েছে: ' + err.message, 'error'); })

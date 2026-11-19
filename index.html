@@ -191,8 +191,9 @@
       <!-- ================= সদস্য ফরম পেজ ================= -->
       <section id="page-member-form" class="page">
         <div class="page-header-row">
-          <h2 class="page-title">সদস্য ফরম (জনশক্তি)</h2>
+          <h2 class="page-title">সদস্য তালিকা (জনশক্তি)</h2>
           <div class="page-actions">
+            <button type="button" class="btn btn-outline toggle-btn" id="memberFormToggleBtn">📝 সদস্য ফরম (জনশক্তি)</button>
             <button type="button" class="btn btn-outline" id="memberListPrintToggleBtn">📋 সদস্য তালিকা প্রিন্ট</button>
           </div>
         </div>
@@ -221,21 +222,7 @@
           <div id="mlpListWrap" style="margin-top:16px;"></div>
         </div>
 
-        <div class="card search-card">
-          <div class="form-group-row search-row">
-            <div class="form-group">
-              <label>নাম দিয়ে সার্চ করুন</label>
-              <input type="text" id="memberSearchInput" placeholder="সদস্যের নাম লিখুন...">
-            </div>
-            <div class="search-btn-wrap">
-              <button type="button" class="btn btn-primary" id="memberSearchBtn">🔍 সার্চ</button>
-              <button type="button" class="btn btn-secondary" id="memberNewBtn">➕ নতুন সদস্য</button>
-            </div>
-          </div>
-          <div id="memberSearchResults" class="search-results"></div>
-        </div>
-
-        <div class="card" id="memberFormCard">
+        <div class="card" id="memberFormCard" style="display:none; margin-bottom:20px;">
           <div class="page-actions" id="memberPrintActionWrap" style="display:none;">
             <button class="btn btn-outline" id="memberPrintBtn">🖨️ প্রিন্ট করুন</button>
           </div>
@@ -298,6 +285,27 @@
             </div>
           </form>
         </div>
+
+        <div class="card search-card">
+          <div class="form-group-row search-row">
+            <div class="form-group">
+              <label>নাম দিয়ে সার্চ করুন</label>
+              <input type="text" id="memberSearchInput" placeholder="সদস্যের নাম লিখুন...">
+            </div>
+            <div class="search-btn-wrap">
+              <button type="button" class="btn btn-primary" id="memberSearchBtn">🔍 সার্চ</button>
+              <button type="button" class="btn btn-secondary" id="memberNewBtn">➕ নতুন সদস্য</button>
+            </div>
+          </div>
+          <div id="memberSearchResults" class="search-results"></div>
+        </div>
+
+        <!-- ================= সকল সদস্য তালিকা ================= -->
+        <div class="card" id="memberListCard" style="margin-top:20px;">
+          <h3 class="sub-title">সকল সদস্য তালিকা <span id="memberListCount" style="font-weight:400;color:#666;font-size:13px;"></span></h3>
+          <div id="memberListWrap"><div class="no-result">লোড হচ্ছে...</div></div>
+        </div>
+
       </section>
 
       <!-- ================= স্থানান্তর ফরম পেজ ================= -->
@@ -504,8 +512,14 @@
 
       <!-- ================= শাখা সেটাপ পেজ ================= -->
       <section id="page-branch" class="page">
-        <h2 class="page-title">শাখা সেটাপ</h2>
-        <div class="card">
+        <h2 class="page-title">শাখা সেটাপ ও কমিটি</h2>
+        <div class="toggle-bar">
+          <button type="button" class="btn btn-outline toggle-btn" id="branchFormToggleBtn">⚙️ শাখা সেটাপ</button>
+          <button type="button" class="btn btn-outline toggle-btn" id="committeeFormToggleBtn">👥 কমিটি তথ্য</button>
+          <button type="button" class="btn btn-outline toggle-btn" id="zoneFormToggleBtn">🗺️ অঞ্চল তথ্য</button>
+        </div>
+        <div class="card" id="branchFormCard" style="display:none; margin-bottom:20px;">
+          <h3 class="sub-title">শাখা সেটাপ</h3>
           <form id="branchForm">
             <div class="form-group">
               <label>শাখার নাম</label>
@@ -556,7 +570,7 @@
         </div>
 
         <!-- ================= কমিটি তথ্য ================= -->
-        <div class="card" id="committeeCard" style="margin-top:24px;">
+        <div class="card" id="committeeCard" style="display:none; margin-bottom:20px;">
           <h3 class="sub-title">কমিটি তথ্য</h3>
 
           <table class="dhajjo-table">
@@ -584,7 +598,7 @@
         </div>
 
         <!-- ================= অঞ্চল তথ্য (মূল শাখা) ================= -->
-        <div class="card" id="mainZoneCard" style="margin-top:24px;">
+        <div class="card" id="mainZoneCard" style="display:none; margin-bottom:20px;">
           <h3 class="sub-title">অঞ্চল তথ্য</h3>
 
           <div class="year-select-row">
@@ -602,6 +616,24 @@
           <div class="form-actions" style="margin-top:22px;">
             <button type="button" class="btn btn-primary" id="mainZoneSaveBtn">💾 সংরক্ষণ</button>
           </div>
+        </div>
+
+        <!-- ================= শাখা তথ্য (প্রদর্শন) ================= -->
+        <div class="card" id="branchViewCard" style="margin-bottom:20px;">
+          <h3 class="sub-title">শাখা তথ্য</h3>
+          <div id="branchViewBody"><div class="no-result">লোড হচ্ছে...</div></div>
+        </div>
+
+        <!-- ================= কমিটি তথ্য (প্রদর্শন) ================= -->
+        <div class="card" id="committeeViewCard" style="margin-bottom:20px;">
+          <h3 class="sub-title">কমিটি তথ্য</h3>
+          <div id="committeeViewBody"><div class="no-result">লোড হচ্ছে...</div></div>
+        </div>
+
+        <!-- ================= অঞ্চল তথ্য (প্রদর্শন) ================= -->
+        <div class="card" id="zoneViewCard">
+          <h3 class="sub-title">অঞ্চল তথ্য</h3>
+          <div id="zoneViewBody"><div class="no-result">লোড হচ্ছে...</div></div>
         </div>
       </section>
 
@@ -3077,7 +3109,10 @@
       <!-- ================= কর্মপরিষদ ================= -->
       <section id="page-kormo-parishad" class="page">
         <h2 class="page-title">কর্মপরিষদ</h2>
-        <div class="card">
+        <div class="toggle-bar">
+          <button type="button" class="btn btn-outline toggle-btn" id="kpFormToggleBtn">📝 কর্মপরিষদ ফরম</button>
+        </div>
+        <div class="card" id="kpFormCard" style="display:none; margin-bottom:20px;">
           <table class="dhajjo-table">
   <colgroup>
     <col style="width:35%;">
@@ -3097,12 +3132,25 @@
             <button type="button" class="btn btn-outline" id="kpPrintBtn">🖨️ প্রিন্ট</button>
           </div>
         </div>
+
+        <div class="card" id="kpViewCard">
+          <h3 class="sub-title">কর্মপরিষদ তালিকা</h3>
+          <div id="kpViewWrap"><div class="no-result">লোড হচ্ছে...</div></div>
+          <div class="form-actions" id="kpListActions" style="margin-top:16px; display:none;">
+            <button type="button" class="btn btn-primary" id="kpListEditBtn">✏️ এডিট</button>
+            <button type="button" class="btn btn-danger" id="kpListDeleteBtn">🗑️ ডিলেট</button>
+            <button type="button" class="btn btn-outline" id="kpListPrintBtn">🖨️ প্রিন্ট</button>
+          </div>
+        </div>
       </section>
 
       <!-- ================= শুরা সদস্য ================= -->
       <section id="page-shura-sodossho" class="page">
         <h2 class="page-title">শুরা সদস্য</h2>
-        <div class="card">
+        <div class="toggle-bar">
+          <button type="button" class="btn btn-outline toggle-btn" id="ssFormToggleBtn">📝 শুরা সদস্য ফরম</button>
+        </div>
+        <div class="card" id="ssFormCard" style="display:none; margin-bottom:20px;">
           <table class="dhajjo-table">
   <colgroup>
     <col style="width:35%;">
@@ -3119,6 +3167,16 @@
             <button type="button" class="btn btn-primary" id="ssSaveBtn">💾 সংরক্ষণ</button>
             <button type="button" class="btn btn-secondary" id="ssResetBtn">↺ রিসেট</button>
             <button type="button" class="btn btn-outline" id="ssPrintBtn">🖨️ প্রিন্ট</button>
+          </div>
+        </div>
+
+        <div class="card" id="ssViewCard">
+          <h3 class="sub-title">শুরা সদস্য তালিকা</h3>
+          <div id="ssViewWrap"><div class="no-result">লোড হচ্ছে...</div></div>
+          <div class="form-actions" id="ssListActions" style="margin-top:16px; display:none;">
+            <button type="button" class="btn btn-primary" id="ssListEditBtn">✏️ এডিট</button>
+            <button type="button" class="btn btn-danger" id="ssListDeleteBtn">🗑️ ডিলেট</button>
+            <button type="button" class="btn btn-outline" id="ssListPrintBtn">🖨️ প্রিন্ট</button>
           </div>
         </div>
       </section>
