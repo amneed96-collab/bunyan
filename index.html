@@ -626,19 +626,28 @@
 
         <!-- ================= শাখা তথ্য (প্রদর্শন) ================= -->
         <div class="card" id="branchViewCard" style="margin-bottom:20px;">
-          <h3 class="sub-title">শাখা তথ্য</h3>
+          <div class="list-head">
+            <h3 class="sub-title" style="margin:0;">শাখা তথ্য</h3>
+            <div class="list-icons"><button type="button" class="icon-btn" id="bvEditBtn" title="এডিট" aria-label="এডিট">✏️</button><button type="button" class="icon-btn" id="bvPrintBtn" title="প্রিন্ট" aria-label="প্রিন্ট">🖨️</button><button type="button" class="icon-btn" id="bvDeleteBtn" title="ডিলেট" aria-label="ডিলেট">🗑️</button></div>
+          </div>
           <div id="branchViewBody"><div class="no-result">লোড হচ্ছে...</div></div>
         </div>
 
         <!-- ================= কমিটি তথ্য (প্রদর্শন) ================= -->
         <div class="card" id="committeeViewCard" style="margin-bottom:20px;">
-          <h3 class="sub-title">কমিটি তথ্য</h3>
+          <div class="list-head">
+            <h3 class="sub-title" style="margin:0;">কমিটি তথ্য</h3>
+            <div class="list-icons"><button type="button" class="icon-btn" id="cvEditBtn" title="এডিট" aria-label="এডিট">✏️</button><button type="button" class="icon-btn" id="cvPrintBtn" title="প্রিন্ট" aria-label="প্রিন্ট">🖨️</button><button type="button" class="icon-btn" id="cvDeleteBtn" title="ডিলেট" aria-label="ডিলেট">🗑️</button></div>
+          </div>
           <div id="committeeViewBody"><div class="no-result">লোড হচ্ছে...</div></div>
         </div>
 
         <!-- ================= অঞ্চল তথ্য (প্রদর্শন) ================= -->
         <div class="card" id="zoneViewCard">
-          <h3 class="sub-title">অঞ্চল তথ্য</h3>
+          <div class="list-head">
+            <h3 class="sub-title" style="margin:0;">অঞ্চল তথ্য</h3>
+            <div class="list-icons"><button type="button" class="icon-btn" id="zvEditBtn" title="এডিট" aria-label="এডিট">✏️</button><button type="button" class="icon-btn" id="zvPrintBtn" title="প্রিন্ট" aria-label="প্রিন্ট">🖨️</button><button type="button" class="icon-btn" id="zvDeleteBtn" title="ডিলেট" aria-label="ডিলেট">🗑️</button></div>
+          </div>
           <div id="zoneViewBody"><div class="no-result">লোড হচ্ছে...</div></div>
         </div>
       </section>
@@ -3056,9 +3065,15 @@
 
       <!-- ================= বাতিল প্রকাশনা ফরম ================= -->
       <section id="page-prakashona-batil" class="page">
-        <h2 class="page-title">বাতিল প্রকাশনা ফরম</h2>
+        <div class="page-header-row">
+          <h2 class="page-title">বাতিল প্রকাশনা ফরম</h2>
+          <div class="page-actions">
+            <button type="button" class="btn btn-outline toggle-btn" id="pcFormToggleBtn">➕ বাতিল প্রকাশনা ফরম</button>
+          </div>
+        </div>
 
-        <div class="card">
+        <div class="card" id="pcFormCard" style="display:none; margin-bottom:20px;">
+          <h3 class="sub-title">বাতিল প্রকাশনা ফরম</h3>
           <input type="hidden" id="pc-id">
           <div class="form-group">
             <label>তারিখ</label>
@@ -3084,16 +3099,16 @@
 
           <div class="form-actions" style="margin-top:20px;">
             <button type="button" class="btn btn-primary" id="pcSaveBtn">💾 সংরক্ষণ</button>
-            <button type="button" class="btn btn-primary" id="pcUpdateBtn">🔄 আপডেট</button>
-            <button type="button" class="btn btn-outline" id="pcPrintBtn">🖨️ প্রিন্ট</button>
             <button type="button" class="btn btn-secondary" id="pcResetBtn">↺ রিসেট</button>
-            <button type="button" class="btn btn-danger" id="pcDeleteBtn">🗑️ ডিলেট</button>
           </div>
         </div>
 
-        <div class="card list-card" style="margin-top:16px;">
-          <h3 class="sub-title">সাম্প্রতিক বাতিল এন্ট্রি (ক্লিক করলে ফরমে লোড হবে)</h3>
-          <div id="pcList" class="simple-list"></div>
+        <div class="card list-card" style="margin-top:0;">
+          <div class="list-head">
+            <h3 class="sub-title" style="margin:0;">বাতিল প্রকাশনার তালিকা <span id="pcCount" style="font-weight:400;color:#666;font-size:13px;"></span></h3>
+            <button type="button" class="btn btn-outline btn-sm" id="pcListPrintBtn">🖨️ প্রিন্ট</button>
+          </div>
+          <div id="pcList" class="list-scroll compact"><div class="no-result">লোড হচ্ছে...</div></div>
         </div>
       </section>
 
@@ -3167,13 +3182,12 @@
         </div>
 
         <div class="card" id="kpViewCard">
-          <h3 class="sub-title">কর্মপরিষদ তালিকা</h3>
-          <div id="kpViewWrap"><div class="no-result">লোড হচ্ছে...</div></div>
-          <div class="form-actions" id="kpListActions" style="margin-top:16px; display:none;">
-            <button type="button" class="btn btn-primary" id="kpListEditBtn">✏️ এডিট</button>
-            <button type="button" class="btn btn-danger" id="kpListDeleteBtn">🗑️ ডিলেট</button>
-            <button type="button" class="btn btn-outline" id="kpListPrintBtn">🖨️ প্রিন্ট</button>
+          <div class="list-head">
+            <h3 class="sub-title" style="margin:0;">কর্মপরিষদ তালিকা</h3>
+            <div class="list-icons"><button type="button" class="icon-btn" id="kpListEditBtn" title="এডিট" aria-label="এডিট">✏️</button><button type="button" class="icon-btn" id="kpListPrintBtn" title="প্রিন্ট" aria-label="প্রিন্ট">🖨️</button><button type="button" class="icon-btn" id="kpListDeleteBtn" title="ডিলেট" aria-label="ডিলেট">🗑️</button></div>
           </div>
+          <div id="kpViewWrap"><div class="no-result">লোড হচ্ছে...</div></div>
+          
         </div>
       </section>
 
@@ -3204,13 +3218,12 @@
         </div>
 
         <div class="card" id="ssViewCard">
-          <h3 class="sub-title">শুরা সদস্য তালিকা</h3>
-          <div id="ssViewWrap"><div class="no-result">লোড হচ্ছে...</div></div>
-          <div class="form-actions" id="ssListActions" style="margin-top:16px; display:none;">
-            <button type="button" class="btn btn-primary" id="ssListEditBtn">✏️ এডিট</button>
-            <button type="button" class="btn btn-danger" id="ssListDeleteBtn">🗑️ ডিলেট</button>
-            <button type="button" class="btn btn-outline" id="ssListPrintBtn">🖨️ প্রিন্ট</button>
+          <div class="list-head">
+            <h3 class="sub-title" style="margin:0;">শুরা সদস্য তালিকা</h3>
+            <div class="list-icons"><button type="button" class="icon-btn" id="ssListEditBtn" title="এডিট" aria-label="এডিট">✏️</button><button type="button" class="icon-btn" id="ssListPrintBtn" title="প্রিন্ট" aria-label="প্রিন্ট">🖨️</button><button type="button" class="icon-btn" id="ssListDeleteBtn" title="ডিলেট" aria-label="ডিলেট">🗑️</button></div>
           </div>
+          <div id="ssViewWrap"><div class="no-result">লোড হচ্ছে...</div></div>
+          
         </div>
       </section>
 

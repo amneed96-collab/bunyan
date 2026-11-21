@@ -248,8 +248,20 @@ document.addEventListener('DOMContentLoaded', function () {
     const btn = document.getElementById(btnId);
     if (card) card.style.display = open ? 'block' : 'none';
     if (btn) btn.classList.toggle('is-open', !!open);
+    // ফরম খুললে সংশ্লিষ্ট তালিকা লুকাবে, ফরম বন্ধ হলে আবার দেখাবে
+    const viewId = FORM_LIST_PAIRS_[cardId];
+    const viewCard = viewId ? document.getElementById(viewId) : null;
+    if (viewCard) viewCard.style.display = open ? 'none' : '';
     if (open && doScroll && card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
+
+  const FORM_LIST_PAIRS_ = {
+    kpFormCard: 'kpViewCard',
+    ssFormCard: 'ssViewCard',
+    branchFormCard: 'branchViewCard',
+    committeeCard: 'committeeViewCard',
+    mainZoneCard: 'zoneViewCard'
+  };
 
   function bindFormToggle_(btnId, cardId) {
     document.getElementById(btnId).addEventListener('click', function () {
@@ -271,7 +283,8 @@ document.addEventListener('DOMContentLoaded', function () {
     'prakashona-talika': [['ptFormToggleBtn', 'ptFormCard']],
     'prakashona-kroy': [['pkFormToggleBtn', 'pkFormCard']],
     'prakashona-bikroy': [['pbFormToggleBtn', 'pbFormCard']],
-    'prakashona-bili': [['pdFormToggleBtn', 'pdFormCard']]
+    'prakashona-bili': [['pdFormToggleBtn', 'pdFormCard']],
+    'prakashona-batil': [['pcFormToggleBtn', 'pcFormCard']]
   };
   }
 
@@ -711,7 +724,116 @@ document.addEventListener('DOMContentLoaded', function () {
     el.innerHTML = html + '</tbody></table></div>';
   }
 
+  function bindBranchListActions_() {
+    // ---- শাখা তথ্য ----
+    document.getElementById('bvEditBtn').addEventListener('click', function () {
+      const d = _branchViewData || {};
+      document.getElementById('branch-name').value = d.name || '';
+      document.getElementById('branch-level').value = d.level || '';
+      document.getElementById('branch-address').value = d.address || '';
+      document.getElementById('branch-phone').value = d.phone || '';
+      document.getElementById('branch-email').value = d.email || '';
+      setFormCardOpen_('branchFormCard', 'branchFormToggleBtn', true, true);
+    });
+    document.getElementById('bvPrintBtn').addEventListener('click', function () {
+      const d = _branchViewData;
+      if (!d || !(d.name || d.level || d.address || d.phone || d.email)) { showToast('প্রিন্ট করার মতো কোনো তথ্য নেই', 'error'); return; }
+      printOfficialList_('শাখা তথ্য', '', ['বিষয়', 'তথ্য'], [
+        ['শাখার নাম', d.name || '—'], ['মান', d.level || '—'], ['ঠিকানা', d.address || '—'],
+        ['ফোন নম্বর', d.phone || '—'], ['ইমেইল', d.email || '—']
+      ], '');
+    });
+    document.getElementById('bvDeleteBtn').addEventListener('click', function () {
+      const d = _branchViewData;
+      if (!d || !(d.name || d.level || d.address || d.phone || d.email || d.logoUrl || d.symbolUrl)) { showToast('মুছে ফেলার মতো কোনো তথ্য নেই', 'error'); return; }
+      if (!confirm('আপনি কি নিশ্চিত শাখার তথ্য মুছে ফেলতে চান? এটি আর ফিরিয়ে আনা যাবে না।')) return;
+      const formData = { name: '', level: '', address: '', phone: '', email: '', logoUrl: '', symbolUrl: '', zones: (_mainZoneRows || []).filter(function (z) { return z.name; }) };
+      google.script.run
+        .withSuccessHandler(function (res) {
+          if (res.success) {
+            showToast('শাখার তথ্য মুছে ফেলা হয়েছে', 'success');
+            ['logoPreview', 'symbolPreview'].forEach(function (id) { const p = document.getElementById(id); p.src = ''; p.style.display = 'none'; });
+            document.getElementById('branch-logo-file').value = '';
+            document.getElementById('branch-symbol-file').value = '';
+            _branchViewData = { name: '', level: '', address: '', phone: '', email: '', logoUrl: '', symbolUrl: '', zones: formData.zones };
+            window._currentLogoUrl = ''; window._currentSymbolUrl = '';
+            document.getElementById('branch-name').value = '';
+            document.getElementById('branch-level').value = '';
+            document.getElementById('branch-address').value = '';
+            document.getElementById('branch-phone').value = '';
+            document.getElementById('branch-email').value = '';
+            renderBranchView_();
+            loadBranchInfo();
+          } else { showToast('মুছতে সমস্যা হয়েছে: ' + res.error, 'error'); }
+        })
+        .withFailureHandler(function (err) { showToast('মুছতে সমস্যা হয়েছে: ' + err.message, 'error'); })
+        .saveBranchSetup(formData);
+    });
+
+    // ---- কমিটি তথ্য ----
+    document.getElementById('cvEditBtn').addEventListener('click', function () {
+      buildCommitteeRowsFromSaved_(_committeeSaved);
+      renderCommitteeTable();
+      setFormCardOpen_('committeeCard', 'committeeFormToggleBtn', true, true);
+    });
+    document.getElementById('cvPrintBtn').addEventListener('click', function () {
+      const rows = (_committeeSaved || []).filter(function (r) { return r.name; });
+      if (!rows.length) { showToast('প্রিন্ট করার মতো কোনো তথ্য নেই', 'error'); return; }
+      printCommitteeForm(rows);
+    });
+    document.getElementById('cvDeleteBtn').addEventListener('click', function () {
+      if (!(_committeeSaved || []).filter(function (r) { return r.name; }).length) { showToast('মুছে ফেলার মতো কোনো তথ্য নেই', 'error'); return; }
+      if (!confirm('আপনি কি নিশ্চিত কমিটির পুরো তালিকা মুছে ফেলতে চান? এটি আর ফিরিয়ে আনা যাবে না।')) return;
+      google.script.run
+        .withSuccessHandler(function (res) {
+          if (res.success) {
+            showToast('কমিটির তথ্য মুছে ফেলা হয়েছে', 'success');
+            _committeeSaved = [];
+            buildCommitteeRowsFromSaved_([]);
+            renderCommitteeTable();
+            renderCommitteeView_();
+          } else { showToast('মুছতে সমস্যা হয়েছে: ' + res.error, 'error'); }
+        })
+        .withFailureHandler(function (err) { showToast('মুছতে সমস্যা হয়েছে: ' + err.message, 'error'); })
+        .saveCommittee([]);
+    });
+
+    // ---- অঞ্চল তথ্য ----
+    document.getElementById('zvEditBtn').addEventListener('click', function () {
+      document.getElementById('mainZoneCount').value = _mainZoneRows.length;
+      renderMainZoneTable();
+      setFormCardOpen_('mainZoneCard', 'zoneFormToggleBtn', true, true);
+    });
+    document.getElementById('zvPrintBtn').addEventListener('click', function () {
+      const zones = (_mainZoneRows || []).filter(function (z) { return z.name; });
+      if (!zones.length) { showToast('প্রিন্ট করার মতো কোনো তথ্য নেই', 'error'); return; }
+      printOfficialList_('অঞ্চল তথ্য', '',
+        ['ক্রম', 'অঞ্চলের নাম', 'পরিচালক', 'মোবাইল', 'সহকারী পরিচালক', 'মোবাইল'],
+        zones.map(function (z, i) { return [toBnNumber(i + 1), z.name, z.directorName || '—', z.directorMobile || '—', z.assistantName || '—', z.assistantMobile || '—']; }), '');
+    });
+    document.getElementById('zvDeleteBtn').addEventListener('click', function () {
+      if (!(_mainZoneRows || []).filter(function (z) { return z.name; }).length) { showToast('মুছে ফেলার মতো কোনো তথ্য নেই', 'error'); return; }
+      if (!confirm('আপনি কি নিশ্চিত অঞ্চলের পুরো তথ্য মুছে ফেলতে চান? এটি আর ফিরিয়ে আনা যাবে না।')) return;
+      const d = _branchViewData || {};
+      const formData = { name: d.name || '', level: d.level || '', address: d.address || '', phone: d.phone || '', email: d.email || '', logoUrl: d.logoUrl || '', symbolUrl: d.symbolUrl || '', zones: [] };
+      google.script.run
+        .withSuccessHandler(function (res) {
+          if (res.success) {
+            showToast('অঞ্চলের তথ্য মুছে ফেলা হয়েছে', 'success');
+            _mainZoneRows = [];
+            document.getElementById('mainZoneCount').value = 0;
+            renderMainZoneTable();
+            renderZoneView_();
+            populateMemberZoneSelect();
+          } else { showToast('মুছতে সমস্যা হয়েছে: ' + res.error, 'error'); }
+        })
+        .withFailureHandler(function (err) { showToast('মুছতে সমস্যা হয়েছে: ' + err.message, 'error'); })
+        .saveBranchSetup(formData);
+    });
+  }
+
   function bindBranchSetupEvents() {
+    bindBranchListActions_();
     document.getElementById('branch-logo-file').addEventListener('change', function (e) {
       handleImagePreview(e.target, 'logoPreview');
     });
@@ -1541,7 +1663,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('committeeSaveBtn').addEventListener('click', function () { submitCommitteeForm('সংরক্ষণ'); });
     document.getElementById('committeeUpdateBtn').addEventListener('click', function () { submitCommitteeForm('আপডেট'); });
     document.getElementById('committeeResetBtn').addEventListener('click', resetCommitteeForm);
-    document.getElementById('committeePrintBtn').addEventListener('click', printCommitteeForm);
+    document.getElementById('committeePrintBtn').addEventListener('click', function () { printCommitteeForm(); });
   }
 
   const COMMITTEE_STANDARD_POSITIONS = [
@@ -1690,10 +1812,11 @@ document.addEventListener('DOMContentLoaded', function () {
     renderCommitteeTable();
   }
 
-  function printCommitteeForm() {
+  function printCommitteeForm(rows) {
+    const src = Array.isArray(rows) ? rows : _committeeRows;
     const table = document.getElementById('cprint-table');
     table.innerHTML = '<tr><td class="p-label">পদবি</td><td class="p-label">নাম</td><td class="p-label">মোবাইল</td></tr>';
-    _committeeRows.filter(function (r) { return r.position && r.name; }).forEach(function (row) {
+    src.filter(function (r) { return r.position && r.name; }).forEach(function (row) {
       const tr = document.createElement('tr');
       tr.innerHTML =
         '<td>' + escapeHtml(row.position) + '</td>' +
@@ -5490,6 +5613,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // ==================== প্রকাশনা: বাতিল প্রকাশনা ফরম ====================
   let _pcId = '';
   let _pcItems = [];
+  let _pcAll = [];
 
   function initPrakashonaBatil() {
     _pcItems = [{ bookName: '', qty: '', unitPrice: '' }];
@@ -5500,11 +5624,11 @@ document.addEventListener('DOMContentLoaded', function () {
       _pcItems.push({ bookName: '', qty: '', unitPrice: '' });
       renderPcTable();
     });
-    document.getElementById('pcSaveBtn').addEventListener('click', function () { submitPcForm('সংরক্ষণ'); });
-    document.getElementById('pcUpdateBtn').addEventListener('click', function () { submitPcForm('আপডেট'); });
+    document.getElementById('pcSaveBtn').addEventListener('click', submitPcForm);
     document.getElementById('pcResetBtn').addEventListener('click', resetPcForm);
-    document.getElementById('pcDeleteBtn').addEventListener('click', deletePcForm);
-    document.getElementById('pcPrintBtn').addEventListener('click', printPcReceipt);
+    document.getElementById('pcListPrintBtn').addEventListener('click', function () {
+      openPeriodPrint_('বাতিল প্রকাশনা তালিকা প্রিন্ট', function () { return _pcAll; }, printPcList_);
+    });
   }
 
   function renderPcTable() {
@@ -5524,7 +5648,8 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('pc-subtotal').textContent = '৳' + sumPriceItems(_pcItems);
   }
 
-  function submitPcForm(actionLabel) {
+  function submitPcForm() {
+    const isEdit = !!_pcId;
     const validItems = _pcItems.filter(function (r) { return r.bookName; });
     if (!validItems.length) {
       showToast('অনুগ্রহ করে অন্তত একটি বইয়ের তথ্য দিন', 'error');
@@ -5536,17 +5661,22 @@ document.addEventListener('DOMContentLoaded', function () {
       items: validItems,
       subtotal: sumPriceItems(_pcItems)
     };
+    const btn = document.getElementById('pcSaveBtn');
+    btn.disabled = true;
     google.script.run
       .withSuccessHandler(function (res) {
+        btn.disabled = false;
         if (res.success) {
-          showToast(actionLabel + ' সম্পন্ন হয়েছে', 'success');
-          _pcId = res.id;
+          showToast((isEdit ? 'আপডেট' : 'সংরক্ষণ') + ' সম্পন্ন হয়েছে', 'success');
+          resetPcForm();
+          if (isEdit) setFormCardOpen_('pcFormCard', 'pcFormToggleBtn', false, false);
           loadPcList();
+          refreshTalika_();
         } else {
           showToast('সমস্যা হয়েছে: ' + res.error, 'error');
         }
       })
-      .withFailureHandler(function (err) { showToast('সমস্যা হয়েছে: ' + err.message, 'error'); })
+      .withFailureHandler(function (err) { btn.disabled = false; showToast('সমস্যা হয়েছে: ' + err.message, 'error'); })
       .savePrakashonaBatil(formData);
   }
 
@@ -5554,19 +5684,8 @@ document.addEventListener('DOMContentLoaded', function () {
     _pcId = '';
     document.getElementById('pc-date').value = '';
     _pcItems = [{ bookName: '', qty: '', unitPrice: '' }];
+    setSaveMode_('pcSaveBtn', false);
     renderPcTable();
-  }
-
-  function deletePcForm() {
-    if (!_pcId) { showToast('মুছে ফেলার জন্য প্রথমে একটি এন্ট্রি নির্বাচন করুন', 'error'); return; }
-    if (!confirm('আপনি কি নিশ্চিত এই এন্ট্রি মুছে ফেলতে চান?')) return;
-    google.script.run
-      .withSuccessHandler(function (res) {
-        if (res.success) { showToast(res.message, 'success'); resetPcForm(); loadPcList(); }
-        else { showToast('সমস্যা হয়েছে: ' + res.error, 'error'); }
-      })
-      .withFailureHandler(function (err) { showToast('সমস্যা হয়েছে: ' + err.message, 'error'); })
-      .deletePrakashonaBatil(_pcId);
   }
 
   function loadPcList() {
@@ -5574,56 +5693,67 @@ document.addEventListener('DOMContentLoaded', function () {
     box.innerHTML = '<div class="no-result">লোড হচ্ছে...</div>';
     google.script.run
       .withSuccessHandler(function (res) {
-        if (!res.success || !res.data.length) { box.innerHTML = '<div class="no-result">কোনো তথ্য নেই</div>'; return; }
-        box.innerHTML = '';
-        res.data.forEach(function (r) {
-          const div = document.createElement('div');
-          div.className = 'simple-list-item';
-          div.style.cursor = 'pointer';
-          div.innerHTML =
-            '<span><b>তারিখ:</b> ' + escapeHtml(r.date) + '</span>' +
-            '<span><b>সাবটোটাল:</b> ৳' + escapeHtml(String(r.subtotal)) + '</span>';
-          div.addEventListener('click', function () { loadPcForEdit(r.id); });
-          box.appendChild(div);
-        });
+        _pcAll = (res.success && res.data) ? res.data : [];
+        renderPcList();
       })
       .withFailureHandler(function () { box.innerHTML = '<div class="no-result">লোড করতে সমস্যা হয়েছে</div>'; })
       .getPrakashonaBatilList();
   }
 
-  function loadPcForEdit(id) {
-    google.script.run
-      .withSuccessHandler(function (res) {
-        if (!res.success) { showToast('তথ্য লোড করতে সমস্যা হয়েছে', 'error'); return; }
-        const d = res.data;
-        _pcId = d.id;
-        document.getElementById('pc-date').value = toInputDate(d.date);
-        _pcItems = d.items && d.items.length ? d.items : [{ bookName: '', qty: '', unitPrice: '' }];
-        renderPcTable();
-        showToast('ফরমে লোড করা হয়েছে', 'success');
-      })
-      .withFailureHandler(function (err) { showToast('সমস্যা হয়েছে: ' + err.message, 'error'); })
-      .getPrakashonaBatilById(id);
+  function renderPcList() {
+    const box = document.getElementById('pcList');
+    const countEl = document.getElementById('pcCount');
+    if (!_pcAll.length) { box.innerHTML = '<div class="no-result">কোনো তথ্য নেই</div>'; countEl.textContent = ''; return; }
+    countEl.textContent = '(মোট ' + toBnNumber(_pcAll.length) + 'টি)';
+    let html = '<table class="dhajjo-table"><thead><tr><th>তারিখ</th><th>বই (সংখ্যা)</th><th>সাবটোটাল</th><th>অ্যাকশন</th></tr></thead><tbody>';
+    _pcAll.forEach(function (r, idx) {
+      html += '<tr><td>' + escapeHtml(r.date || '—') + '</td><td class="col-wrap">' + escapeHtml(itemsSummary_(r.items, true) || '—') + '</td>' +
+        '<td>৳' + escapeHtml(String(r.subtotal || 0)) + '</td><td>' + actionIcons_(idx, ['edit', 'print', 'delete']) + '</td></tr>';
+    });
+    box.innerHTML = html + '</tbody></table>';
+    bindRowActions_(box, _pcAll, { edit: loadPcForEdit, print: printPcReceipt, delete: deletePcRecord_ });
   }
 
-  function printPcReceipt() {
-    document.getElementById('pcr-date').textContent = document.getElementById('pc-date').value || '—';
-    const tbody = document.getElementById('pcr-items');
-    tbody.innerHTML = '';
-    _pcItems.filter(function (r) { return r.bookName; }).forEach(function (item, idx) {
-      const tr = document.createElement('tr');
-      const total = (parseNum(item.qty) || 0) * (parseNum(item.unitPrice) || 0);
-      tr.innerHTML =
-        '<td>' + toBnNumber(idx + 1) + '</td>' +
-        '<td>' + escapeHtml(item.bookName) + '</td>' +
-        '<td class="r-num">' + escapeHtml(String(item.qty || 0)) + '</td>' +
-        '<td class="r-num">' + escapeHtml(String(item.unitPrice || 0)) + '</td>' +
-        '<td class="r-num">' + total + '</td>';
-      tbody.appendChild(tr);
-    });
-    document.getElementById('pcr-subtotal').textContent = document.getElementById('pc-subtotal').textContent;
+  function loadPcForEdit(r) {
+    _pcId = r.id;
+    document.getElementById('pc-date').value = toInputDate(r.date);
+    _pcItems = (r.items && r.items.length) ? JSON.parse(JSON.stringify(r.items)) : [{ bookName: '', qty: '', unitPrice: '' }];
+    setSaveMode_('pcSaveBtn', true);
+    renderPcTable();
+    setFormCardOpen_('pcFormCard', 'pcFormToggleBtn', true, true);
+  }
 
+  function deletePcRecord_(r) {
+    if (!confirm('আপনি কি নিশ্চিত এই এন্ট্রি মুছে ফেলতে চান?')) return;
+    google.script.run
+      .withSuccessHandler(function (res) {
+        if (res.success) {
+          showToast(res.message, 'success');
+          if (_pcId === r.id) resetPcForm();
+          loadPcList();
+          refreshTalika_();
+        } else { showToast('সমস্যা হয়েছে: ' + res.error, 'error'); }
+      })
+      .withFailureHandler(function (err) { showToast('সমস্যা হয়েছে: ' + err.message, 'error'); })
+      .deletePrakashonaBatil(r.id);
+  }
+
+  function printPcReceipt(r) {
+    document.getElementById('pcr-orgName').textContent = document.getElementById('headerBranchName').textContent;
+    document.getElementById('pcr-date').textContent = r.date || '—';
+    fillReceiptItems_('pcr-items', r.items, true);
+    document.getElementById('pcr-subtotal').textContent = '৳' + (r.subtotal || 0);
     printViaWindow('pcPrintTemplate');
+  }
+
+  function printPcList_(list, label) {
+    let total = 0;
+    const rows = list.map(function (r, i) {
+      total += parseNum(r.subtotal) || 0;
+      return [toBnNumber(i + 1), r.date || '', itemsSummary_(r.items, true), '৳' + (r.subtotal || 0)];
+    });
+    printOfficialList_('বাতিল প্রকাশনা তালিকা', 'সময়কাল: ' + label,
+      ['ক্রম', 'তারিখ', 'বই (সংখ্যা)', 'সাবটোটাল'], rows, 'সর্বমোট বাতিল: ৳' + total);
   }
 
   // ==================== এয়ানত বৃদ্ধি ফরম ====================
@@ -6473,10 +6603,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function renderKpView_() {
     const wrap = document.getElementById('kpViewWrap');
-    const actions = document.getElementById('kpListActions');
     if (!_kpSaved.length) {
       wrap.innerHTML = '<div class="no-result">এখনো কোনো তথ্য দেওয়া হয়নি</div>';
-      actions.style.display = 'none';
       return;
     }
     let html = '<div class="list-scroll"><table class="dhajjo-table"><thead><tr><th>ক্রম</th><th>নাম</th><th>মোবাইল</th><th>বিভাগ সমূহ</th></tr></thead><tbody>';
@@ -6484,7 +6612,6 @@ document.addEventListener('DOMContentLoaded', function () {
       html += '<tr><td>' + toBnNumber(idx + 1) + '</td><td>' + escapeHtml(r.name) + '</td><td>' + escapeHtml(r.mobile || '—') + '</td>' + '<td>' + escapeHtml(r.departments || '—') + '</td>' + '</tr>';
     });
     wrap.innerHTML = html + '</tbody></table></div>';
-    actions.style.display = 'flex';
   }
 
   function printKpRows_(rows) {
@@ -6639,10 +6766,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function renderSsView_() {
     const wrap = document.getElementById('ssViewWrap');
-    const actions = document.getElementById('ssListActions');
     if (!_ssSaved.length) {
       wrap.innerHTML = '<div class="no-result">এখনো কোনো তথ্য দেওয়া হয়নি</div>';
-      actions.style.display = 'none';
       return;
     }
     let html = '<div class="list-scroll"><table class="dhajjo-table"><thead><tr><th>ক্রম</th><th>নাম</th><th>মোবাইল</th></tr></thead><tbody>';
@@ -6650,7 +6775,6 @@ document.addEventListener('DOMContentLoaded', function () {
       html += '<tr><td>' + toBnNumber(idx + 1) + '</td><td>' + escapeHtml(r.name) + '</td><td>' + escapeHtml(r.mobile || '—') + '</td>' + '</tr>';
     });
     wrap.innerHTML = html + '</tbody></table></div>';
-    actions.style.display = 'flex';
   }
 
   function printSsRows_(rows) {
