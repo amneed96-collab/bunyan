@@ -252,8 +252,23 @@ document.addEventListener('DOMContentLoaded', function () {
     const viewId = FORM_LIST_PAIRS_[cardId];
     const viewCard = viewId ? document.getElementById(viewId) : null;
     if (viewCard) viewCard.style.display = open ? 'none' : '';
+    // শাখা সেটাপ পেজ: একটি ফরম খুললে বাকি সব ফরম ও সব তালিকা লুকাবে, বন্ধ হলে সব তালিকা দেখাবে
+    if (BRANCH_FORM_GROUP_.some(function (p) { return p[0] === cardId; })) {
+      BRANCH_FORM_GROUP_.forEach(function (p) {
+        if (p[0] !== cardId && open) {
+          const oc = document.getElementById(p[0]);
+          const ob = document.getElementById(p[1]);
+          if (oc) oc.style.display = 'none';
+          if (ob) ob.classList.remove('is-open');
+        }
+        const v = document.getElementById(FORM_LIST_PAIRS_[p[0]]);
+        if (v) v.style.display = open ? 'none' : '';
+      });
+    }
     if (open && doScroll && card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
+
+  const BRANCH_FORM_GROUP_ = [['branchFormCard', 'branchFormToggleBtn'], ['committeeCard', 'committeeFormToggleBtn'], ['mainZoneCard', 'zoneFormToggleBtn']];
 
   const FORM_LIST_PAIRS_ = {
     kpFormCard: 'kpViewCard',
