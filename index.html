@@ -193,7 +193,7 @@
         <div class="page-header-row">
           <h2 class="page-title">সদস্য তালিকা (জনশক্তি)</h2>
           <div class="page-actions">
-            <button type="button" class="btn btn-outline toggle-btn" id="memberFormToggleBtn">📝 সদস্য ফরম (জনশক্তি)</button>
+            <button type="button" class="btn btn-outline toggle-btn" id="memberFormToggleBtn">➕ নতুন সদস্য</button>
             <button type="button" class="btn btn-outline" id="memberListPrintToggleBtn">📋 সদস্য তালিকা প্রিন্ট</button>
           </div>
         </div>
@@ -286,23 +286,15 @@
           </form>
         </div>
 
-        <div class="card search-card">
-          <div class="form-group-row search-row">
-            <div class="form-group">
-              <label>নাম দিয়ে সার্চ করুন</label>
-              <input type="text" id="memberSearchInput" placeholder="সদস্যের নাম লিখুন...">
-            </div>
-            <div class="search-btn-wrap">
-              <button type="button" class="btn btn-primary" id="memberSearchBtn">🔍 সার্চ</button>
-              <button type="button" class="btn btn-secondary" id="memberNewBtn">➕ নতুন সদস্য</button>
-            </div>
-          </div>
-          <div id="memberSearchResults" class="search-results"></div>
-        </div>
-
         <!-- ================= সকল সদস্য তালিকা ================= -->
         <div class="card" id="memberListCard" style="margin-top:20px;">
-          <h3 class="sub-title">সকল সদস্য তালিকা <span id="memberListCount" style="font-weight:400;color:#666;font-size:13px;"></span></h3>
+          <div class="list-head">
+            <h3 class="sub-title" style="margin:0;">সকল সদস্য তালিকা <span id="memberListCount" style="font-weight:400;color:#666;font-size:13px;"></span></h3>
+            <button type="button" class="icon-btn" id="memberListSearchBtn" title="সার্চ" aria-label="সার্চ">🔍</button>
+          </div>
+          <div id="memberListSearchBox" class="list-search-box" style="display:none;">
+            <input type="text" id="memberListSearchInput" class="list-search-input" placeholder="নাম বা মোবাইল নম্বর দিয়ে সার্চ করুন...">
+          </div>
           <div id="memberListWrap"><div class="no-result">লোড হচ্ছে...</div></div>
         </div>
 
@@ -313,16 +305,12 @@
         <div class="page-header-row">
           <h2 class="page-title">স্থানান্তর ফরম</h2>
           <div class="page-actions">
-            <button type="button" class="btn btn-outline" id="transferredListToggleBtn">📋 স্থানান্তরিত সদস্যদের তালিকা</button>
+            <button type="button" class="btn btn-outline toggle-btn" id="transferNewToggleBtn">➕ নতুন স্থানান্তর</button>
           </div>
         </div>
 
-        <!-- ================= স্থানান্তরিত সদস্যদের তালিকা (টগল, পুনরায় সংযুক্তির সুযোগ) ================= -->
-        <div class="card list-card" id="transferredListCard" style="display:none; margin-bottom:20px;">
-          <h3 class="sub-title">স্থানান্তরিত সদস্যদের তালিকা</h3>
-          <div id="transferredListBody"></div>
-        </div>
-
+        <!-- নতুন স্থানান্তর (বাটনে খোলে/বন্ধ হয়): সদস্য খোঁজা + ফরম -->
+        <div id="transferNewWrap" style="display:none; margin-bottom:20px;">
         <div class="card search-card">
           <div class="form-group-row search-row">
             <div class="form-group">
@@ -391,6 +379,18 @@
           <h3 class="sub-title">এই সদস্যের স্থানান্তরের ইতিহাস</h3>
           <div id="sthanantorList" class="simple-list"></div>
         </div>
+        </div>
+
+        <!-- ================= স্থানান্তরিত সদস্যদের তালিকা ================= -->
+        <div class="card list-card" id="transferredListCard" style="margin-top:0;">
+          <div class="list-head">
+            <h3 class="sub-title" style="margin:0;">স্থানান্তরিত সদস্যদের তালিকা <span id="transferredListCount" style="font-weight:400;color:#666;font-size:13px;"></span></h3>
+          </div>
+          <div class="list-search-box">
+            <input type="text" id="transferredSearchInput" class="list-search-input" placeholder="নাম, শাখা বা মোবাইল দিয়ে সার্চ করুন...">
+          </div>
+          <div id="transferredListBody"><div class="no-result">লোড হচ্ছে...</div></div>
+        </div>
       </section>
 
       <!-- ================= ধার্য্য ফরম পেজ ================= -->
@@ -438,6 +438,8 @@
           </div>
         </div>
 
+        <!-- সদস্য সার্চ + ধার্য্য ফরম (এয়ানত বৃদ্ধি ফরম খুললে এই অংশ লুকায়) -->
+        <div id="dhajjoMemberWrap">
         <div class="card search-card">
           <div class="form-group-row search-row">
             <div class="form-group">
@@ -452,7 +454,10 @@
         </div>
 
         <div class="card" id="dhajjoSelectedCard" style="display:none;">
-          <h3 class="sub-title">সদস্যের তথ্য</h3>
+          <div class="list-head">
+            <h3 class="sub-title" style="margin:0;">সদস্যের তথ্য</h3>
+            <button type="button" class="btn btn-secondary btn-sm" id="dhajjoCloseBtn">✖ ফরম বন্ধ করুন</button>
+          </div>
           <div class="info-row">
             <span class="info-label">নাম</span>
             <span class="info-value" id="d-view-name">—</span>
@@ -507,6 +512,7 @@
         <div class="card list-card" id="dhajjoHistoryCard" style="display:none;">
           <h3 class="sub-title">বছরভিত্তিক সারসংক্ষেপ (এই সদস্যের সব বছরের হিসাব)</h3>
           <div id="dhajjoYearSummaryList"></div>
+        </div>
         </div>
       </section>
 
@@ -639,9 +645,16 @@
 
       <!-- ================= উপশাখা এন্ট্রি ফরম ================= -->
       <section id="page-upashakha-entry" class="page">
-        <h2 class="page-title">উপশাখা এন্ট্রি ফরম</h2>
+        <div class="page-header-row">
+          <h2 class="page-title">উপশাখা এন্ট্রি</h2>
+          <div class="page-actions">
+            <button type="button" class="btn btn-outline toggle-btn" id="uentryFormToggleBtn">➕ উপশাখা এন্ট্রি ফরম</button>
+          </div>
+        </div>
 
-        <div class="card">
+        <!-- ================= উপশাখা এন্ট্রি ফরম (টগল) ================= -->
+        <div class="card" id="uentryFormCard" style="display:none; margin-bottom:20px;">
+          <h3 class="sub-title">উপশাখা এন্ট্রি ফরম</h3>
           <input type="hidden" id="uentry-id">
           <div class="form-group-row">
             <div class="form-group">
@@ -664,15 +677,17 @@
 
           <div class="form-actions">
             <button type="button" class="btn btn-primary" id="uentrySaveBtn">💾 সংরক্ষণ</button>
-            <button type="button" class="btn btn-primary" id="uentryEditBtn">✏️ এডিট</button>
-            <button type="button" class="btn btn-outline" id="uentryPrintBtn">🖨️ প্রিন্ট</button>
             <button type="button" class="btn btn-secondary" id="uentryResetBtn">↺ রিসেট</button>
           </div>
         </div>
 
-        <div class="card list-card" style="margin-top:16px;">
-          <h3 class="sub-title">সব উপশাখার তালিকা (এডিট করতে ক্লিক করুন)</h3>
-          <div id="uentryList" class="simple-list"></div>
+        <!-- ================= সব উপশাখার তালিকা ================= -->
+        <div class="card list-card" style="margin-top:0;">
+          <div class="list-head">
+            <h3 class="sub-title" style="margin:0;">সব উপশাখার তালিকা <span id="uentryCount" style="font-weight:400;color:#666;font-size:13px;"></span></h3>
+            <button type="button" class="btn btn-outline btn-sm" id="uentryPrintBtn">🖨️ প্রিন্ট</button>
+          </div>
+          <div id="uentryList"><div class="no-result">লোড হচ্ছে...</div></div>
         </div>
       </section>
 
@@ -766,6 +781,8 @@
           </div>
         </div>
 
+        <!-- উপশাখা নির্বাচন + ধার্য্য ফরম (নিসাব বৃদ্ধি ফরম খুললে এই অংশ লুকায়) -->
+        <div id="upashakhaDhajjoMainWrap">
         <div class="card">
           <div class="form-group">
             <label>উপশাখার নাম</label>
@@ -816,6 +833,7 @@
         <div class="card list-card" id="upashakhaDhajjoHistoryCard" style="display:none;">
           <h3 class="sub-title">বছরভিত্তিক সারসংক্ষেপ</h3>
           <div id="upashakhaDhajjoYearSummaryList"></div>
+        </div>
         </div>
       </section>
 
@@ -907,6 +925,9 @@
             <div id="jrepIndSearchResults" class="search-results"></div>
 
             <div id="jrepIndResultWrap" style="display:none; margin-top:16px;">
+              <div class="list-head" style="justify-content:flex-end;">
+                <button type="button" class="btn btn-secondary btn-sm" id="jrepIndCloseBtn">✖ বন্ধ করুন</button>
+              </div>
               <div class="info-row">
                 <span class="info-label">নাম</span>
                 <span class="info-value" id="jrepInd-name">—</span>
@@ -1065,6 +1086,9 @@
             </div>
 
             <div id="urepIndResultWrap" style="display:none; margin-top:16px;">
+              <div class="list-head" style="justify-content:flex-end;">
+                <button type="button" class="btn btn-secondary btn-sm" id="urepIndCloseBtn">✖ বন্ধ করুন</button>
+              </div>
               <table class="dhajjo-table">
                 <thead><tr><th>খাতের নাম</th><th>ধার্য্য</th><th>পরিশোধ</th><th>বকেয়া</th></tr></thead>
                 <tbody id="urepIndKhatBody"></tbody>
@@ -1110,6 +1134,9 @@
         </div>
 
         <div class="card" id="uiTableWrap" style="display:none; margin-top:16px;">
+          <div class="list-head" style="justify-content:flex-end;">
+            <button type="button" class="btn btn-secondary btn-sm" id="uiCloseBtn">✖ তালিকা বন্ধ করুন</button>
+          </div>
           <table class="dhajjo-table">
             <thead><tr><th>খাতের নাম</th><th>ধার্য্য</th><th>পরিশোধ</th><th>বকেয়া</th><th>এখন পরিশোধ</th></tr></thead>
             <tbody id="uiItemsBody"></tbody>
@@ -1150,9 +1177,16 @@
 
       <!-- ================= ব্যয় ফরম ================= -->
       <section id="page-byay-form" class="page">
-        <h2 class="page-title">ব্যয় ফরম</h2>
+        <div class="page-header-row">
+          <h2 class="page-title">ব্যয় ফরম</h2>
+          <div class="page-actions">
+            <button type="button" class="btn btn-outline toggle-btn" id="byayFormToggleBtn">➕ ব্যয় ফরম</button>
+          </div>
+        </div>
 
-        <div class="card">
+        <!-- ================= ব্যয় ফরম (টগল) ================= -->
+        <div class="card" id="byayFormCard" style="display:none; margin-bottom:20px;">
+          <h3 class="sub-title">ব্যয় ফরম</h3>
           <input type="hidden" id="byay-id">
           <div class="form-group-row">
             <div class="form-group">
@@ -1185,15 +1219,16 @@
 
           <div class="form-actions">
             <button type="button" class="btn btn-primary" id="byaySaveBtn">💾 সংরক্ষণ</button>
-            <button type="button" class="btn btn-primary" id="byayUpdateBtn">🔄 আপডেট</button>
             <button type="button" class="btn btn-secondary" id="byayResetBtn">↺ রিসেট</button>
-            <button type="button" class="btn btn-outline" id="byayPrintBtn">🖨️ প্রিন্ট (রশিদ)</button>
           </div>
         </div>
 
-        <div class="card list-card" style="margin-top:16px;">
-          <h3 class="sub-title">সাম্প্রতিক ভাউচার (ক্লিক করলে ফরমে লোড হবে)</h3>
-          <div id="byayList" class="simple-list"></div>
+        <!-- ================= ব্যয় ভাউচার তালিকা ================= -->
+        <div class="card list-card" style="margin-top:0;">
+          <div class="list-head">
+            <h3 class="sub-title" style="margin:0;">ব্যয় ভাউচার তালিকা <span id="byayCount" style="font-weight:400;color:#666;font-size:13px;"></span></h3>
+          </div>
+          <div id="byayList"><div class="no-result">লোড হচ্ছে...</div></div>
         </div>
       </section>
 
@@ -2858,9 +2893,15 @@
 
       <!-- ================= প্রকাশনা ক্রয় ফরম ================= -->
       <section id="page-prakashona-kroy" class="page">
-        <h2 class="page-title">প্রকাশনা ক্রয় ফরম</h2>
+        <div class="page-header-row">
+          <h2 class="page-title">প্রকাশনা ক্রয় ফরম</h2>
+          <div class="page-actions">
+            <button type="button" class="btn btn-outline toggle-btn" id="pkFormToggleBtn">➕ ক্রয় ফরম</button>
+          </div>
+        </div>
 
-        <div class="card">
+        <div class="card" id="pkFormCard" style="display:none; margin-bottom:20px;">
+          <h3 class="sub-title">ক্রয় ফরম</h3>
           <input type="hidden" id="pk-id">
           <div class="form-group">
             <label>তারিখ</label>
@@ -2868,14 +2909,7 @@
           </div>
 
           <table class="dhajjo-table">
-  <colgroup>
-    <col style="width:35%;">
-    <col style="width:13.0%;">
-    <col style="width:13.0%;">
-    <col style="width:13.0%;">
-    <col style="width:13.0%;">
-    <col style="width:13.0%;">
-  </colgroup>
+            <colgroup><col style="width:35%;"><col style="width:13.0%;"><col style="width:13.0%;"><col style="width:13.0%;"><col style="width:13.0%;"><col style="width:13.0%;"></colgroup>
             <thead><tr><th>ক্রম</th><th>বইয়ের নাম</th><th>সংখ্যা</th><th>একক মূল্য</th><th>মোট</th><th></th></tr></thead>
             <tbody id="pkItemsBody"></tbody>
           </table>
@@ -2897,24 +2931,29 @@
 
           <div class="form-actions" style="margin-top:20px;">
             <button type="button" class="btn btn-primary" id="pkSaveBtn">💾 সংরক্ষণ</button>
-            <button type="button" class="btn btn-primary" id="pkUpdateBtn">🔄 আপডেট</button>
-            <button type="button" class="btn btn-outline" id="pkPrintBtn">🖨️ প্রিন্ট</button>
             <button type="button" class="btn btn-secondary" id="pkResetBtn">↺ রিসেট</button>
-            <button type="button" class="btn btn-danger" id="pkDeleteBtn">🗑️ ডিলেট</button>
           </div>
         </div>
 
-        <div class="card list-card" style="margin-top:16px;">
-          <h3 class="sub-title">সাম্প্রতিক ক্রয় (ক্লিক করলে ফরমে লোড হবে)</h3>
-          <div id="pkList" class="simple-list"></div>
+        <div class="card list-card" style="margin-top:0;">
+          <div class="list-head">
+            <h3 class="sub-title" style="margin:0;">ক্রয়ের তালিকা <span id="pkCount" style="font-weight:400;color:#666;font-size:13px;"></span></h3>
+          </div>
+          <div id="pkList" class="list-scroll compact"><div class="no-result">লোড হচ্ছে...</div></div>
         </div>
       </section>
 
       <!-- ================= বিক্রয় ফরম ================= -->
       <section id="page-prakashona-bikroy" class="page">
-        <h2 class="page-title">বিক্রয় ফরম</h2>
+        <div class="page-header-row">
+          <h2 class="page-title">বিক্রয় ফরম</h2>
+          <div class="page-actions">
+            <button type="button" class="btn btn-outline toggle-btn" id="pbFormToggleBtn">➕ বিক্রয় ফরম</button>
+          </div>
+        </div>
 
-        <div class="card">
+        <div class="card" id="pbFormCard" style="display:none; margin-bottom:20px;">
+          <h3 class="sub-title">বিক্রয় ফরম</h3>
           <input type="hidden" id="pb-id">
           <div class="form-group-row">
             <div class="form-group">
@@ -2932,14 +2971,7 @@
           </div>
 
           <table class="dhajjo-table">
-  <colgroup>
-    <col style="width:35%;">
-    <col style="width:13.0%;">
-    <col style="width:13.0%;">
-    <col style="width:13.0%;">
-    <col style="width:13.0%;">
-    <col style="width:13.0%;">
-  </colgroup>
+            <colgroup><col style="width:35%;"><col style="width:13.0%;"><col style="width:13.0%;"><col style="width:13.0%;"><col style="width:13.0%;"><col style="width:13.0%;"></colgroup>
             <thead><tr><th>ক্রম</th><th>বইয়ের নাম</th><th>সংখ্যা</th><th>একক মূল্য</th><th>মোট</th><th></th></tr></thead>
             <tbody id="pbItemsBody"></tbody>
           </table>
@@ -2961,24 +2993,30 @@
 
           <div class="form-actions" style="margin-top:20px;">
             <button type="button" class="btn btn-primary" id="pbSaveBtn">💾 সংরক্ষণ</button>
-            <button type="button" class="btn btn-primary" id="pbUpdateBtn">🔄 আপডেট</button>
-            <button type="button" class="btn btn-outline" id="pbPrintBtn">🖨️ প্রিন্ট</button>
             <button type="button" class="btn btn-secondary" id="pbResetBtn">↺ রিসেট</button>
-            <button type="button" class="btn btn-danger" id="pbDeleteBtn">🗑️ ডিলেট</button>
           </div>
         </div>
 
-        <div class="card list-card" style="margin-top:16px;">
-          <h3 class="sub-title">সাম্প্রতিক বিক্রয় (ক্লিক করলে ফরমে লোড হবে)</h3>
-          <div id="pbList" class="simple-list"></div>
+        <div class="card list-card" style="margin-top:0;">
+          <div class="list-head">
+            <h3 class="sub-title" style="margin:0;">বিক্রয়ের তালিকা <span id="pbCount" style="font-weight:400;color:#666;font-size:13px;"></span></h3>
+            <button type="button" class="btn btn-outline btn-sm" id="pbListPrintBtn">🖨️ প্রিন্ট</button>
+          </div>
+          <div id="pbList" class="list-scroll compact"><div class="no-result">লোড হচ্ছে...</div></div>
         </div>
       </section>
 
       <!-- ================= বিলি ফরম ================= -->
       <section id="page-prakashona-bili" class="page">
-        <h2 class="page-title">বিলি ফরম</h2>
+        <div class="page-header-row">
+          <h2 class="page-title">বিলি ফরম</h2>
+          <div class="page-actions">
+            <button type="button" class="btn btn-outline toggle-btn" id="pdFormToggleBtn">➕ বিলি ফরম</button>
+          </div>
+        </div>
 
-        <div class="card">
+        <div class="card" id="pdFormCard" style="display:none; margin-bottom:20px;">
+          <h3 class="sub-title">বিলি ফরম</h3>
           <input type="hidden" id="pd-id">
           <div class="form-group-row">
             <div class="form-group">
@@ -2992,12 +3030,7 @@
           </div>
 
           <table class="dhajjo-table">
-  <colgroup>
-    <col style="width:35%;">
-    <col style="width:21.7%;">
-    <col style="width:21.7%;">
-    <col style="width:21.6%;">
-  </colgroup>
+            <colgroup><col style="width:35%;"><col style="width:21.7%;"><col style="width:21.7%;"><col style="width:21.6%;"></colgroup>
             <thead><tr><th>ক্রম</th><th>বইয়ের নাম</th><th>সংখ্যা</th><th></th></tr></thead>
             <tbody id="pdItemsBody"></tbody>
           </table>
@@ -3008,16 +3041,16 @@
 
           <div class="form-actions" style="margin-top:20px;">
             <button type="button" class="btn btn-primary" id="pdSaveBtn">💾 সংরক্ষণ</button>
-            <button type="button" class="btn btn-primary" id="pdUpdateBtn">🔄 আপডেট</button>
-            <button type="button" class="btn btn-outline" id="pdPrintBtn">🖨️ প্রিন্ট</button>
             <button type="button" class="btn btn-secondary" id="pdResetBtn">↺ রিসেট</button>
-            <button type="button" class="btn btn-danger" id="pdDeleteBtn">🗑️ ডিলেট</button>
           </div>
         </div>
 
-        <div class="card list-card" style="margin-top:16px;">
-          <h3 class="sub-title">সাম্প্রতিক বিলি (ক্লিক করলে ফরমে লোড হবে)</h3>
-          <div id="pdList" class="simple-list"></div>
+        <div class="card list-card" style="margin-top:0;">
+          <div class="list-head">
+            <h3 class="sub-title" style="margin:0;">বিলির তালিকা <span id="pdCount" style="font-weight:400;color:#666;font-size:13px;"></span></h3>
+            <button type="button" class="btn btn-outline btn-sm" id="pdListPrintBtn">🖨️ প্রিন্ট</button>
+          </div>
+          <div id="pdList" class="list-scroll compact"><div class="no-result">লোড হচ্ছে...</div></div>
         </div>
       </section>
 
@@ -3066,10 +3099,17 @@
 
       <!-- ================= প্রকাশনা তালিকা ================= -->
       <section id="page-prakashona-talika" class="page">
-        <h2 class="page-title">প্রকাশনা তালিকা</h2>
+        <div class="page-header-row">
+          <h2 class="page-title">প্রকাশনা তালিকা</h2>
+          <div class="page-actions">
+            <button type="button" class="btn btn-outline toggle-btn" id="ptFormToggleBtn">➕ নতুন বই যোগ করুন</button>
+          </div>
+        </div>
 
-        <div class="card">
+        <!-- ================= বই যোগ/এডিট ফরম (টগল) ================= -->
+        <div class="card" id="ptFormCard" style="display:none; margin-bottom:20px;">
           <h3 class="sub-title">নতুন বই যোগ করুন</h3>
+          <input type="hidden" id="pt-id">
           <div class="form-group-row">
             <div class="form-group">
               <label>বইয়ের নাম</label>
@@ -3084,25 +3124,18 @@
             <label>এককমূল্য (৳)</label>
             <input type="text" id="pt-price" placeholder="০" value="0">
           </div>
-          <button type="button" class="btn btn-primary" id="ptAddBtn">➕ যোগ করুন</button>
+          <div class="form-actions">
+            <button type="button" class="btn btn-primary" id="ptAddBtn">💾 সংরক্ষণ</button>
+            <button type="button" class="btn btn-secondary" id="ptResetBtn">↺ রিসেট</button>
+          </div>
         </div>
 
-        <div class="card list-card" style="margin-top:16px;">
-          <div class="page-header-row">
-            <h3 class="sub-title">সকল প্রকাশনার তালিকা</h3>
+        <div class="card list-card" style="margin-top:0;">
+          <div class="list-head">
+            <h3 class="sub-title" style="margin:0;">সকল প্রকাশনার তালিকা <span id="ptCount" style="font-weight:400;color:#666;font-size:13px;"></span></h3>
             <button type="button" class="btn btn-outline btn-sm" id="ptPrintBtn">🖨️ প্রিন্ট</button>
           </div>
-          <table class="dhajjo-table">
-  <colgroup>
-    <col style="width:35%;">
-    <col style="width:16.2%;">
-    <col style="width:16.2%;">
-    <col style="width:16.2%;">
-    <col style="width:16.4%;">
-  </colgroup>
-            <thead><tr><th>ক্রম</th><th>প্রকাশনা/বইয়ের নাম</th><th>সংখ্যা</th><th>এককমূল্য</th><th>মোট</th></tr></thead>
-            <tbody id="ptListBody"></tbody>
-          </table>
+          <div id="ptList" class="list-scroll compact"><div class="no-result">লোড হচ্ছে...</div></div>
         </div>
       </section>
 
@@ -3281,11 +3314,15 @@
 
   <!-- উপশাখা এন্ট্রি তালিকার প্রিন্ট টেমপ্লেট (সব উপশাখার নাম ও মান একসাথে) -->
   <div id="uentryPrintTemplate" class="print-only print-uentry">
-    <h2 id="uentryprint-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
-    <h3>উপশাখার তালিকা</h3>
-    <table class="print-table" id="uentryprint-table">
-      <tr><td class="p-label">ক্রম</td><td class="p-label">উপশাখার নাম</td><td class="p-label">মান</td></tr>
-    </table>
+    <div class="off-head">
+      <h2 id="uentryprint-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
+      <p class="off-sub" id="uentryprint-sub"></p>
+    </div>
+    <div class="off-title">উপশাখার তালিকা</div>
+    <div class="off-meta"><span></span><span id="uentryprint-date"></span></div>
+    <table class="print-table off-table" id="uentryprint-table"></table>
+    <div class="off-total" id="uentryprint-total"></div>
+    <div class="off-sign"><div>প্রস্তুতকারক</div><div>সেক্রেটারি</div><div>আমীর</div></div>
     <p class="print-footer">@Am Shahed : 01605721296</p>
   </div>
 
@@ -3642,14 +3679,65 @@
     <p class="print-footer">@Am Shahed : 01605721296</p>
   </div>
 
-  <!-- সদস্য তালিকার প্রিন্ট টেমপ্লেট -->
+  <!-- সদস্য তালিকার প্রিন্ট টেমপ্লেট (অফিসিয়াল ফরম্যাট) -->
   <div id="memberListPrintTemplate" class="print-only print-memberList">
-    <h2 id="mlprint-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
-    <h3>সদস্য তালিকা</h3>
-    <p style="text-align:center;" id="mlprint-meta"></p>
-    <table class="print-table" id="mlprint-table">
-      <tr><td class="p-label col-serial">ক্রম</td><td class="p-label">নাম</td><td class="p-label">মোবাইল নং</td><td class="p-label">অঞ্চলের নাম</td></tr>
-    </table>
+    <div class="off-head">
+      <h2 id="mlprint-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
+      <p class="off-sub" id="mlprint-sub"></p>
+    </div>
+    <div class="off-title">সদস্য তালিকা</div>
+    <div class="off-meta"><span id="mlprint-meta"></span><span id="mlprint-date"></span></div>
+    <table class="print-table off-table" id="mlprint-table"></table>
+    <div class="off-total" id="mlprint-total"></div>
+    <div class="off-sign"><div>প্রস্তুতকারক</div><div>সেক্রেটারি</div><div>আমীর</div></div>
+    <p class="print-footer">@Am Shahed : 01605721296</p>
+  </div>
+
+  <!-- ================= তালিকা প্রিন্ট পপআপ (নির্দিষ্ট মাস / বছর / সকল) ================= -->
+  <div id="periodPrintModal" class="modal-overlay" style="display:none;" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <h3 class="sub-title" id="ppTitle">তালিকা প্রিন্ট</h3>
+      <div class="form-group">
+        <label>প্রিন্টের ধরন</label>
+        <select id="ppType">
+          <option value="month">নির্দিষ্ট মাস</option>
+          <option value="year">নির্দিষ্ট বছর</option>
+          <option value="all">সকল</option>
+        </select>
+      </div>
+      <div class="form-group-row" id="ppMonthRow">
+        <div class="form-group">
+          <label>মাস</label>
+          <select id="ppMonth">
+            <option value="01">জানুয়ারি</option><option value="02">ফেব্রুয়ারি</option><option value="03">মার্চ</option>
+            <option value="04">এপ্রিল</option><option value="05">মে</option><option value="06">জুন</option>
+            <option value="07">জুলাই</option><option value="08">আগস্ট</option><option value="09">সেপ্টেম্বর</option>
+            <option value="10">অক্টোবর</option><option value="11">নভেম্বর</option><option value="12">ডিসেম্বর</option>
+          </select>
+        </div>
+        <div class="form-group" id="ppYearGroup">
+          <label>বছর</label>
+          <input type="number" id="ppYear" min="2000" max="2100">
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-primary" id="ppConfirmBtn">🖨️ প্রিন্ট</button>
+        <button type="button" class="btn btn-secondary" id="ppCancelBtn">✖ বাতিল</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- জেনেরিক অফিসিয়াল তালিকা প্রিন্ট টেমপ্লেট (প্রকাশনা তালিকা/বিক্রয়/বিলি) -->
+  <div id="listPrintTemplate" class="print-only print-listgen">
+    <div class="off-head">
+      <h2 id="lp-orgName">বাংলাদেশ জামায়াতে ইসলামী</h2>
+      <p class="off-sub" id="lp-sub"></p>
+    </div>
+    <div class="off-title" id="lp-title"></div>
+    <div class="off-meta"><span id="lp-meta"></span><span id="lp-date"></span></div>
+    <table class="print-table off-table" id="lp-table"></table>
+    <div class="off-total" id="lp-total"></div>
+    <div class="off-sign"><div>প্রস্তুতকারক</div><div>সেক্রেটারি</div><div>আমীর</div></div>
     <p class="print-footer">@Am Shahed : 01605721296</p>
   </div>
 
@@ -3657,7 +3745,7 @@
   <div id="toast" class="toast"></div>
 
   <script src="config.js"></script>
-  <script src="js/gas-shim.js"></script>
-  <script src="js/app.js"></script>
+  <script src="gas-shim.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>

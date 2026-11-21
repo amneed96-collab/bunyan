@@ -888,3 +888,146 @@
   .list-scroll .dhajjo-table td, .list-scroll .dhajjo-table th { white-space: nowrap; }
   .list-scroll .dhajjo-table td.col-wrap { white-space: normal; min-width: 160px; }
 
+
+/* =====================================================================
+   আপডেট: মেনু / সদস্য তালিকা / স্থানান্তর / ধার্য্য / অফিসিয়াল প্রিন্ট
+   ===================================================================== */
+
+/* ---------- ১. মেনু ও সাবমেনু (ট্যাপ/টগল স্থিতিশীলতা) ---------- */
+.nav-link, .nav-group-toggle { -webkit-tap-highlight-color: transparent; touch-action: manipulation; cursor: pointer; }
+.nav-group-toggle .caret { pointer-events: none; }
+/* সাবমেনু খোলা/বন্ধ শুধু .open ক্লাস দিয়ে; হোভার/ফোকাসে কিছু বদলাবে না */
+.nav-submenu { max-height: 0; overflow: hidden; visibility: hidden; transition: max-height .25s ease, visibility 0s linear .25s; }
+.nav-submenu.open { max-height: 400px; visibility: visible; transition: max-height .25s ease, visibility 0s; }
+
+@media (max-width: 768px) {
+  /* মোবাইলে মেনু হেডারের নিচে ফিক্সড — পেজ স্ক্রল করা থাকলেও ফাঁকা দেখাবে না */
+  .side-nav {
+    position: fixed;
+    top: 74px;               /* হেডারের উচ্চতা */
+    left: 0; right: 0;
+    width: 100%;
+    max-height: calc(100vh - 74px);
+    max-height: calc(100dvh - 74px);
+    overflow-y: auto;
+    z-index: 200;
+    display: none;
+  }
+  .side-nav.open { display: block; }
+  /* মোবাইলে অ্যানিমেশন ছাড়া সাথে সাথে দেখাবে (প্রথম ক্লিকেই) */
+  .nav-submenu, .nav-submenu.open { transition: none; }
+  .nav-submenu.open { max-height: 600px; }
+}
+
+/* ---------- ২. তালিকার হেডার + সার্চ আইকন (এক লাইনে) ---------- */
+.list-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+.list-head .sub-title { flex: 1; min-width: 0; }
+.icon-btn {
+  flex-shrink: 0;
+  width: 38px; height: 38px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 1.5px solid var(--navy);
+  background: transparent;
+  color: var(--navy);
+  border-radius: 50%;
+  font-size: 17px; line-height: 1;
+  cursor: pointer;
+  transition: .2s;
+}
+.icon-btn:hover, .icon-btn.is-open { background: var(--navy); color: #fff; }
+
+.list-search-box { margin: 0 0 12px; }
+.list-search-input { width: 100%; height: 40px; padding: 8px 12px; font-size: 14px; }
+
+/* ---------- ৩. সকল সদস্য তালিকা — কমপ্যাক্ট টেবিল ---------- */
+#memberListWrap, #transferredListBody { overflow-x: auto; }
+#memberListWrap .dhajjo-table th, #transferredListBody .dhajjo-table th { padding: 6px 8px; font-size: 12px; }
+#memberListWrap .dhajjo-table td, #transferredListBody .dhajjo-table td {
+  padding: 4px 8px; font-size: 12px; line-height: 1.3; white-space: nowrap;
+}
+#memberListWrap .dhajjo-table, #transferredListBody .dhajjo-table { margin-bottom: 0; }
+#memberListWrap .btn-sm, #transferredListBody .btn-sm { padding: 3px 8px; font-size: 11.5px; }
+
+/* ---------- ৪. টগল-নির্ভর দৃশ্যমানতা (JS-এ inline display বদলালে স্বয়ংক্রিয়) ---------- */
+/* "সদস্য তালিকা প্রিন্ট" ফরম খোলা থাকলে সকল সদস্য তালিকা লুকাবে */
+#page-member-form:has(#memberListPrintCard:not([style*="display:none"]):not([style*="display: none"])) #memberListCard { display: none !important; }
+/* "এয়ানত বৃদ্ধি ফরম" খোলা থাকলে সদস্য সার্চ/ধার্য্য ফরম লুকাবে; বন্ধ হলে আবার দেখাবে */
+#page-dhajjo-form:has(#eyanatIncreaseCard:not([style*="display:none"]):not([style*="display: none"])) #dhajjoMemberWrap { display: none !important; }
+
+/* ধার্য্য ফরম বন্ধ করার বাটন */
+#dhajjoCloseBtn { white-space: nowrap; }
+@media (max-width: 768px) {
+  .list-head #dhajjoCloseBtn { flex: 0 0 auto; padding: 8px 10px; font-size: 12.5px; }
+}
+
+/* ---------- ৫. অফিসিয়াল প্রিন্ট ফরম্যাট ---------- */
+@media print {
+  @page { size: A4 portrait; margin: 12mm 12mm 14mm; }
+
+  html, body { font-family: 'Noto Sans Bengali', 'Kalpurush', Arial, sans-serif !important; color: #000 !important; }
+
+  /* প্রিন্টে স্ক্রিনের তালিকা/সার্চ UI কখনোই আসবে না */
+  #memberListCard, #memberListPrintCard, #transferredListCard, #transferNewWrap,
+  #dhajjoMemberWrap, #eyanatIncreaseCard, .list-head, .list-search-box, .icon-btn { display: none !important; }
+
+  .off-head { text-align: center; margin-bottom: 4px; }
+  .off-head h2 { margin: 0 0 2px !important; font-size: 17px; color: #000 !important; font-weight: 700; }
+  .off-head .off-sub, .off-sub { margin: 0; font-size: 11.5px; color: #000; text-align: center; }
+
+  .off-title {
+    width: fit-content;
+    margin: 8px auto 6px;
+    padding: 2px 22px;
+    border: 1px solid #000;
+    font-size: 13.5px;
+    font-weight: 700;
+    text-align: center;
+    color: #000;
+  }
+  .off-meta { display: flex; justify-content: space-between; font-size: 11px; margin: 0 0 4px; color: #000; }
+
+  .off-table, .print-table.off-table { width: 100%; border-collapse: collapse; margin-top: 4px; table-layout: auto; }
+  .off-table th, .off-table td, .print-table.off-table th, .print-table.off-table td {
+    border: 0.6pt solid #000 !important;
+    padding: 1.5px 4px !important;
+    font-size: 10px !important;
+    line-height: 1.25;
+    color: #000 !important;
+    background: #fff !important;
+    text-align: left;
+    vertical-align: middle;
+    word-break: break-word;
+  }
+  .off-table th { font-weight: 700; text-align: center; background: #f0f0f0 !important; }
+  .off-table .col-serial, .off-table td:first-child { width: 28px; text-align: center; }
+  .off-table thead { display: table-header-group; }
+  .off-table tr { page-break-inside: avoid; break-inside: avoid; }
+
+  .off-total { margin-top: 6px; font-size: 11px; font-weight: 700; text-align: right; color: #000; }
+
+  .off-sign { display: flex; justify-content: space-between; margin-top: 38px; font-size: 11px; color: #000; }
+  .off-sign > div { min-width: 90px; text-align: center; border-top: 1px solid #000; padding-top: 3px; }
+
+  .print-memberList .print-footer { margin-top: 14px; font-size: 9.5px; color: #000; }
+}
+
+/* ---------- কমপ্যাক্ট তালিকা টেবিল (সকল তালিকায়) ---------- */
+.list-scroll.compact .dhajjo-table th { padding: 6px 8px; font-size: 12px; }
+.list-scroll.compact .dhajjo-table td { padding: 4px 8px; font-size: 12px; line-height: 1.3; }
+.list-scroll.compact .dhajjo-table td.col-wrap { white-space: normal; min-width: 140px; }
+.list-scroll.compact .icon-btn { width: 30px; height: 30px; font-size: 14px; }
+.list-scroll.compact .dhajjo-table td:last-child { white-space: nowrap; }
+
+/* ---------- পিরিয়ড প্রিন্ট পপআপ ---------- */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 500;
+  background: rgba(0,0,0,0.45);
+  align-items: center; justify-content: center;
+  padding: 16px;
+}
+.modal-box {
+  background: #fff; width: 100%; max-width: 420px;
+  border-radius: 12px; padding: 22px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.3);
+}
+@media print { .modal-overlay { display: none !important; } }

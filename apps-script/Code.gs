@@ -1353,8 +1353,19 @@ function getNextVoucherNumber() {
   try {
     const sheet = getOrCreateSheet_(SHEET_NAMES.BYAY, BYAY_HEADERS);
     const lastRow = sheet.getLastRow();
-    const nextNum = lastRow >= 2 ? lastRow : 1;
-    const padded = ('0000' + nextNum).slice(-4);
+    // বিদ্যমান ভাউচারগুলোর সর্বোচ্চ নম্বর + ১ (মুছে ফেলার পরও নম্বর যেন দ্বিগুণ না হয়)
+    let maxNum = 0;
+    if (lastRow >= 2) {
+      const vals = sheet.getRange(2, 2, lastRow - 1, 1).getValues();
+      vals.forEach(function (r) {
+        const m = String(r[0]).match(/(\d+)\s*$/);
+        if (m) {
+          const n = parseInt(m[1], 10);
+          if (n < 100000 && n > maxNum) maxNum = n;
+        }
+      });
+    }
+    const padded = ('0000' + (maxNum + 1)).slice(-4);
     return { success: true, voucherNo: 'V-' + padded };
   } catch (err) {
     return { success: false, error: err.message };
@@ -1403,6 +1414,25 @@ function saveByay(formData) {
       SpreadsheetApp.flush();
       return { success: true, message: 'ব্যয়ের তথ্য সংরক্ষণ করা হয়েছে', id: newId, voucherNo: voucherNo };
     }
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+}
+
+function deleteByay(id) {
+  try {
+    const sheet = getOrCreateSheet_(SHEET_NAMES.BYAY, BYAY_HEADERS);
+    const lastRow = sheet.getLastRow();
+    if (lastRow < 2) return { success: false, error: 'কোনো তথ্য নেই' };
+    const ids = sheet.getRange(2, 1, lastRow - 1, 1).getValues();
+    for (let i = 0; i < ids.length; i++) {
+      if (String(ids[i][0]) === String(id)) {
+        sheet.deleteRow(i + 2);
+        SpreadsheetApp.flush();
+        return { success: true, message: 'ব্যয়ের ভাউচার মুছে ফেলা হয়েছে' };
+      }
+    }
+    return { success: false, error: 'ভাউচার খুঁজে পাওয়া যায়নি' };
   } catch (err) {
     return { success: false, error: err.message };
   }
@@ -1826,7 +1856,9 @@ function getPrakashonaKroyList() {
     if (lastRow < 2) return { success: true, data: [] };
     const rows = sheet.getRange(2, 1, lastRow - 1, PRAKASHONA_KROY_HEADERS.length).getValues();
     const data = rows.filter(function (r) { return r[0]; }).map(function (r) {
-      return { id: r[0], date: formatDateValue_(r[1]), subtotal: r[3], discount: r[4], paid: r[5], due: r[6] };
+      let items = [];
+      try { items = JSON.parse(r[2] || '[]'); } catch (e) { items = []; }
+      return { id: r[0], date: formatDateValue_(r[1]), items: items, subtotal: r[3], discount: r[4], paid: r[5], due: r[6] };
     }).reverse();
     return { success: true, data: data };
   } catch (err) {
@@ -1927,7 +1959,9 @@ function getPrakashonaBikroyList() {
     if (lastRow < 2) return { success: true, data: [] };
     const rows = sheet.getRange(2, 1, lastRow - 1, PRAKASHONA_BIKROY_HEADERS.length).getValues();
     const data = rows.filter(function (r) { return r[0]; }).map(function (r) {
-      return { id: r[0], date: formatDateValue_(r[1]), customer: r[2], subtotal: r[4], discount: r[5], paid: r[6], due: r[7] };
+      let items = [];
+      try { items = JSON.parse(r[3] || '[]'); } catch (e) { items = []; }
+      return { id: r[0], date: formatDateValue_(r[1]), customer: r[2], items: items, subtotal: r[4], discount: r[5], paid: r[6], due: r[7] };
     }).reverse();
     return { success: true, data: data };
   } catch (err) {
@@ -2030,7 +2064,9 @@ function getPrakashonaBiliList() {
     if (lastRow < 2) return { success: true, data: [] };
     const rows = sheet.getRange(2, 1, lastRow - 1, PRAKASHONA_BILI_HEADERS.length).getValues();
     const data = rows.filter(function (r) { return r[0]; }).map(function (r) {
-      return { id: r[0], date: formatDateValue_(r[1]), upashakhaId: r[2], upashakhaName: r[3], subtotal: r[5] };
+      let items = [];
+      try { items = JSON.parse(r[4] || '[]'); } catch (e) { items = []; }
+      return { id: r[0], date: formatDateValue_(r[1]), upashakhaId: r[2], upashakhaName: r[3], items: items, subtotal: r[5] };
     }).reverse();
     return { success: true, data: data };
   } catch (err) {
@@ -2897,6 +2933,52 @@ function addPrakashonaBook(formData) {
     sheet.appendRow([newId, formData.name, parseFloat(formData.qty) || 0, parseFloat(formData.price) || 0, new Date(), new Date()]);
     SpreadsheetApp.flush();
     return { success: true, message: 'নতুন বই তালিকায় যুক্ত করা হয়েছে', id: newId };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+}
+
+/** তালিকার একটি বইয়ের নাম/সংখ্যা/এককমূল্য আপডেট করে */
+function updatePrakashonaBook(formData) {
+  try {
+    if (!formData || !formData.id) return { success: false, error: 'বই নির্বাচন করা হয়নি' };
+    if (!formData.name) return { success: false, error: 'অনুগ্রহ করে বইয়ের নাম লিখুন' };
+    const sheet = getOrCreateSheet_(SHEET_NAMES.PRAKASHONA_TALIKA, PRAKASHONA_TALIKA_HEADERS);
+    const lastRow = sheet.getLastRow();
+    if (lastRow < 2) return { success: false, error: 'বই পাওয়া যায়নি' };
+    const rows = sheet.getRange(2, 1, lastRow - 1, PRAKASHONA_TALIKA_HEADERS.length).getValues();
+    let rowIndex = -1;
+    for (let i = 0; i < rows.length; i++) {
+      if (String(rows[i][0]) === String(formData.id)) { rowIndex = i + 2; }
+      else if (String(rows[i][1]).trim() === String(formData.name).trim()) {
+        return { success: false, error: 'এই নামের বই ইতিমধ্যে তালিকায় আছে' };
+      }
+    }
+    if (rowIndex < 0) return { success: false, error: 'বই পাওয়া যায়নি' };
+    sheet.getRange(rowIndex, 2, 1, 3).setValues([[formData.name, parseFloat(formData.qty) || 0, parseFloat(formData.price) || 0]]);
+    sheet.getRange(rowIndex, 6).setValue(new Date());
+    SpreadsheetApp.flush();
+    return { success: true, message: 'বইয়ের তথ্য আপডেট হয়েছে' };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+}
+
+/** তালিকা থেকে একটি বই মুছে ফেলে */
+function deletePrakashonaBook(id) {
+  try {
+    const sheet = getOrCreateSheet_(SHEET_NAMES.PRAKASHONA_TALIKA, PRAKASHONA_TALIKA_HEADERS);
+    const lastRow = sheet.getLastRow();
+    if (lastRow < 2) return { success: false, error: 'বই পাওয়া যায়নি' };
+    const ids = sheet.getRange(2, 1, lastRow - 1, 1).getValues();
+    for (let i = 0; i < ids.length; i++) {
+      if (String(ids[i][0]) === String(id)) {
+        sheet.deleteRow(i + 2);
+        SpreadsheetApp.flush();
+        return { success: true, message: 'বইটি তালিকা থেকে মুছে ফেলা হয়েছে' };
+      }
+    }
+    return { success: false, error: 'বই পাওয়া যায়নি' };
   } catch (err) {
     return { success: false, error: err.message };
   }

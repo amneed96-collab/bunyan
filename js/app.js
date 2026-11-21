@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initTransferredList();
     initMemberListPrint();
     initFormToggles();
+    initPeriodPrintModal_();
     setMemberFormMode('new');
   });
 
@@ -124,8 +125,10 @@ document.addEventListener('DOMContentLoaded', function () {
     ];
 
     groups.forEach(function (g) {
+      g.toggle.setAttribute('aria-expanded', 'false');
       g.toggle.addEventListener('click', function (e) {
         e.preventDefault();
+        e.stopPropagation();
         const willOpen = !g.submenu.classList.contains('open');
 
         // অন্য সব মেনু গ্রুপ বন্ধ করা
@@ -139,6 +142,7 @@ document.addEventListener('DOMContentLoaded', function () {
           g.toggle.classList.add('open');
           g.submenu.classList.add('open');
         }
+        groups.forEach(function (o) { o.toggle.setAttribute('aria-expanded', o.submenu.classList.contains('open') ? 'true' : 'false'); });
       });
     });
   }
@@ -182,6 +186,19 @@ document.addEventListener('DOMContentLoaded', function () {
     + ".mab-print-grid .mab-print-col{flex:1;margin-top:0;}"
     + ".mab-official-table{font-size:11px;}"
     + ".mab-official-table td{padding:6px 8px;}"
+    + ".off-head{text-align:center;border-bottom:2px solid #0a2456;padding-bottom:6px;margin-bottom:8px;}"
+    + ".off-head h2{font-size:20px;margin:0;}"
+    + ".off-head .off-sub{margin:3px 0 0;font-size:12px;color:#333;}"
+    + ".off-title{text-align:center;font-size:15px;font-weight:700;margin:8px 0 4px;text-decoration:underline;}"
+    + ".off-meta{display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px;}"
+    + ".print-table.off-table{margin-top:4px;}"
+    + ".print-table.off-table th,.print-table.off-table td{border:1px solid #000;padding:2px 6px;font-size:12px;line-height:1.25;}"
+    + ".print-table.off-table th{background:#e8ecf4;text-align:center;font-weight:700;}"
+    + ".print-table.off-table thead{display:table-header-group;}"
+    + ".print-table.off-table tr{page-break-inside:avoid;}"
+    + ".off-total{font-size:12px;font-weight:700;margin:8px 0;}"
+    + ".off-sign{display:flex;justify-content:space-between;margin-top:56px;font-size:12px;}"
+    + ".off-sign div{width:28%;text-align:center;border-top:1px solid #000;padding-top:3px;}"
     + "@page{margin:12mm;}";
 
   // মোবাইল ব্রাউজারে (বিশেষত অ্যাপস স্ক্রিপ্টের ভেতরের iframe থেকে) সরাসরি window.print()
@@ -247,14 +264,24 @@ document.addEventListener('DOMContentLoaded', function () {
     'member-form': [['memberFormToggleBtn', 'memberFormCard']],
     'branch': [['branchFormToggleBtn', 'branchFormCard'], ['committeeFormToggleBtn', 'committeeCard'], ['zoneFormToggleBtn', 'mainZoneCard']],
     'kormo-parishad': [['kpFormToggleBtn', 'kpFormCard']],
-    'shura-sodossho': [['ssFormToggleBtn', 'ssFormCard']]
+    'shura-sodossho': [['ssFormToggleBtn', 'ssFormCard']],
+    'sthanantor-form': [['transferNewToggleBtn', 'transferNewWrap']],
+    'upashakha-entry': [['uentryFormToggleBtn', 'uentryFormCard']],
+    'byay-form': [['byayFormToggleBtn', 'byayFormCard']],
+    'prakashona-talika': [['ptFormToggleBtn', 'ptFormCard']],
+    'prakashona-kroy': [['pkFormToggleBtn', 'pkFormCard']],
+    'prakashona-bikroy': [['pbFormToggleBtn', 'pbFormCard']],
+    'prakashona-bili': [['pdFormToggleBtn', 'pdFormCard']]
   };
   }
 
   function initFormToggles() {
     const map = pageFormToggles_();
     Object.keys(map).forEach(function (page) {
-      map[page].forEach(function (pair) { bindFormToggle_(pair[0], pair[1]); });
+      map[page].forEach(function (pair) {
+        if (pair[0] === 'memberFormToggleBtn') return; // সদস্য বাটনের আলাদা আচরণ (bindMemberFormEvents)
+        bindFormToggle_(pair[0], pair[1]);
+      });
     });
   }
 
@@ -262,6 +289,80 @@ document.addEventListener('DOMContentLoaded', function () {
     (pageFormToggles_()[page] || []).forEach(function (pair) {
       setFormCardOpen_(pair[1], pair[0], false, false);
     });
+  }
+
+  // ==================== বায়তুলমাল: সার্চ/রিপোর্ট ডাটা খোলা-বন্ধ ও পেজে ঢুকলে রিসেট ====================
+  // লোড/সার্চ বাটন: ডাটা দেখানো থাকলে ক্লিকে বন্ধ করে, না থাকলে লোড করে
+  function bindDataToggle_(btnId, isShownFn, hideFn, loadFn, openLabel, closeLabel) {
+    const btn = document.getElementById(btnId);
+    btn.addEventListener('click', function () {
+      if (isShownFn()) {
+        hideFn();
+        btn.textContent = openLabel;
+        return;
+      }
+      loadFn();
+      if (isShownFn()) btn.textContent = closeLabel;
+    });
+  }
+
+  function isBlockShown_(id) {
+    return document.getElementById(id).style.display === 'block';
+  }
+
+  function hasContent_(id) {
+    return document.getElementById(id).innerHTML.trim() !== '';
+  }
+
+  // রিপোর্ট মোড বন্ধ করে ফরমে ফেরা (রিপোর্ট বাটনের লেখা আগের অবস্থায়)
+  function closeReportMode_(reportBtnId, reportCardId, formCardId) {
+    document.getElementById(reportCardId).style.display = 'none';
+    document.getElementById(formCardId).style.display = 'block';
+    document.getElementById(reportBtnId).textContent = '📊 রিপোর্ট';
+  }
+
+  // যে পেজে ঢুকলে আগের সার্চ করা/লোড করা ডাটা মুছে পরিষ্কার অবস্থায় দেখাবে
+  function pageEnterResetters_() {
+    return {
+      'jonoshokti-income': function () {
+        closeReportMode_('jiReportToggleBtn', 'jiReportCard', 'jiFormCard');
+        document.getElementById('jiMemberListWrap').style.display = 'none';
+        document.getElementById('jiMemberList').innerHTML = '';
+        document.getElementById('jiLoadBtn').textContent = '🔍 তালিকা দেখুন';
+        document.getElementById('jrepTableWrap').innerHTML = '';
+        document.getElementById('jrepLoadBtn').textContent = '🔍 রিপোর্ট দেখুন';
+        document.getElementById('jrepIndResultWrap').style.display = 'none';
+        document.getElementById('jrepIndSearchResults').innerHTML = '';
+        document.getElementById('jrepIndSearchInput').value = '';
+      },
+      'upashakha-income': function () {
+        closeReportMode_('uiReportToggleBtn', 'uiReportCard', 'uiFormCard');
+        document.getElementById('uiTableWrap').style.display = 'none';
+        document.getElementById('ui-upashakha').value = '';
+        _uiSelectedId = '';
+        document.getElementById('urepTableWrap').innerHTML = '';
+        document.getElementById('urepLoadBtn').textContent = '🔍 রিপোর্ট দেখুন';
+        document.getElementById('urepIndResultWrap').style.display = 'none';
+        document.getElementById('urepInd-upashakha').value = '';
+      },
+      'annanno-income': function () {
+        _oaRows = [{ id: '', date: '', khat: '', serial: '', description: '', amount: '' }];
+        renderOaTable();
+      },
+      'byay-form': function () {
+        resetByayForm();
+      },
+      'prakashona-talika': function () { resetPtForm_(); refreshTalika_(); },
+      'prakashona-kroy': function () { resetPkForm(); loadPkList(); },
+      'prakashona-bikroy': function () { resetPbForm(); loadPbList(); },
+      'prakashona-bili': function () { resetPdForm(); loadPdList(); },
+      'mashik-ay-byay': function () {
+        closeReportMode_('mabReportToggleBtn', 'mabReportCard', 'mabFormCard');
+        document.getElementById('mabrepResultWrap').style.display = 'none';
+        document.getElementById('mabrepLoadBtn').textContent = '🔍 রিপোর্ট দেখুন';
+        resetMabForm();
+      }
+    };
   }
 
   // ==================== নেভিগেশন ====================
@@ -277,6 +378,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // পেজে ঢুকলে ফরম বন্ধ রেখে সরাসরি তালিকা দেখানো
     closePageForms_(targetPage);
     if (targetPage === 'member-form') loadMemberList();
+    if (targetPage === 'sthanantor-form') loadTransferredList();
+    const resetFn = pageEnterResetters_()[targetPage];
+    if (resetFn) resetFn();
 
     // খোলা থাকা সব ড্রপডাউন সাবমেনু বন্ধ করা (হোম/আমাদের সম্পর্কের মতো টপ-লেভেল লিংকে গেলেও)
     document.querySelectorAll('.nav-group-toggle').forEach(function (t) { t.classList.remove('open'); });
@@ -290,6 +394,8 @@ document.addEventListener('DOMContentLoaded', function () {
   function initNavigation() {
     const links = document.querySelectorAll('.nav-link');
     links.forEach(function (link) {
+      // সাবমেনু খোলা/বন্ধ করার বাটনে (data-page নেই) পেজ বদলানো হবে না — ওটা initSubmenu() সামলায়
+      if (!link.getAttribute('data-page')) return;
       link.addEventListener('click', function (e) {
         e.preventDefault();
         goToPage(link.getAttribute('data-page'));
@@ -709,14 +815,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ==================== জনশক্তি: সদস্য ফরম ====================
   function bindMemberFormEvents() {
-    document.getElementById('memberSearchBtn').addEventListener('click', doMemberSearch);
-    document.getElementById('memberSearchInput').addEventListener('keypress', function (e) {
-      if (e.key === 'Enter') { e.preventDefault(); doMemberSearch(); }
+    // "➕ নতুন সদস্য" বাটন: বন্ধ থাকলে খালি ফরম খোলে, খোলা থাকলে ফরম বন্ধ করে
+    document.getElementById('memberFormToggleBtn').addEventListener('click', function () {
+      const card = document.getElementById('memberFormCard');
+      if (card.style.display === 'block') {
+        setFormCardOpen_('memberFormCard', 'memberFormToggleBtn', false, false);
+      } else {
+        clearMemberForm();
+        setFormCardOpen_('memberFormCard', 'memberFormToggleBtn', true, true);
+      }
     });
-    document.getElementById('memberNewBtn').addEventListener('click', function () {
-      clearMemberForm();
-      setFormCardOpen_('memberFormCard', 'memberFormToggleBtn', true, true);
+
+    // সকল সদস্য তালিকার সার্চ আইকন (ক্লিকে দেখায়, আবার ক্লিকে বন্ধ হয়) ও লাইভ সার্চ
+    document.getElementById('memberListSearchBtn').addEventListener('click', function () {
+      const box = document.getElementById('memberListSearchBox');
+      const input = document.getElementById('memberListSearchInput');
+      const willOpen = box.style.display !== 'block';
+      box.style.display = willOpen ? 'block' : 'none';
+      this.classList.toggle('is-open', willOpen);
+      if (willOpen) { input.focus(); } else { input.value = ''; renderMemberList(); }
     });
+    document.getElementById('memberListSearchInput').addEventListener('input', renderMemberList);
     document.getElementById('memberClearBtn').addEventListener('click', clearMemberForm);
     document.getElementById('memberSaveBtn').addEventListener('click', saveMemberForm);
     document.getElementById('memberEditBtn').addEventListener('click', enableMemberEdit);
@@ -751,13 +870,27 @@ document.addEventListener('DOMContentLoaded', function () {
       countEl.textContent = '';
       return;
     }
-    countEl.textContent = '(মোট ' + toBnNumber(_memberAll.length) + ' জন)';
-    let html = '<div class="list-scroll"><table class="dhajjo-table"><thead><tr>' +
+    const q = (document.getElementById('memberListSearchInput').value || '').trim().toLowerCase();
+    const shown = [];
+    _memberAll.forEach(function (m, idx) {
+      if (!q || String(m.name || '').toLowerCase().indexOf(q) !== -1 || String(m.mobile || '').toLowerCase().indexOf(q) !== -1) {
+        shown.push({ m: m, idx: idx });
+      }
+    });
+    countEl.textContent = q
+      ? '(' + toBnNumber(shown.length) + ' জন / মোট ' + toBnNumber(_memberAll.length) + ' জন)'
+      : '(মোট ' + toBnNumber(_memberAll.length) + ' জন)';
+    if (!shown.length) {
+      wrap.innerHTML = '<div class="no-result">কোনো সদস্য পাওয়া যায়নি</div>';
+      return;
+    }
+    let html = '<div class="list-scroll compact"><table class="dhajjo-table"><thead><tr>' +
       '<th>ক্রম</th><th>নাম</th><th>মোবাইল</th><th>শাখা</th><th>মান</th><th>অঞ্চল</th><th>সদস্য হওয়ার তারিখ</th><th>পেশা</th><th>ঠিকানা</th><th></th>' +
       '</tr></thead><tbody>';
-    _memberAll.forEach(function (m, idx) {
+    shown.forEach(function (it, n) {
+      const m = it.m;
       html += '<tr>' +
-        '<td>' + toBnNumber(idx + 1) + '</td>' +
+        '<td>' + toBnNumber(n + 1) + '</td>' +
         '<td>' + escapeHtml(m.name) + '</td>' +
         '<td>' + escapeHtml(m.mobile || '—') + '</td>' +
         '<td>' + escapeHtml(m.branch || '—') + '</td>' +
@@ -766,7 +899,7 @@ document.addEventListener('DOMContentLoaded', function () {
         '<td>' + escapeHtml(m.joinDate || '—') + '</td>' +
         '<td>' + escapeHtml(m.profession || '—') + '</td>' +
         '<td class="col-wrap">' + escapeHtml(m.address || '—') + '</td>' +
-        '<td><button type="button" class="btn btn-outline btn-sm" data-idx="' + idx + '">👁️ দেখুন</button></td>' +
+        '<td><button type="button" class="btn btn-outline btn-sm" data-idx="' + it.idx + '">👁️ দেখুন</button></td>' +
         '</tr>';
     });
     html += '</tbody></table></div>';
@@ -778,51 +911,6 @@ document.addEventListener('DOMContentLoaded', function () {
         fillMemberForm(m);
         setFormCardOpen_('memberFormCard', 'memberFormToggleBtn', true, true);
       });
-    });
-  }
-
-  function doMemberSearch() {
-    const query = document.getElementById('memberSearchInput').value.trim();
-    const resultsBox = document.getElementById('memberSearchResults');
-    if (!query) {
-      resultsBox.innerHTML = '<div class="no-result">নাম লিখে সার্চ করুন</div>';
-      return;
-    }
-    resultsBox.innerHTML = '<div class="no-result">খোঁজা হচ্ছে...</div>';
-
-    google.script.run
-      .withSuccessHandler(function (res) {
-        if (res.success) {
-          renderSearchResults(res.data);
-        } else {
-          resultsBox.innerHTML = '<div class="no-result">সার্চে সমস্যা হয়েছে</div>';
-        }
-      })
-      .withFailureHandler(function (err) {
-        resultsBox.innerHTML = '<div class="no-result">সার্চে সমস্যা হয়েছে: ' + err.message + '</div>';
-      })
-      .searchMembersByName(query);
-  }
-
-  function renderSearchResults(members) {
-    const resultsBox = document.getElementById('memberSearchResults');
-    if (!members.length) {
-      resultsBox.innerHTML = '<div class="no-result">কোনো সদস্য পাওয়া যায়নি</div>';
-      return;
-    }
-    resultsBox.innerHTML = '';
-    members.forEach(function (m) {
-      const item = document.createElement('div');
-      item.className = 'search-result-item';
-      item.innerHTML =
-        '<div><div class="search-result-name">' + escapeHtml(m.name) + (m.maan ? '<span class="maan-badge">' + escapeHtml(m.maan) + '</span>' : '') + '</div>' +
-        '<div class="search-result-meta">' + escapeHtml(m.branch || '') + ' • ' + escapeHtml(m.mobile || '') + '</div></div>' +
-        '<div>▶</div>';
-      item.addEventListener('click', function () {
-        fillMemberForm(m);
-        setFormCardOpen_('memberFormCard', 'memberFormToggleBtn', true, true);
-      });
-      resultsBox.appendChild(item);
     });
   }
 
@@ -878,8 +966,6 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('memberForm').reset();
     document.getElementById('member-id').value = '';
     setMemberFormMode('new');
-    document.getElementById('memberSearchResults').innerHTML = '';
-    document.getElementById('memberSearchInput').value = '';
   }
 
   function saveMemberForm() {
@@ -1110,6 +1196,7 @@ document.addEventListener('DOMContentLoaded', function () {
         btn.textContent = '💾 সংরক্ষণ';
         if (res.success) {
           showToast(res.message, 'success');
+          loadTransferredList();
           loadSthanantorList(_transferSelectedMember.id);
           // সদস্য এখন জনশক্তি শীট থেকে মুছে গেছে, তাই ফরম লক করা হচ্ছে
           lockTransferForm();
@@ -1188,6 +1275,13 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('dhajjoSaveBtn').addEventListener('click', function () { submitDhajjoForm('সংরক্ষণ'); });
     document.getElementById('dhajjoUpdateBtn').addEventListener('click', function () { submitDhajjoForm('আপডেট'); });
     document.getElementById('dhajjoResetBtn').addEventListener('click', resetDhajjoForm);
+    document.getElementById('dhajjoCloseBtn').addEventListener('click', function () {
+      _dhajjoSelectedMember = null;
+      document.getElementById('dhajjoSelectedCard').style.display = 'none';
+      document.getElementById('dhajjoHistoryCard').style.display = 'none';
+      document.getElementById('dhajjoSearchResults').innerHTML = '';
+      document.getElementById('dhajjoSearchInput').value = '';
+    });
     document.getElementById('dhajjoPrintBtn').addEventListener('click', printDhajjoForm);
   }
 
@@ -2234,97 +2328,120 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ==================== উপশাখা এন্ট্রি ফরম ====================
   function initUpashakhaEntry() {
-    document.getElementById('uentrySaveBtn').addEventListener('click', function () {
-      const formData = {
-        id: '',
-        name: document.getElementById('uentry-name').value,
-        level: document.getElementById('uentry-level').value
-      };
-      if (!formData.name) { showToast('অনুগ্রহ করে উপশাখার নাম লিখুন', 'error'); return; }
-      if (!formData.level) { showToast('অনুগ্রহ করে মান নির্বাচন করুন', 'error'); return; }
-
-      google.script.run
-        .withSuccessHandler(function (res) {
-          if (res.success) {
-            showToast(res.message, 'success');
-            document.getElementById('uentry-id').value = res.id;
-            loadUpashakhaListForSelects();
-          } else {
-            showToast('সমস্যা হয়েছে: ' + res.error, 'error');
-          }
-        })
-        .withFailureHandler(function (err) { showToast('সমস্যা হয়েছে: ' + err.message, 'error'); })
-        .saveUpashakhaEntry(formData);
-    });
-
-    document.getElementById('uentryEditBtn').addEventListener('click', function () {
-      const id = document.getElementById('uentry-id').value;
-      if (!id) {
-        showToast('এডিট করতে নিচের তালিকা থেকে একটি উপশাখা ক্লিক করে নির্বাচন করুন', 'error');
-        return;
-      }
-      const formData = {
-        id: id,
-        name: document.getElementById('uentry-name').value,
-        level: document.getElementById('uentry-level').value
-      };
-      if (!formData.name) { showToast('অনুগ্রহ করে উপশাখার নাম লিখুন', 'error'); return; }
-      if (!formData.level) { showToast('অনুগ্রহ করে মান নির্বাচন করুন', 'error'); return; }
-
-      google.script.run
-        .withSuccessHandler(function (res) {
-          if (res.success) {
-            showToast(res.message, 'success');
-            loadUpashakhaListForSelects();
-          } else {
-            showToast('সমস্যা হয়েছে: ' + res.error, 'error');
-          }
-        })
-        .withFailureHandler(function (err) { showToast('সমস্যা হয়েছে: ' + err.message, 'error'); })
-        .saveUpashakhaEntry(formData);
-    });
-
+    document.getElementById('uentrySaveBtn').addEventListener('click', saveUentry_);
     document.getElementById('uentryResetBtn').addEventListener('click', resetUentryForm);
     document.getElementById('uentryPrintBtn').addEventListener('click', printUentryList);
+  }
+
+  // সংরক্ষণ বাটন: নতুন হলে "সংরক্ষণ", তালিকা থেকে এডিট করলে "আপডেট"
+  function setUentryMode_(isEdit) {
+    document.getElementById('uentrySaveBtn').textContent = isEdit ? '🔄 আপডেট' : '💾 সংরক্ষণ';
+  }
+
+  function saveUentry_() {
+    const id = document.getElementById('uentry-id').value;
+    const formData = {
+      id: id,
+      name: document.getElementById('uentry-name').value,
+      level: document.getElementById('uentry-level').value
+    };
+    if (!formData.name) { showToast('অনুগ্রহ করে উপশাখার নাম লিখুন', 'error'); return; }
+    if (!formData.level) { showToast('অনুগ্রহ করে মান নির্বাচন করুন', 'error'); return; }
+
+    const btn = document.getElementById('uentrySaveBtn');
+    btn.disabled = true;
+    google.script.run
+      .withSuccessHandler(function (res) {
+        btn.disabled = false;
+        if (res.success) {
+          showToast(res.message, 'success');
+          resetUentryForm();
+          // আপডেটের পর ফরম বন্ধ; নতুন এন্ট্রির পর খোলা থাকে যাতে পরপর আরও যোগ করা যায়
+          if (id) setFormCardOpen_('uentryFormCard', 'uentryFormToggleBtn', false, false);
+          loadUpashakhaListForSelects();
+        } else {
+          showToast('সমস্যা হয়েছে: ' + res.error, 'error');
+        }
+      })
+      .withFailureHandler(function (err) {
+        btn.disabled = false;
+        showToast('সমস্যা হয়েছে: ' + err.message, 'error');
+      })
+      .saveUpashakhaEntry(formData);
   }
 
   function resetUentryForm() {
     document.getElementById('uentry-id').value = '';
     document.getElementById('uentry-name').value = '';
     document.getElementById('uentry-level').value = '';
+    setUentryMode_(false);
   }
 
   function renderUentryList() {
     const box = document.getElementById('uentryList');
+    const countEl = document.getElementById('uentryCount');
     if (!box) return;
     if (!_upashakhaList.length) {
       box.innerHTML = '<div class="no-result">কোনো উপশাখা নেই</div>';
+      countEl.textContent = '';
       return;
     }
-    box.innerHTML = '';
-    _upashakhaList.forEach(function (u) {
-      const div = document.createElement('div');
-      div.className = 'search-result-item';
-      div.innerHTML =
-        '<div><div class="search-result-name">' + escapeHtml(u.name) + (u.level ? '<span class="maan-badge">' + escapeHtml(u.level) + '</span>' : '') + '</div></div>' +
-        '<div>✏️</div>';
-      div.addEventListener('click', function () {
-        document.getElementById('uentry-id').value = u.id;
-        document.getElementById('uentry-name').value = u.name || '';
-        document.getElementById('uentry-level').value = u.level || '';
+    countEl.textContent = '(মোট ' + toBnNumber(_upashakhaList.length) + 'টি)';
+    let html = '<div class="list-scroll compact"><table class="dhajjo-table"><thead><tr><th>ক্রম</th><th>উপশাখার নাম</th><th>মান</th><th>অ্যাকশন</th></tr></thead><tbody>';
+    _upashakhaList.forEach(function (u, idx) {
+      html += '<tr><td>' + toBnNumber(idx + 1) + '</td><td>' + escapeHtml(u.name) + '</td><td>' + escapeHtml(u.level || '—') + '</td>' +
+        '<td><button type="button" class="icon-btn" data-act="edit" data-idx="' + idx + '" title="এডিট" aria-label="এডিট">✏️</button> ' +
+        '<button type="button" class="icon-btn" data-act="delete" data-idx="' + idx + '" title="ডিলেট" aria-label="ডিলেট">🗑️</button></td></tr>';
+    });
+    box.innerHTML = html + '</tbody></table></div>';
+    box.querySelectorAll('button[data-act]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        const u = _upashakhaList[parseInt(btn.getAttribute('data-idx'), 10)];
+        if (!u) return;
+        if (btn.getAttribute('data-act') === 'edit') {
+          document.getElementById('uentry-id').value = u.id;
+          document.getElementById('uentry-name').value = u.name || '';
+          document.getElementById('uentry-level').value = u.level || '';
+          setUentryMode_(true);
+          setFormCardOpen_('uentryFormCard', 'uentryFormToggleBtn', true, true);
+        } else {
+          deleteUentry_(u);
+        }
       });
-      box.appendChild(div);
     });
   }
 
+  function deleteUentry_(u) {
+    if (!confirm('আপনি কি নিশ্চিত "' + u.name + '" উপশাখাটি মুছে ফেলতে চান?')) return;
+    google.script.run
+      .withSuccessHandler(function (res) {
+        if (res.success) {
+          showToast(res.message, 'success');
+          if (document.getElementById('uentry-id').value === String(u.id)) resetUentryForm();
+          loadUpashakhaListForSelects();
+        } else {
+          showToast('সমস্যা হয়েছে: ' + res.error, 'error');
+        }
+      })
+      .withFailureHandler(function (err) { showToast('সমস্যা হয়েছে: ' + err.message, 'error'); })
+      .deleteUpashakha(u.id);
+  }
+
   function printUentryList() {
-    const table = document.getElementById('uentryprint-table');
-    let rows = '<tr><td class="p-label col-serial">ক্রম</td><td class="p-label">উপশাখার নাম</td><td class="p-label">মান</td></tr>';
+    if (!_upashakhaList.length) { showToast('প্রিন্ট করার মতো কোনো উপশাখা নেই', 'error'); return; }
+    document.getElementById('uentryprint-orgName').textContent = document.getElementById('headerBranchName').textContent;
+    const subParts = [_mainBranchLevel, (_branchViewData && _branchViewData.address) || ''].filter(Boolean);
+    const subEl = document.getElementById('uentryprint-sub');
+    subEl.textContent = subParts.join(' | ');
+    subEl.style.display = subParts.length ? 'block' : 'none';
+    document.getElementById('uentryprint-date').textContent = 'তারিখ: ' + new Date().toLocaleDateString('bn-BD', { year: 'numeric', month: 'long', day: 'numeric' });
+
+    let rows = '<thead><tr><th class="col-serial">ক্রম</th><th>উপশাখার নাম</th><th>মান</th></tr></thead><tbody>';
     _upashakhaList.forEach(function (u, idx) {
       rows += '<tr><td class="col-serial">' + toBnNumber(idx + 1) + '</td><td>' + escapeHtml(u.name) + '</td><td>' + escapeHtml(u.level || '—') + '</td></tr>';
     });
-    table.innerHTML = rows;
-
+    document.getElementById('uentryprint-table').innerHTML = rows + '</tbody>';
+    document.getElementById('uentryprint-total').textContent = 'মোট উপশাখা: ' + toBnNumber(_upashakhaList.length) + 'টি';
     printViaWindow('uentryPrintTemplate');
   }
 
@@ -2347,7 +2464,10 @@ document.addEventListener('DOMContentLoaded', function () {
   let _jiData = [];
 
   function initJonoshoktiIncome() {
-    document.getElementById('jiLoadBtn').addEventListener('click', loadJonoshoktiIncomeList);
+    bindDataToggle_('jiLoadBtn',
+      function () { return isBlockShown_('jiMemberListWrap'); },
+      function () { document.getElementById('jiMemberListWrap').style.display = 'none'; },
+      loadJonoshoktiIncomeList, '🔍 তালিকা দেখুন', '✖ তালিকা বন্ধ করুন');
     document.getElementById('jiSaveBtn').addEventListener('click', function () { submitJonoshoktiIncome('সংরক্ষণ'); });
     document.getElementById('jiUpdateBtn').addEventListener('click', function () { submitJonoshoktiIncome('আপডেট'); });
     document.getElementById('jiResetBtn').addEventListener('click', loadJonoshoktiIncomeList);
@@ -2520,6 +2640,11 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('ui-month').addEventListener('change', function () { if (_uiSelectedId) loadUpashakhaIncomeList(); });
     document.getElementById('ui-year').addEventListener('change', function () { if (_uiSelectedId) loadUpashakhaIncomeList(); });
 
+    document.getElementById('uiCloseBtn').addEventListener('click', function () {
+      document.getElementById('uiTableWrap').style.display = 'none';
+      document.getElementById('ui-upashakha').value = '';
+      _uiSelectedId = '';
+    });
     document.getElementById('uiSaveBtn').addEventListener('click', function () { submitUpashakhaIncome('সংরক্ষণ'); });
     document.getElementById('uiUpdateBtn').addEventListener('click', function () { submitUpashakhaIncome('আপডেট'); });
     document.getElementById('uiResetBtn').addEventListener('click', loadUpashakhaIncomeList);
@@ -2802,20 +2927,21 @@ document.addEventListener('DOMContentLoaded', function () {
   let _byayId = '';
   let _byayVoucherNo = '';
 
+  let _byayAll = [];
+
   function initByayForm() {
     refreshByayVoucherPreview();
     loadByayList();
 
-    document.getElementById('byaySaveBtn').addEventListener('click', function () { submitByayForm('সংরক্ষণ'); });
-    document.getElementById('byayUpdateBtn').addEventListener('click', function () { submitByayForm('আপডেট'); });
+    document.getElementById('byaySaveBtn').addEventListener('click', submitByayForm);
     document.getElementById('byayResetBtn').addEventListener('click', resetByayForm);
-    document.getElementById('byayPrintBtn').addEventListener('click', printByayReceipt);
   }
 
   function refreshByayVoucherPreview() {
     google.script.run
       .withSuccessHandler(function (res) {
-        if (res.success) {
+        // এডিটের সময় আসল ভাউচার নম্বর থাকে, তাই শুধু নতুন এন্ট্রির সময় প্রস্তাবিত নম্বর দেখানো হয়
+        if (res.success && !_byayVoucherNo) {
           document.getElementById('byay-voucherNo').value = res.voucherNo + ' (প্রস্তাবিত)';
         }
       })
@@ -2823,7 +2949,13 @@ document.addEventListener('DOMContentLoaded', function () {
       .getNextVoucherNumber();
   }
 
-  function submitByayForm(actionLabel) {
+  // সংরক্ষণ বাটন: নতুন হলে "সংরক্ষণ", তালিকা থেকে এডিট করলে "আপডেট"
+  function setByayMode_(isEdit) {
+    document.getElementById('byaySaveBtn').textContent = isEdit ? '🔄 আপডেট' : '💾 সংরক্ষণ';
+  }
+
+  function submitByayForm() {
+    const isEdit = !!_byayId;
     const formData = {
       id: _byayId,
       voucherNo: _byayVoucherNo,
@@ -2842,19 +2974,23 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
+    const btn = document.getElementById('byaySaveBtn');
+    btn.disabled = true;
     google.script.run
       .withSuccessHandler(function (res) {
+        btn.disabled = false;
         if (res.success) {
-          showToast(actionLabel + ' সম্পন্ন হয়েছে (ভাউচার নং: ' + res.voucherNo + ')', 'success');
-          _byayId = res.id;
-          _byayVoucherNo = res.voucherNo;
-          document.getElementById('byay-voucherNo').value = res.voucherNo;
+          showToast((isEdit ? 'আপডেট' : 'সংরক্ষণ') + ' সম্পন্ন হয়েছে (ভাউচার নং: ' + res.voucherNo + ')', 'success');
+          resetByayForm();
+          // আপডেটের পর ফরম বন্ধ; নতুন এন্ট্রির পর খোলা থাকে যাতে পরপর আরও যোগ করা যায়
+          if (isEdit) setFormCardOpen_('byayFormCard', 'byayFormToggleBtn', false, false);
           loadByayList();
         } else {
           showToast('সমস্যা হয়েছে: ' + res.error, 'error');
         }
       })
       .withFailureHandler(function (err) {
+        btn.disabled = false;
         showToast('সমস্যা হয়েছে: ' + err.message, 'error');
       })
       .saveByay(formData);
@@ -2863,11 +2999,13 @@ document.addEventListener('DOMContentLoaded', function () {
   function resetByayForm() {
     _byayId = '';
     _byayVoucherNo = '';
+    document.getElementById('byay-voucherNo').value = '';
     document.getElementById('byay-date').value = '';
     document.getElementById('byay-khat').value = '';
     document.getElementById('byay-serial').value = '';
     document.getElementById('byay-description').value = '';
     document.getElementById('byay-amount').value = '';
+    setByayMode_(false);
     refreshByayVoucherPreview();
   }
 
@@ -2876,33 +3014,8 @@ document.addEventListener('DOMContentLoaded', function () {
     box.innerHTML = '<div class="no-result">লোড হচ্ছে...</div>';
     google.script.run
       .withSuccessHandler(function (res) {
-        if (!res.success || !res.data.length) {
-          box.innerHTML = '<div class="no-result">কোনো তথ্য নেই</div>';
-          return;
-        }
-        box.innerHTML = '';
-        res.data.forEach(function (b) {
-          const div = document.createElement('div');
-          div.className = 'simple-list-item';
-          div.style.cursor = 'pointer';
-          div.innerHTML =
-            '<span><b>ভাউচার:</b> ' + escapeHtml(b.voucherNo) + '</span>' +
-            '<span><b>তারিখ:</b> ' + escapeHtml(b.date) + '</span>' +
-            '<span><b>খাত:</b> ' + escapeHtml(b.khat) + '</span>' +
-            '<span><b>পরিমাণ:</b> ৳' + escapeHtml(String(b.amount)) + '</span>';
-          div.addEventListener('click', function () {
-            _byayId = b.id;
-            _byayVoucherNo = b.voucherNo;
-            document.getElementById('byay-voucherNo').value = b.voucherNo;
-            document.getElementById('byay-date').value = toInputDate(b.date);
-            document.getElementById('byay-khat').value = b.khat || '';
-            document.getElementById('byay-serial').value = b.serial || '';
-            document.getElementById('byay-description').value = b.description || '';
-            document.getElementById('byay-amount').value = b.amount || '';
-            showToast('ভাউচার ফরমে লোড করা হয়েছে', 'success');
-          });
-          box.appendChild(div);
-        });
+        _byayAll = (res.success && res.data) ? res.data : [];
+        renderByayList();
       })
       .withFailureHandler(function () {
         box.innerHTML = '<div class="no-result">লোড করতে সমস্যা হয়েছে</div>';
@@ -2910,13 +3023,73 @@ document.addEventListener('DOMContentLoaded', function () {
       .getByayList();
   }
 
-  function printByayReceipt() {
-    document.getElementById('byayprint-voucherNo').textContent = document.getElementById('byay-voucherNo').value || '—';
-    document.getElementById('byayprint-date').textContent = document.getElementById('byay-date').value || '—';
-    document.getElementById('byayprint-khat').textContent = document.getElementById('byay-khat').value || '—';
-    document.getElementById('byayprint-serial').textContent = document.getElementById('byay-serial').value || '—';
-    document.getElementById('byayprint-description').textContent = document.getElementById('byay-description').value || '—';
-    document.getElementById('byayprint-amount').textContent = '৳' + (document.getElementById('byay-amount').value || '0');
+  function renderByayList() {
+    const box = document.getElementById('byayList');
+    const countEl = document.getElementById('byayCount');
+    if (!_byayAll.length) {
+      box.innerHTML = '<div class="no-result">কোনো তথ্য নেই</div>';
+      countEl.textContent = '';
+      return;
+    }
+    countEl.textContent = '(মোট ' + toBnNumber(_byayAll.length) + 'টি)';
+    let html = '<div class="list-scroll compact"><table class="dhajjo-table"><thead><tr><th>ভাউচার নং</th><th>তারিখ</th><th>ব্যয়ের খাত</th><th>ক্রম</th><th>বিবরণ</th><th>পরিমাণ (৳)</th><th>অ্যাকশন</th></tr></thead><tbody>';
+    _byayAll.forEach(function (b, idx) {
+      html += '<tr><td>' + escapeHtml(b.voucherNo) + '</td><td>' + escapeHtml(b.date || '—') + '</td><td>' + escapeHtml(b.khat || '—') + '</td><td>' + escapeHtml(String(b.serial || '—')) + '</td>' +
+        '<td class="col-wrap">' + escapeHtml(b.description || '—') + '</td><td>৳' + escapeHtml(String(b.amount)) + '</td>' +
+        '<td><button type="button" class="icon-btn" data-act="edit" data-idx="' + idx + '" title="এডিট" aria-label="এডিট">✏️</button> ' +
+        '<button type="button" class="icon-btn" data-act="print" data-idx="' + idx + '" title="প্রিন্ট" aria-label="প্রিন্ট">🖨️</button> ' +
+        '<button type="button" class="icon-btn" data-act="delete" data-idx="' + idx + '" title="ডিলেট" aria-label="ডিলেট">🗑️</button></td></tr>';
+    });
+    box.innerHTML = html + '</tbody></table></div>';
+    box.querySelectorAll('button[data-act]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        const b = _byayAll[parseInt(btn.getAttribute('data-idx'), 10)];
+        if (!b) return;
+        const act = btn.getAttribute('data-act');
+        if (act === 'edit') {
+          _byayId = b.id;
+          _byayVoucherNo = b.voucherNo;
+          document.getElementById('byay-voucherNo').value = b.voucherNo;
+          document.getElementById('byay-date').value = toInputDate(b.date);
+          document.getElementById('byay-khat').value = b.khat || '';
+          document.getElementById('byay-serial').value = b.serial || '';
+          document.getElementById('byay-description').value = b.description || '';
+          document.getElementById('byay-amount').value = b.amount || '';
+          setByayMode_(true);
+          setFormCardOpen_('byayFormCard', 'byayFormToggleBtn', true, true);
+        } else if (act === 'print') {
+          printByayReceipt(b);
+        } else {
+          deleteByayVoucher_(b);
+        }
+      });
+    });
+  }
+
+  function deleteByayVoucher_(b) {
+    if (!confirm('আপনি কি নিশ্চিত ভাউচার "' + b.voucherNo + '" মুছে ফেলতে চান?')) return;
+    google.script.run
+      .withSuccessHandler(function (res) {
+        if (res.success) {
+          showToast(res.message, 'success');
+          if (_byayId === b.id) resetByayForm();
+          loadByayList();
+        } else {
+          showToast('সমস্যা হয়েছে: ' + res.error, 'error');
+        }
+      })
+      .withFailureHandler(function (err) { showToast('সমস্যা হয়েছে: ' + err.message, 'error'); })
+      .deleteByay(b.id);
+  }
+
+  function printByayReceipt(b) {
+    document.getElementById('byayprint-orgName').textContent = document.getElementById('headerBranchName').textContent;
+    document.getElementById('byayprint-voucherNo').textContent = b.voucherNo || '—';
+    document.getElementById('byayprint-date').textContent = b.date || '—';
+    document.getElementById('byayprint-khat').textContent = b.khat || '—';
+    document.getElementById('byayprint-serial').textContent = b.serial || '—';
+    document.getElementById('byayprint-description').textContent = b.description || '—';
+    document.getElementById('byayprint-amount').textContent = '৳' + (b.amount || '0');
 
     printViaWindow('byayPrintTemplate');
   }
@@ -4461,7 +4634,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     document.getElementById('mabrep-periodType').addEventListener('change', updateMabrepMonthField);
-    document.getElementById('mabrepLoadBtn').addEventListener('click', loadMabrepReport);
+    bindDataToggle_('mabrepLoadBtn',
+      function () { return isBlockShown_('mabrepResultWrap'); },
+      function () { document.getElementById('mabrepResultWrap').style.display = 'none'; },
+      loadMabrepReport, '🔍 রিপোর্ট দেখুন', '✖ রিপোর্ট বন্ধ করুন');
     document.getElementById('mabrepPrintBtn').addEventListener('click', printMabrepReport);
 
     updateMabrepMonthField();
@@ -4512,6 +4688,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!d) return;
 
     document.getElementById('mabrepResultWrap').style.display = 'block';
+    document.getElementById('mabrepLoadBtn').textContent = '✖ রিপোর্ট বন্ধ করুন';
     document.getElementById('mabrep-periodLabel').textContent = mabrepPeriodLabel_(d);
 
     const missingNote = document.getElementById('mabrep-missingNote');
@@ -4735,9 +4912,137 @@ document.addEventListener('DOMContentLoaded', function () {
     return rowsArray.reduce(function (sum, r) { return sum + (parseNum(r.qty) || 0); }, 0);
   }
 
+  // ==================== প্রকাশনা: শেয়ার্ড (এডিট মোড, অ্যাকশন আইকন, পিরিয়ড প্রিন্ট) ====================
+  function setSaveMode_(btnId, isEdit) {
+    document.getElementById(btnId).textContent = isEdit ? '🔄 আপডেট' : '💾 সংরক্ষণ';
+  }
+
+  function actionIcons_(idx, acts) {
+    const defs = {
+      edit: ['✏️', 'এডিট'],
+      print: ['🖨️', 'প্রিন্ট'],
+      delete: ['🗑️', 'ডিলেট']
+    };
+    return acts.map(function (a) {
+      return '<button type="button" class="icon-btn" data-act="' + a + '" data-idx="' + idx + '" title="' + defs[a][1] + '" aria-label="' + defs[a][1] + '">' + defs[a][0] + '</button>';
+    }).join(' ');
+  }
+
+  function bindRowActions_(box, records, handlers) {
+    box.querySelectorAll('button[data-act]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        const rec = records[parseInt(btn.getAttribute('data-idx'), 10)];
+        const fn = handlers[btn.getAttribute('data-act')];
+        if (rec && fn) fn(rec);
+      });
+    });
+  }
+
+  // স্টক বদলালে বই তালিকা ও ফরমের ড্রপডাউন নতুন করে লোড
+  function refreshTalika_() {
+    loadPrakashonaTalikaList(function () {
+      renderPtList();
+      if (typeof renderPkTable === 'function') { renderPkTable(); renderPbTable(); renderPdTable(); }
+    });
+  }
+
+  function itemsSummary_(items, withQty) {
+    return (items || []).filter(function (i) { return i.bookName; }).map(function (i) {
+      return i.bookName + (withQty ? ' (' + (i.qty || 0) + ')' : '');
+    }).join(', ');
+  }
+
+  // dd/MM/yyyy থেকে {m, y}
+  function parseListDate_(str) {
+    const p = String(str || '').split('/');
+    if (p.length !== 3) return { m: '', y: '' };
+    return { m: ('0' + p[1]).slice(-2), y: p[2] };
+  }
+
+  // পপআপ: নির্দিষ্ট মাস (মাস+বছর) / বছর / সকল — তারপর ফিল্টার করা রেকর্ড দিয়ে printFn(records, periodLabel) কল
+  let _ppState = null;
+  function openPeriodPrint_(title, getRecords, printFn) {
+    _ppState = { getRecords: getRecords, printFn: printFn };
+    document.getElementById('ppTitle').textContent = title;
+    document.getElementById('ppType').value = 'month';
+    const now = new Date();
+    document.getElementById('ppMonth').value = ('0' + (now.getMonth() + 1)).slice(-2);
+    document.getElementById('ppYear').value = now.getFullYear();
+    syncPeriodPrintFields_();
+    document.getElementById('periodPrintModal').style.display = 'flex';
+  }
+
+  function syncPeriodPrintFields_() {
+    const type = document.getElementById('ppType').value;
+    document.getElementById('ppMonthRow').style.display = type === 'all' ? 'none' : 'grid';
+    document.getElementById('ppMonth').parentNode.style.display = type === 'month' ? 'block' : 'none';
+    document.getElementById('ppYearGroup').style.display = type === 'all' ? 'none' : 'block';
+  }
+
+  function initPeriodPrintModal_() {
+    const modal = document.getElementById('periodPrintModal');
+    document.getElementById('ppType').addEventListener('change', syncPeriodPrintFields_);
+    document.getElementById('ppCancelBtn').addEventListener('click', function () { modal.style.display = 'none'; });
+    modal.addEventListener('click', function (e) { if (e.target === modal) modal.style.display = 'none'; });
+    document.getElementById('ppConfirmBtn').addEventListener('click', function () {
+      if (!_ppState) return;
+      const type = document.getElementById('ppType').value;
+      const month = document.getElementById('ppMonth').value;
+      const year = String(document.getElementById('ppYear').value || '').trim();
+      if (type !== 'all' && !year) { showToast('অনুগ্রহ করে বছর লিখুন', 'error'); return; }
+      const monthNames = { '01': 'জানুয়ারি', '02': 'ফেব্রুয়ারি', '03': 'মার্চ', '04': 'এপ্রিল', '05': 'মে', '06': 'জুন', '07': 'জুলাই', '08': 'আগস্ট', '09': 'সেপ্টেম্বর', '10': 'অক্টোবর', '11': 'নভেম্বর', '12': 'ডিসেম্বর' };
+      let label = 'সকল';
+      const all = _ppState.getRecords();
+      const list = all.filter(function (r) {
+        if (type === 'all') return true;
+        const d = parseListDate_(r.date);
+        if (type === 'year') return d.y === year;
+        return d.y === year && d.m === month;
+      });
+      if (type === 'year') label = toBnNumber(year) + ' সাল';
+      if (type === 'month') label = monthNames[month] + ' ' + toBnNumber(year);
+      if (!list.length) { showToast('এই সময়ের কোনো তথ্য পাওয়া যায়নি', 'error'); return; }
+      modal.style.display = 'none';
+      _ppState.printFn(list, label);
+    });
+  }
+
+  // অফিসিয়াল ফরম্যাটে জেনেরিক তালিকা প্রিন্ট
+  function printOfficialList_(title, metaText, headers, rows, totalText) {
+    document.getElementById('lp-orgName').textContent = document.getElementById('headerBranchName').textContent;
+    document.getElementById('lp-sub').textContent = document.getElementById('headerBranchLevel').textContent;
+    document.getElementById('lp-title').textContent = title;
+    document.getElementById('lp-meta').textContent = metaText || '';
+    document.getElementById('lp-date').textContent = 'প্রিন্টের তারিখ: ' + new Date().toLocaleDateString('bn-BD');
+    let html = '<thead><tr>' + headers.map(function (h) { return '<th>' + escapeHtml(h) + '</th>'; }).join('') + '</tr></thead><tbody>';
+    rows.forEach(function (r) {
+      html += '<tr>' + r.map(function (c) { return '<td>' + escapeHtml(String(c)) + '</td>'; }).join('') + '</tr>';
+    });
+    document.getElementById('lp-table').innerHTML = html + '</tbody>';
+    document.getElementById('lp-total').textContent = totalText || '';
+    printViaWindow('listPrintTemplate');
+  }
+
+  // রশিদ প্রিন্টে (ক্রয়/বিক্রয়) আইটেম সারি বসানো
+  function fillReceiptItems_(tbodyId, items, withPrice) {
+    const tbody = document.getElementById(tbodyId);
+    tbody.innerHTML = '';
+    (items || []).filter(function (r) { return r.bookName; }).forEach(function (item, idx) {
+      const tr = document.createElement('tr');
+      let html = '<td>' + toBnNumber(idx + 1) + '</td><td>' + escapeHtml(item.bookName) + '</td><td class="r-num">' + escapeHtml(String(item.qty || 0)) + '</td>';
+      if (withPrice) {
+        const total = (parseNum(item.qty) || 0) * (parseNum(item.unitPrice) || 0);
+        html += '<td class="r-num">' + escapeHtml(String(item.unitPrice || 0)) + '</td><td class="r-num">' + total + '</td>';
+      }
+      tr.innerHTML = html;
+      tbody.appendChild(tr);
+    });
+  }
+
   // ==================== প্রকাশনা: ক্রয় ফরম ====================
   let _pkId = '';
   let _pkItems = [];
+  let _pkAll = [];
 
   function initPrakashonaKroy() {
     _pkItems = [{ bookName: '', qty: '', unitPrice: '' }];
@@ -4750,11 +5055,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     document.getElementById('pk-discount').addEventListener('input', recalcPkSummary);
     document.getElementById('pk-paid').addEventListener('input', recalcPkSummary);
-    document.getElementById('pkSaveBtn').addEventListener('click', function () { submitPkForm('সংরক্ষণ'); });
-    document.getElementById('pkUpdateBtn').addEventListener('click', function () { submitPkForm('আপডেট'); });
+    document.getElementById('pkSaveBtn').addEventListener('click', submitPkForm);
     document.getElementById('pkResetBtn').addEventListener('click', resetPkForm);
-    document.getElementById('pkDeleteBtn').addEventListener('click', deletePkForm);
-    document.getElementById('pkPrintBtn').addEventListener('click', printPkReceipt);
   }
 
   function renderPkTable() {
@@ -4774,40 +5076,36 @@ document.addEventListener('DOMContentLoaded', function () {
     const subtotal = sumPriceItems(_pkItems);
     const discount = parseNum(document.getElementById('pk-discount').value) || 0;
     const paid = parseNum(document.getElementById('pk-paid').value) || 0;
-    const due = subtotal - discount - paid;
     document.getElementById('pk-subtotal').textContent = '৳' + subtotal;
-    document.getElementById('pk-due').textContent = '৳' + due;
+    document.getElementById('pk-due').textContent = '৳' + (subtotal - discount - paid);
   }
 
-  function submitPkForm(actionLabel) {
+  function submitPkForm() {
+    const isEdit = !!_pkId;
     const validItems = _pkItems.filter(function (r) { return r.bookName; });
-    if (!validItems.length) {
-      showToast('অনুগ্রহ করে অন্তত একটি বইয়ের তথ্য দিন', 'error');
-      return;
-    }
+    if (!validItems.length) { showToast('অনুগ্রহ করে অন্তত একটি বইয়ের তথ্য দিন', 'error'); return; }
     const subtotal = sumPriceItems(_pkItems);
     const discount = parseNum(document.getElementById('pk-discount').value) || 0;
     const paid = parseNum(document.getElementById('pk-paid').value) || 0;
     const formData = {
       id: _pkId,
       date: formatDateForSheet(document.getElementById('pk-date').value),
-      items: validItems,
-      subtotal: subtotal,
-      discount: discount,
-      paid: paid,
-      due: subtotal - discount - paid
+      items: validItems, subtotal: subtotal, discount: discount, paid: paid, due: subtotal - discount - paid
     };
+    const btn = document.getElementById('pkSaveBtn');
+    btn.disabled = true;
     google.script.run
       .withSuccessHandler(function (res) {
+        btn.disabled = false;
         if (res.success) {
-          showToast(actionLabel + ' সম্পন্ন হয়েছে', 'success');
-          _pkId = res.id;
+          showToast((isEdit ? 'আপডেট' : 'সংরক্ষণ') + ' সম্পন্ন হয়েছে', 'success');
+          resetPkForm();
+          if (isEdit) setFormCardOpen_('pkFormCard', 'pkFormToggleBtn', false, false);
           loadPkList();
-        } else {
-          showToast('সমস্যা হয়েছে: ' + res.error, 'error');
-        }
+          refreshTalika_();
+        } else { showToast('সমস্যা হয়েছে: ' + res.error, 'error'); }
       })
-      .withFailureHandler(function (err) { showToast('সমস্যা হয়েছে: ' + err.message, 'error'); })
+      .withFailureHandler(function (err) { btn.disabled = false; showToast('সমস্যা হয়েছে: ' + err.message, 'error'); })
       .savePrakashonaKroy(formData);
   }
 
@@ -4817,19 +5115,8 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('pk-discount').value = '0';
     document.getElementById('pk-paid').value = '0';
     _pkItems = [{ bookName: '', qty: '', unitPrice: '' }];
+    setSaveMode_('pkSaveBtn', false);
     renderPkTable();
-  }
-
-  function deletePkForm() {
-    if (!_pkId) { showToast('মুছে ফেলার জন্য প্রথমে একটি এন্ট্রি নির্বাচন করুন', 'error'); return; }
-    if (!confirm('আপনি কি নিশ্চিত এই এন্ট্রি মুছে ফেলতে চান?')) return;
-    google.script.run
-      .withSuccessHandler(function (res) {
-        if (res.success) { showToast(res.message, 'success'); resetPkForm(); loadPkList(); }
-        else { showToast('সমস্যা হয়েছে: ' + res.error, 'error'); }
-      })
-      .withFailureHandler(function (err) { showToast('সমস্যা হয়েছে: ' + err.message, 'error'); })
-      .deletePrakashonaKroy(_pkId);
   }
 
   function loadPkList() {
@@ -4837,67 +5124,69 @@ document.addEventListener('DOMContentLoaded', function () {
     box.innerHTML = '<div class="no-result">লোড হচ্ছে...</div>';
     google.script.run
       .withSuccessHandler(function (res) {
-        if (!res.success || !res.data.length) { box.innerHTML = '<div class="no-result">কোনো তথ্য নেই</div>'; return; }
-        box.innerHTML = '';
-        res.data.forEach(function (r) {
-          const div = document.createElement('div');
-          div.className = 'simple-list-item';
-          div.style.cursor = 'pointer';
-          div.innerHTML =
-            '<span><b>তারিখ:</b> ' + escapeHtml(r.date) + '</span>' +
-            '<span><b>সাবটোটাল:</b> ৳' + escapeHtml(String(r.subtotal)) + '</span>' +
-            '<span><b>বকেয়া:</b> ৳' + escapeHtml(String(r.due)) + '</span>';
-          div.addEventListener('click', function () { loadPkForEdit(r.id); });
-          box.appendChild(div);
-        });
+        _pkAll = (res.success && res.data) ? res.data : [];
+        renderPkList();
       })
       .withFailureHandler(function () { box.innerHTML = '<div class="no-result">লোড করতে সমস্যা হয়েছে</div>'; })
       .getPrakashonaKroyList();
   }
 
-  function loadPkForEdit(id) {
-    google.script.run
-      .withSuccessHandler(function (res) {
-        if (!res.success) { showToast('তথ্য লোড করতে সমস্যা হয়েছে', 'error'); return; }
-        const d = res.data;
-        _pkId = d.id;
-        document.getElementById('pk-date').value = toInputDate(d.date);
-        document.getElementById('pk-discount').value = d.discount || 0;
-        document.getElementById('pk-paid').value = d.paid || 0;
-        _pkItems = d.items && d.items.length ? d.items : [{ bookName: '', qty: '', unitPrice: '' }];
-        renderPkTable();
-        showToast('ফরমে লোড করা হয়েছে', 'success');
-      })
-      .withFailureHandler(function (err) { showToast('সমস্যা হয়েছে: ' + err.message, 'error'); })
-      .getPrakashonaKroyById(id);
+  function renderPkList() {
+    const box = document.getElementById('pkList');
+    const countEl = document.getElementById('pkCount');
+    if (!_pkAll.length) { box.innerHTML = '<div class="no-result">কোনো তথ্য নেই</div>'; countEl.textContent = ''; return; }
+    countEl.textContent = '(মোট ' + toBnNumber(_pkAll.length) + 'টি)';
+    let html = '<table class="dhajjo-table"><thead><tr><th>তারিখ</th><th>বই</th><th>সাবটোটাল</th><th>ডিসকাউন্ট</th><th>পরিশোধ</th><th>বকেয়া</th><th>অ্যাকশন</th></tr></thead><tbody>';
+    _pkAll.forEach(function (r, idx) {
+      html += '<tr><td>' + escapeHtml(r.date || '—') + '</td><td class="col-wrap">' + escapeHtml(itemsSummary_(r.items, true) || '—') + '</td>' +
+        '<td>৳' + escapeHtml(String(r.subtotal)) + '</td><td>৳' + escapeHtml(String(r.discount || 0)) + '</td><td>৳' + escapeHtml(String(r.paid || 0)) + '</td><td>৳' + escapeHtml(String(r.due)) + '</td>' +
+        '<td>' + actionIcons_(idx, ['edit', 'print', 'delete']) + '</td></tr>';
+    });
+    box.innerHTML = html + '</tbody></table>';
+    bindRowActions_(box, _pkAll, { edit: loadPkForEdit, print: printPkReceipt, delete: deletePkRecord_ });
   }
 
-  function printPkReceipt() {
-    document.getElementById('pkr-date').textContent = document.getElementById('pk-date').value || '—';
-    const tbody = document.getElementById('pkr-items');
-    tbody.innerHTML = '';
-    _pkItems.filter(function (r) { return r.bookName; }).forEach(function (item, idx) {
-      const tr = document.createElement('tr');
-      const total = (parseNum(item.qty) || 0) * (parseNum(item.unitPrice) || 0);
-      tr.innerHTML =
-        '<td>' + toBnNumber(idx + 1) + '</td>' +
-        '<td>' + escapeHtml(item.bookName) + '</td>' +
-        '<td class="r-num">' + escapeHtml(String(item.qty || 0)) + '</td>' +
-        '<td class="r-num">' + escapeHtml(String(item.unitPrice || 0)) + '</td>' +
-        '<td class="r-num">' + total + '</td>';
-      tbody.appendChild(tr);
-    });
-    document.getElementById('pkr-subtotal').textContent = document.getElementById('pk-subtotal').textContent;
-    document.getElementById('pkr-discount').textContent = '৳' + (document.getElementById('pk-discount').value || 0);
-    document.getElementById('pkr-paid').textContent = '৳' + (document.getElementById('pk-paid').value || 0);
-    document.getElementById('pkr-due').textContent = document.getElementById('pk-due').textContent;
+  function loadPkForEdit(r) {
+    _pkId = r.id;
+    document.getElementById('pk-date').value = toInputDate(r.date);
+    document.getElementById('pk-discount').value = r.discount || 0;
+    document.getElementById('pk-paid').value = r.paid || 0;
+    _pkItems = (r.items && r.items.length) ? JSON.parse(JSON.stringify(r.items)) : [{ bookName: '', qty: '', unitPrice: '' }];
+    setSaveMode_('pkSaveBtn', true);
+    renderPkTable();
+    setFormCardOpen_('pkFormCard', 'pkFormToggleBtn', true, true);
+  }
 
+  function deletePkRecord_(r) {
+    if (!confirm('আপনি কি নিশ্চিত এই ক্রয়ের এন্ট্রি মুছে ফেলতে চান?')) return;
+    google.script.run
+      .withSuccessHandler(function (res) {
+        if (res.success) {
+          showToast(res.message, 'success');
+          if (_pkId === r.id) resetPkForm();
+          loadPkList();
+          refreshTalika_();
+        } else { showToast('সমস্যা হয়েছে: ' + res.error, 'error'); }
+      })
+      .withFailureHandler(function (err) { showToast('সমস্যা হয়েছে: ' + err.message, 'error'); })
+      .deletePrakashonaKroy(r.id);
+  }
+
+  function printPkReceipt(r) {
+    document.getElementById('pkr-orgName').textContent = document.getElementById('headerBranchName').textContent;
+    document.getElementById('pkr-date').textContent = r.date || '—';
+    fillReceiptItems_('pkr-items', r.items, true);
+    document.getElementById('pkr-subtotal').textContent = '৳' + (r.subtotal || 0);
+    document.getElementById('pkr-discount').textContent = '৳' + (r.discount || 0);
+    document.getElementById('pkr-paid').textContent = '৳' + (r.paid || 0);
+    document.getElementById('pkr-due').textContent = '৳' + (r.due || 0);
     printViaWindow('pkPrintTemplate');
   }
 
   // ==================== প্রকাশনা: বিক্রয় ফরম ====================
   let _pbId = '';
   let _pbItems = [];
+  let _pbAll = [];
 
   function initPrakashonaBikroy() {
     _pbItems = [{ bookName: '', qty: '', unitPrice: '' }];
@@ -4907,18 +5196,17 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('pb-upashakha-picker').addEventListener('change', function () {
       if (this.value) document.getElementById('pb-customer').value = this.value;
     });
-
     document.getElementById('pbAddRowBtn').addEventListener('click', function () {
       _pbItems.push({ bookName: '', qty: '', unitPrice: '' });
       renderPbTable();
     });
     document.getElementById('pb-discount').addEventListener('input', recalcPbSummary);
     document.getElementById('pb-paid').addEventListener('input', recalcPbSummary);
-    document.getElementById('pbSaveBtn').addEventListener('click', function () { submitPbForm('সংরক্ষণ'); });
-    document.getElementById('pbUpdateBtn').addEventListener('click', function () { submitPbForm('আপডেট'); });
+    document.getElementById('pbSaveBtn').addEventListener('click', submitPbForm);
     document.getElementById('pbResetBtn').addEventListener('click', resetPbForm);
-    document.getElementById('pbDeleteBtn').addEventListener('click', deletePbForm);
-    document.getElementById('pbPrintBtn').addEventListener('click', printPbReceipt);
+    document.getElementById('pbListPrintBtn').addEventListener('click', function () {
+      openPeriodPrint_('বিক্রয় তালিকা প্রিন্ট', function () { return _pbAll; }, printPbList_);
+    });
   }
 
   function renderPbTable() {
@@ -4938,17 +5226,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const subtotal = sumPriceItems(_pbItems);
     const discount = parseNum(document.getElementById('pb-discount').value) || 0;
     const paid = parseNum(document.getElementById('pb-paid').value) || 0;
-    const due = subtotal - discount - paid;
     document.getElementById('pb-subtotal').textContent = '৳' + subtotal;
-    document.getElementById('pb-due').textContent = '৳' + due;
+    document.getElementById('pb-due').textContent = '৳' + (subtotal - discount - paid);
   }
 
-  function submitPbForm(actionLabel) {
+  function submitPbForm() {
+    const isEdit = !!_pbId;
     const validItems = _pbItems.filter(function (r) { return r.bookName; });
-    if (!validItems.length) {
-      showToast('অনুগ্রহ করে অন্তত একটি বইয়ের তথ্য দিন', 'error');
-      return;
-    }
+    if (!validItems.length) { showToast('অনুগ্রহ করে অন্তত একটি বইয়ের তথ্য দিন', 'error'); return; }
     const subtotal = sumPriceItems(_pbItems);
     const discount = parseNum(document.getElementById('pb-discount').value) || 0;
     const paid = parseNum(document.getElementById('pb-paid').value) || 0;
@@ -4956,23 +5241,22 @@ document.addEventListener('DOMContentLoaded', function () {
       id: _pbId,
       date: formatDateForSheet(document.getElementById('pb-date').value),
       customer: document.getElementById('pb-customer').value,
-      items: validItems,
-      subtotal: subtotal,
-      discount: discount,
-      paid: paid,
-      due: subtotal - discount - paid
+      items: validItems, subtotal: subtotal, discount: discount, paid: paid, due: subtotal - discount - paid
     };
+    const btn = document.getElementById('pbSaveBtn');
+    btn.disabled = true;
     google.script.run
       .withSuccessHandler(function (res) {
+        btn.disabled = false;
         if (res.success) {
-          showToast(actionLabel + ' সম্পন্ন হয়েছে', 'success');
-          _pbId = res.id;
+          showToast((isEdit ? 'আপডেট' : 'সংরক্ষণ') + ' সম্পন্ন হয়েছে', 'success');
+          resetPbForm();
+          if (isEdit) setFormCardOpen_('pbFormCard', 'pbFormToggleBtn', false, false);
           loadPbList();
-        } else {
-          showToast('সমস্যা হয়েছে: ' + res.error, 'error');
-        }
+          refreshTalika_();
+        } else { showToast('সমস্যা হয়েছে: ' + res.error, 'error'); }
       })
-      .withFailureHandler(function (err) { showToast('সমস্যা হয়েছে: ' + err.message, 'error'); })
+      .withFailureHandler(function (err) { btn.disabled = false; showToast('সমস্যা হয়েছে: ' + err.message, 'error'); })
       .savePrakashonaBikroy(formData);
   }
 
@@ -4984,19 +5268,8 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('pb-discount').value = '0';
     document.getElementById('pb-paid').value = '0';
     _pbItems = [{ bookName: '', qty: '', unitPrice: '' }];
+    setSaveMode_('pbSaveBtn', false);
     renderPbTable();
-  }
-
-  function deletePbForm() {
-    if (!_pbId) { showToast('মুছে ফেলার জন্য প্রথমে একটি এন্ট্রি নির্বাচন করুন', 'error'); return; }
-    if (!confirm('আপনি কি নিশ্চিত এই এন্ট্রি মুছে ফেলতে চান?')) return;
-    google.script.run
-      .withSuccessHandler(function (res) {
-        if (res.success) { showToast(res.message, 'success'); resetPbForm(); loadPbList(); }
-        else { showToast('সমস্যা হয়েছে: ' + res.error, 'error'); }
-      })
-      .withFailureHandler(function (err) { showToast('সমস্যা হয়েছে: ' + err.message, 'error'); })
-      .deletePrakashonaBikroy(_pbId);
   }
 
   function loadPbList() {
@@ -5004,70 +5277,82 @@ document.addEventListener('DOMContentLoaded', function () {
     box.innerHTML = '<div class="no-result">লোড হচ্ছে...</div>';
     google.script.run
       .withSuccessHandler(function (res) {
-        if (!res.success || !res.data.length) { box.innerHTML = '<div class="no-result">কোনো তথ্য নেই</div>'; return; }
-        box.innerHTML = '';
-        res.data.forEach(function (r) {
-          const div = document.createElement('div');
-          div.className = 'simple-list-item';
-          div.style.cursor = 'pointer';
-          div.innerHTML =
-            '<span><b>তারিখ:</b> ' + escapeHtml(r.date) + '</span>' +
-            '<span><b>গ্রাহক:</b> ' + escapeHtml(r.customer || '—') + '</span>' +
-            '<span><b>সাবটোটাল:</b> ৳' + escapeHtml(String(r.subtotal)) + '</span>' +
-            '<span><b>বকেয়া:</b> ৳' + escapeHtml(String(r.due)) + '</span>';
-          div.addEventListener('click', function () { loadPbForEdit(r.id); });
-          box.appendChild(div);
-        });
+        _pbAll = (res.success && res.data) ? res.data : [];
+        renderPbList();
       })
       .withFailureHandler(function () { box.innerHTML = '<div class="no-result">লোড করতে সমস্যা হয়েছে</div>'; })
       .getPrakashonaBikroyList();
   }
 
-  function loadPbForEdit(id) {
-    google.script.run
-      .withSuccessHandler(function (res) {
-        if (!res.success) { showToast('তথ্য লোড করতে সমস্যা হয়েছে', 'error'); return; }
-        const d = res.data;
-        _pbId = d.id;
-        document.getElementById('pb-date').value = toInputDate(d.date);
-        document.getElementById('pb-customer').value = d.customer || '';
-        document.getElementById('pb-discount').value = d.discount || 0;
-        document.getElementById('pb-paid').value = d.paid || 0;
-        _pbItems = d.items && d.items.length ? d.items : [{ bookName: '', qty: '', unitPrice: '' }];
-        renderPbTable();
-        showToast('ফরমে লোড করা হয়েছে', 'success');
-      })
-      .withFailureHandler(function (err) { showToast('সমস্যা হয়েছে: ' + err.message, 'error'); })
-      .getPrakashonaBikroyById(id);
+  function renderPbList() {
+    const box = document.getElementById('pbList');
+    const countEl = document.getElementById('pbCount');
+    if (!_pbAll.length) { box.innerHTML = '<div class="no-result">কোনো তথ্য নেই</div>'; countEl.textContent = ''; return; }
+    countEl.textContent = '(মোট ' + toBnNumber(_pbAll.length) + 'টি)';
+    let html = '<table class="dhajjo-table"><thead><tr><th>তারিখ</th><th>গ্রাহক</th><th>বই</th><th>সাবটোটাল</th><th>ডিসকাউন্ট</th><th>আদায়</th><th>বকেয়া</th><th>অ্যাকশন</th></tr></thead><tbody>';
+    _pbAll.forEach(function (r, idx) {
+      html += '<tr><td>' + escapeHtml(r.date || '—') + '</td><td>' + escapeHtml(r.customer || '—') + '</td><td class="col-wrap">' + escapeHtml(itemsSummary_(r.items, true) || '—') + '</td>' +
+        '<td>৳' + escapeHtml(String(r.subtotal)) + '</td><td>৳' + escapeHtml(String(r.discount || 0)) + '</td><td>৳' + escapeHtml(String(r.paid || 0)) + '</td><td>৳' + escapeHtml(String(r.due)) + '</td>' +
+        '<td>' + actionIcons_(idx, ['edit', 'print', 'delete']) + '</td></tr>';
+    });
+    box.innerHTML = html + '</tbody></table>';
+    bindRowActions_(box, _pbAll, { edit: loadPbForEdit, print: printPbReceipt, delete: deletePbRecord_ });
   }
 
-  function printPbReceipt() {
-    document.getElementById('pbr-date').textContent = document.getElementById('pb-date').value || '—';
-    document.getElementById('pbr-customer').textContent = document.getElementById('pb-customer').value || '—';
-    const tbody = document.getElementById('pbr-items');
-    tbody.innerHTML = '';
-    _pbItems.filter(function (r) { return r.bookName; }).forEach(function (item, idx) {
-      const tr = document.createElement('tr');
-      const total = (parseNum(item.qty) || 0) * (parseNum(item.unitPrice) || 0);
-      tr.innerHTML =
-        '<td>' + toBnNumber(idx + 1) + '</td>' +
-        '<td>' + escapeHtml(item.bookName) + '</td>' +
-        '<td class="r-num">' + escapeHtml(String(item.qty || 0)) + '</td>' +
-        '<td class="r-num">' + escapeHtml(String(item.unitPrice || 0)) + '</td>' +
-        '<td class="r-num">' + total + '</td>';
-      tbody.appendChild(tr);
-    });
-    document.getElementById('pbr-subtotal').textContent = document.getElementById('pb-subtotal').textContent;
-    document.getElementById('pbr-discount').textContent = '৳' + (document.getElementById('pb-discount').value || 0);
-    document.getElementById('pbr-paid').textContent = '৳' + (document.getElementById('pb-paid').value || 0);
-    document.getElementById('pbr-due').textContent = document.getElementById('pb-due').textContent;
+  function loadPbForEdit(r) {
+    _pbId = r.id;
+    document.getElementById('pb-date').value = toInputDate(r.date);
+    document.getElementById('pb-customer').value = r.customer || '';
+    document.getElementById('pb-discount').value = r.discount || 0;
+    document.getElementById('pb-paid').value = r.paid || 0;
+    _pbItems = (r.items && r.items.length) ? JSON.parse(JSON.stringify(r.items)) : [{ bookName: '', qty: '', unitPrice: '' }];
+    setSaveMode_('pbSaveBtn', true);
+    renderPbTable();
+    setFormCardOpen_('pbFormCard', 'pbFormToggleBtn', true, true);
+  }
 
+  function deletePbRecord_(r) {
+    if (!confirm('আপনি কি নিশ্চিত এই বিক্রয়ের এন্ট্রি মুছে ফেলতে চান?')) return;
+    google.script.run
+      .withSuccessHandler(function (res) {
+        if (res.success) {
+          showToast(res.message, 'success');
+          if (_pbId === r.id) resetPbForm();
+          loadPbList();
+          refreshTalika_();
+        } else { showToast('সমস্যা হয়েছে: ' + res.error, 'error'); }
+      })
+      .withFailureHandler(function (err) { showToast('সমস্যা হয়েছে: ' + err.message, 'error'); })
+      .deletePrakashonaBikroy(r.id);
+  }
+
+  function printPbReceipt(r) {
+    document.getElementById('pbr-orgName').textContent = document.getElementById('headerBranchName').textContent;
+    document.getElementById('pbr-date').textContent = r.date || '—';
+    document.getElementById('pbr-customer').textContent = r.customer || '—';
+    fillReceiptItems_('pbr-items', r.items, true);
+    document.getElementById('pbr-subtotal').textContent = '৳' + (r.subtotal || 0);
+    document.getElementById('pbr-discount').textContent = '৳' + (r.discount || 0);
+    document.getElementById('pbr-paid').textContent = '৳' + (r.paid || 0);
+    document.getElementById('pbr-due').textContent = '৳' + (r.due || 0);
     printViaWindow('pbPrintTemplate');
+  }
+
+  function printPbList_(list, label) {
+    let sub = 0, disc = 0, paid = 0, due = 0;
+    const rows = list.map(function (r, i) {
+      sub += parseNum(r.subtotal) || 0; disc += parseNum(r.discount) || 0; paid += parseNum(r.paid) || 0; due += parseNum(r.due) || 0;
+      return [toBnNumber(i + 1), r.date || '', r.customer || '', itemsSummary_(r.items, true), '৳' + (r.subtotal || 0), '৳' + (r.discount || 0), '৳' + (r.paid || 0), '৳' + (r.due || 0)];
+    });
+    printOfficialList_('প্রকাশনা বিক্রয় তালিকা', 'সময়কাল: ' + label,
+      ['ক্রম', 'তারিখ', 'গ্রাহক', 'বই (সংখ্যা)', 'সাবটোটাল', 'ডিসকাউন্ট', 'আদায়', 'বকেয়া'], rows,
+      'মোট: বিক্রয় ৳' + sub + ' | ডিসকাউন্ট ৳' + disc + ' | আদায় ৳' + paid + ' | বকেয়া ৳' + due);
   }
 
   // ==================== প্রকাশনা: বিলি ফরম ====================
   let _pdId = '';
   let _pdItems = [];
+  let _pdAll = [];
 
   function initPrakashonaBili() {
     _pdItems = [{ bookName: '', qty: '' }];
@@ -5078,11 +5363,11 @@ document.addEventListener('DOMContentLoaded', function () {
       _pdItems.push({ bookName: '', qty: '' });
       renderPdTable();
     });
-    document.getElementById('pdSaveBtn').addEventListener('click', function () { submitPdForm('সংরক্ষণ'); });
-    document.getElementById('pdUpdateBtn').addEventListener('click', function () { submitPdForm('আপডেট'); });
+    document.getElementById('pdSaveBtn').addEventListener('click', submitPdForm);
     document.getElementById('pdResetBtn').addEventListener('click', resetPdForm);
-    document.getElementById('pdDeleteBtn').addEventListener('click', deletePdForm);
-    document.getElementById('pdPrintBtn').addEventListener('click', printPdReceipt);
+    document.getElementById('pdListPrintBtn').addEventListener('click', function () {
+      openPeriodPrint_('বিলি তালিকা প্রিন্ট', function () { return _pdAll; }, printPdList_);
+    });
   }
 
   function renderPdTable() {
@@ -5102,32 +5387,33 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('pd-subtotal').textContent = toBnNumber(sumQtyItems(_pdItems));
   }
 
-  function submitPdForm(actionLabel) {
+  function submitPdForm() {
+    const isEdit = !!_pdId;
     const validItems = _pdItems.filter(function (r) { return r.bookName; });
-    if (!validItems.length) {
-      showToast('অনুগ্রহ করে অন্তত একটি বইয়ের তথ্য দিন', 'error');
-      return;
-    }
-    const upashakhaSelect = document.getElementById('pd-upashakha');
+    if (!validItems.length) { showToast('অনুগ্রহ করে অন্তত একটি বইয়ের তথ্য দিন', 'error'); return; }
+    const sel = document.getElementById('pd-upashakha');
     const formData = {
       id: _pdId,
       date: formatDateForSheet(document.getElementById('pd-date').value),
-      upashakhaId: upashakhaSelect.value,
-      upashakhaName: upashakhaSelect.options[upashakhaSelect.selectedIndex] ? upashakhaSelect.options[upashakhaSelect.selectedIndex].textContent : '',
+      upashakhaId: sel.value,
+      upashakhaName: sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].textContent : '',
       items: validItems,
       subtotal: sumQtyItems(_pdItems)
     };
+    const btn = document.getElementById('pdSaveBtn');
+    btn.disabled = true;
     google.script.run
       .withSuccessHandler(function (res) {
+        btn.disabled = false;
         if (res.success) {
-          showToast(actionLabel + ' সম্পন্ন হয়েছে', 'success');
-          _pdId = res.id;
+          showToast((isEdit ? 'আপডেট' : 'সংরক্ষণ') + ' সম্পন্ন হয়েছে', 'success');
+          resetPdForm();
+          if (isEdit) setFormCardOpen_('pdFormCard', 'pdFormToggleBtn', false, false);
           loadPdList();
-        } else {
-          showToast('সমস্যা হয়েছে: ' + res.error, 'error');
-        }
+          refreshTalika_();
+        } else { showToast('সমস্যা হয়েছে: ' + res.error, 'error'); }
       })
-      .withFailureHandler(function (err) { showToast('সমস্যা হয়েছে: ' + err.message, 'error'); })
+      .withFailureHandler(function (err) { btn.disabled = false; showToast('সমস্যা হয়েছে: ' + err.message, 'error'); })
       .savePrakashonaBili(formData);
   }
 
@@ -5136,19 +5422,8 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('pd-date').value = '';
     document.getElementById('pd-upashakha').value = '';
     _pdItems = [{ bookName: '', qty: '' }];
+    setSaveMode_('pdSaveBtn', false);
     renderPdTable();
-  }
-
-  function deletePdForm() {
-    if (!_pdId) { showToast('মুছে ফেলার জন্য প্রথমে একটি এন্ট্রি নির্বাচন করুন', 'error'); return; }
-    if (!confirm('আপনি কি নিশ্চিত এই এন্ট্রি মুছে ফেলতে চান?')) return;
-    google.script.run
-      .withSuccessHandler(function (res) {
-        if (res.success) { showToast(res.message, 'success'); resetPdForm(); loadPdList(); }
-        else { showToast('সমস্যা হয়েছে: ' + res.error, 'error'); }
-      })
-      .withFailureHandler(function (err) { showToast('সমস্যা হয়েছে: ' + err.message, 'error'); })
-      .deletePrakashonaBili(_pdId);
   }
 
   function loadPdList() {
@@ -5156,58 +5431,60 @@ document.addEventListener('DOMContentLoaded', function () {
     box.innerHTML = '<div class="no-result">লোড হচ্ছে...</div>';
     google.script.run
       .withSuccessHandler(function (res) {
-        if (!res.success || !res.data.length) { box.innerHTML = '<div class="no-result">কোনো তথ্য নেই</div>'; return; }
-        box.innerHTML = '';
-        res.data.forEach(function (r) {
-          const div = document.createElement('div');
-          div.className = 'simple-list-item';
-          div.style.cursor = 'pointer';
-          div.innerHTML =
-            '<span><b>তারিখ:</b> ' + escapeHtml(r.date) + '</span>' +
-            '<span><b>উপশাখা:</b> ' + escapeHtml(r.upashakhaName || '—') + '</span>' +
-            '<span><b>মোট সংখ্যা:</b> ' + escapeHtml(String(r.subtotal)) + '</span>';
-          div.addEventListener('click', function () { loadPdForEdit(r.id); });
-          box.appendChild(div);
-        });
+        _pdAll = (res.success && res.data) ? res.data : [];
+        renderPdList();
       })
       .withFailureHandler(function () { box.innerHTML = '<div class="no-result">লোড করতে সমস্যা হয়েছে</div>'; })
       .getPrakashonaBiliList();
   }
 
-  function loadPdForEdit(id) {
-    google.script.run
-      .withSuccessHandler(function (res) {
-        if (!res.success) { showToast('তথ্য লোড করতে সমস্যা হয়েছে', 'error'); return; }
-        const d = res.data;
-        _pdId = d.id;
-        document.getElementById('pd-date').value = toInputDate(d.date);
-        document.getElementById('pd-upashakha').value = d.upashakhaId || '';
-        _pdItems = d.items && d.items.length ? d.items : [{ bookName: '', qty: '' }];
-        renderPdTable();
-        showToast('ফরমে লোড করা হয়েছে', 'success');
-      })
-      .withFailureHandler(function (err) { showToast('সমস্যা হয়েছে: ' + err.message, 'error'); })
-      .getPrakashonaBiliById(id);
+  function renderPdList() {
+    const box = document.getElementById('pdList');
+    const countEl = document.getElementById('pdCount');
+    if (!_pdAll.length) { box.innerHTML = '<div class="no-result">কোনো তথ্য নেই</div>'; countEl.textContent = ''; return; }
+    countEl.textContent = '(মোট ' + toBnNumber(_pdAll.length) + 'টি)';
+    let html = '<table class="dhajjo-table"><thead><tr><th>তারিখ</th><th>উপশাখা</th><th>বই (সংখ্যা)</th><th>মোট সংখ্যা</th><th>অ্যাকশন</th></tr></thead><tbody>';
+    _pdAll.forEach(function (r, idx) {
+      html += '<tr><td>' + escapeHtml(r.date || '—') + '</td><td>' + escapeHtml(r.upashakhaName || '—') + '</td><td class="col-wrap">' + escapeHtml(itemsSummary_(r.items, true) || '—') + '</td>' +
+        '<td>' + escapeHtml(String(r.subtotal)) + '</td><td>' + actionIcons_(idx, ['edit', 'delete']) + '</td></tr>';
+    });
+    box.innerHTML = html + '</tbody></table>';
+    bindRowActions_(box, _pdAll, { edit: loadPdForEdit, delete: deletePdRecord_ });
   }
 
-  function printPdReceipt() {
-    document.getElementById('pdr-date').textContent = document.getElementById('pd-date').value || '—';
-    const upashakhaSelect = document.getElementById('pd-upashakha');
-    document.getElementById('pdr-upashakha').textContent = upashakhaSelect.options[upashakhaSelect.selectedIndex] ? upashakhaSelect.options[upashakhaSelect.selectedIndex].textContent : '—';
+  function loadPdForEdit(r) {
+    _pdId = r.id;
+    document.getElementById('pd-date').value = toInputDate(r.date);
+    document.getElementById('pd-upashakha').value = r.upashakhaId || '';
+    _pdItems = (r.items && r.items.length) ? JSON.parse(JSON.stringify(r.items)) : [{ bookName: '', qty: '' }];
+    setSaveMode_('pdSaveBtn', true);
+    renderPdTable();
+    setFormCardOpen_('pdFormCard', 'pdFormToggleBtn', true, true);
+  }
 
-    const tbody = document.getElementById('pdr-items');
-    tbody.innerHTML = '';
-    _pdItems.filter(function (r) { return r.bookName; }).forEach(function (item, idx) {
-      const tr = document.createElement('tr');
-      tr.innerHTML =
-        '<td>' + toBnNumber(idx + 1) + '</td>' +
-        '<td>' + escapeHtml(item.bookName) + '</td>' +
-        '<td class="r-num">' + escapeHtml(String(item.qty || 0)) + '</td>';
-      tbody.appendChild(tr);
+  function deletePdRecord_(r) {
+    if (!confirm('আপনি কি নিশ্চিত এই বিলির এন্ট্রি মুছে ফেলতে চান?')) return;
+    google.script.run
+      .withSuccessHandler(function (res) {
+        if (res.success) {
+          showToast(res.message, 'success');
+          if (_pdId === r.id) resetPdForm();
+          loadPdList();
+          refreshTalika_();
+        } else { showToast('সমস্যা হয়েছে: ' + res.error, 'error'); }
+      })
+      .withFailureHandler(function (err) { showToast('সমস্যা হয়েছে: ' + err.message, 'error'); })
+      .deletePrakashonaBili(r.id);
+  }
+
+  function printPdList_(list, label) {
+    let total = 0;
+    const rows = list.map(function (r, i) {
+      total += parseNum(r.subtotal) || 0;
+      return [toBnNumber(i + 1), r.date || '', r.upashakhaName || '', itemsSummary_(r.items, true), r.subtotal || 0];
     });
-    document.getElementById('pdr-subtotal').textContent = document.getElementById('pd-subtotal').textContent;
-
-    printViaWindow('pdPrintTemplate');
+    printOfficialList_('প্রকাশনা বিলি তালিকা', 'সময়কাল: ' + label,
+      ['ক্রম', 'তারিখ', 'উপশাখা', 'বই (সংখ্যা)', 'মোট সংখ্যা'], rows, 'সর্বমোট বিলি: ' + toBnNumber(total) + 'টি');
   }
 
   // ==================== প্রকাশনা: বাতিল প্রকাশনা ফরম ====================
@@ -5355,7 +5632,10 @@ document.addEventListener('DOMContentLoaded', function () {
   function initEyanatIncrease() {
     document.getElementById('eyanatIncreaseToggleBtn').addEventListener('click', function () {
       const card = document.getElementById('eyanatIncreaseCard');
-      card.style.display = (card.style.display === 'none' || !card.style.display) ? 'block' : 'none';
+      const willOpen = (card.style.display === 'none' || !card.style.display);
+      card.style.display = willOpen ? 'block' : 'none';
+      // এয়ানত বৃদ্ধি ফরম খুললে সদস্য সার্চ/ধার্য্য ফরম লুকাবে, বন্ধ করলে আবার দেখাবে
+      document.getElementById('dhajjoMemberWrap').style.display = willOpen ? 'none' : 'block';
     });
 
     document.getElementById('eiLoadBtn').addEventListener('click', loadEyanatIncreaseList);
@@ -5475,6 +5755,8 @@ document.addEventListener('DOMContentLoaded', function () {
       const card = document.getElementById('nisabIncreaseCard');
       const willShow = (card.style.display === 'none' || !card.style.display);
       card.style.display = willShow ? 'block' : 'none';
+      // নিসাব বৃদ্ধি ফরম খুললে উপশাখা নির্বাচন/ধার্য্য অংশ লুকাবে, বন্ধ করলে আবার দেখাবে
+      document.getElementById('upashakhaDhajjoMainWrap').style.display = willShow ? 'none' : 'block';
       if (willShow) loadNisabIncreaseList();
     });
 
@@ -5616,7 +5898,16 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.getElementById('jrep-periodType').addEventListener('change', updateJrepPeriodValueField);
-    document.getElementById('jrepLoadBtn').addEventListener('click', loadJrepPivotReport);
+    bindDataToggle_('jrepLoadBtn',
+      function () { return hasContent_('jrepTableWrap'); },
+      function () { document.getElementById('jrepTableWrap').innerHTML = ''; },
+      loadJrepPivotReport, '🔍 রিপোর্ট দেখুন', '✖ রিপোর্ট বন্ধ করুন');
+    document.getElementById('jrepIndCloseBtn').addEventListener('click', function () {
+      document.getElementById('jrepIndResultWrap').style.display = 'none';
+      document.getElementById('jrepIndSearchResults').innerHTML = '';
+      document.getElementById('jrepIndSearchInput').value = '';
+      _jrepIndData = null;
+    });
     document.getElementById('jrepPrintBtn').addEventListener('click', printJrepPivotReport);
 
     document.getElementById('jrepIndSearchBtn').addEventListener('click', doJrepIndSearch);
@@ -5828,7 +6119,15 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.getElementById('urep-periodType').addEventListener('change', updateUrepPeriodValueField);
-    document.getElementById('urepLoadBtn').addEventListener('click', loadUrepPivotReport);
+    bindDataToggle_('urepLoadBtn',
+      function () { return hasContent_('urepTableWrap'); },
+      function () { document.getElementById('urepTableWrap').innerHTML = ''; },
+      loadUrepPivotReport, '🔍 রিপোর্ট দেখুন', '✖ রিপোর্ট বন্ধ করুন');
+    document.getElementById('urepIndCloseBtn').addEventListener('click', function () {
+      document.getElementById('urepIndResultWrap').style.display = 'none';
+      document.getElementById('urepInd-upashakha').value = '';
+      _urepIndData = null;
+    });
     document.getElementById('urepPrintBtn').addEventListener('click', printUrepPivotReport);
 
     document.getElementById('urepInd-upashakha').addEventListener('change', function () {
@@ -5996,60 +6295,89 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ==================== প্রকাশনা তালিকা ====================
   function initPrakashonaTalika() {
-    document.getElementById('ptAddBtn').addEventListener('click', function () {
-      const name = document.getElementById('pt-name').value.trim();
-      const qty = document.getElementById('pt-qty').value;
-      const price = document.getElementById('pt-price').value;
-      if (!name) { showToast('অনুগ্রহ করে বইয়ের নাম লিখুন', 'error'); return; }
-
-      google.script.run
-        .withSuccessHandler(function (res) {
-          if (res.success) {
-            showToast(res.message, 'success');
-            document.getElementById('pt-name').value = '';
-            document.getElementById('pt-qty').value = '0';
-            document.getElementById('pt-price').value = '0';
-            loadPrakashonaTalikaList(renderPtList);
-          } else {
-            showToast('সমস্যা হয়েছে: ' + res.error, 'error');
-          }
-        })
-        .withFailureHandler(function (err) { showToast('সমস্যা হয়েছে: ' + err.message, 'error'); })
-        .addPrakashonaBook({ name: name, qty: parseNum(qty), price: parseNum(price) });
-    });
-
-    renderPtList();
+    document.getElementById('ptAddBtn').addEventListener('click', savePtBook_);
+    document.getElementById('ptResetBtn').addEventListener('click', resetPtForm_);
     document.getElementById('ptPrintBtn').addEventListener('click', printPtList);
+    loadPrakashonaTalikaList(renderPtList);
+  }
+
+  function resetPtForm_() {
+    document.getElementById('pt-id').value = '';
+    document.getElementById('pt-name').value = '';
+    document.getElementById('pt-qty').value = '0';
+    document.getElementById('pt-price').value = '0';
+    setSaveMode_('ptAddBtn', false);
+  }
+
+  function savePtBook_() {
+    const id = document.getElementById('pt-id').value;
+    const isEdit = !!id;
+    const name = document.getElementById('pt-name').value.trim();
+    if (!name) { showToast('অনুগ্রহ করে বইয়ের নাম লিখুন', 'error'); return; }
+    const data = { id: id, name: name, qty: parseNum(document.getElementById('pt-qty').value), price: parseNum(document.getElementById('pt-price').value) };
+    const btn = document.getElementById('ptAddBtn');
+    btn.disabled = true;
+    const runner = google.script.run
+      .withSuccessHandler(function (res) {
+        btn.disabled = false;
+        if (res.success) {
+          showToast(res.message, 'success');
+          resetPtForm_();
+          if (isEdit) setFormCardOpen_('ptFormCard', 'ptFormToggleBtn', false, false);
+          refreshTalika_();
+        } else { showToast('সমস্যা হয়েছে: ' + res.error, 'error'); }
+      })
+      .withFailureHandler(function (err) { btn.disabled = false; showToast('সমস্যা হয়েছে: ' + err.message, 'error'); });
+    if (isEdit) runner.updatePrakashonaBook(data); else runner.addPrakashonaBook(data);
   }
 
   function renderPtList() {
-    const body = document.getElementById('ptListBody');
-    if (!body) return;
-    body.innerHTML = '';
-    if (!_prakashonaTalikaList.length) {
-      body.innerHTML = '<tr><td colspan="5" data-label="">কোনো বই নেই</td></tr>';
-      return;
-    }
+    const box = document.getElementById('ptList');
+    const countEl = document.getElementById('ptCount');
+    if (!box) return;
+    if (!_prakashonaTalikaList.length) { box.innerHTML = '<div class="no-result">কোনো বই নেই</div>'; countEl.textContent = ''; return; }
+    countEl.textContent = '(মোট ' + toBnNumber(_prakashonaTalikaList.length) + 'টি)';
+    let html = '<table class="dhajjo-table"><thead><tr><th>ক্রম</th><th>প্রকাশনা/বইয়ের নাম</th><th>সংখ্যা</th><th>এককমূল্য</th><th>মোট</th><th>অ্যাকশন</th></tr></thead><tbody>';
     _prakashonaTalikaList.forEach(function (b, idx) {
-      const tr = document.createElement('tr');
-      tr.innerHTML =
-        '<td data-label="ক্রম">' + toBnNumber(idx + 1) + '</td>' +
-        '<td data-label="বইয়ের নাম">' + escapeHtml(b.name) + '</td>' +
-        '<td data-label="সংখ্যা">' + toBnNumber(b.qty) + '</td>' +
-        '<td data-label="এককমূল্য">৳' + b.price + '</td>' +
-        '<td data-label="মোট">৳' + b.total + '</td>';
-      body.appendChild(tr);
+      html += '<tr><td>' + toBnNumber(idx + 1) + '</td><td class="col-wrap">' + escapeHtml(b.name) + '</td><td>' + toBnNumber(b.qty) + '</td><td>৳' + b.price + '</td><td>৳' + b.total + '</td>' +
+        '<td>' + actionIcons_(idx, ['edit', 'delete']) + '</td></tr>';
     });
+    box.innerHTML = html + '</tbody></table>';
+    bindRowActions_(box, _prakashonaTalikaList, { edit: editPtBook_, delete: deletePtBook_ });
+  }
+
+  function editPtBook_(b) {
+    document.getElementById('pt-id').value = b.id;
+    document.getElementById('pt-name').value = b.name || '';
+    document.getElementById('pt-qty').value = b.qty;
+    document.getElementById('pt-price').value = b.price;
+    setSaveMode_('ptAddBtn', true);
+    setFormCardOpen_('ptFormCard', 'ptFormToggleBtn', true, true);
+  }
+
+  function deletePtBook_(b) {
+    if (!confirm('আপনি কি নিশ্চিত "' + b.name + '" বইটি তালিকা থেকে মুছে ফেলতে চান?')) return;
+    google.script.run
+      .withSuccessHandler(function (res) {
+        if (res.success) {
+          showToast(res.message, 'success');
+          if (document.getElementById('pt-id').value === String(b.id)) resetPtForm_();
+          refreshTalika_();
+        } else { showToast('সমস্যা হয়েছে: ' + res.error, 'error'); }
+      })
+      .withFailureHandler(function (err) { showToast('সমস্যা হয়েছে: ' + err.message, 'error'); })
+      .deletePrakashonaBook(b.id);
   }
 
   function printPtList() {
-    const table = document.getElementById('ptprint-table');
-    let rows = '<tr><td class="p-label col-serial">ক্রম</td><td class="p-label">বইয়ের নাম</td><td class="p-label">সংখ্যা</td><td class="p-label">এককমূল্য</td><td class="p-label">মোট</td></tr>';
-    _prakashonaTalikaList.forEach(function (b, idx) {
-      rows += '<tr><td class="col-serial">' + toBnNumber(idx + 1) + '</td><td>' + escapeHtml(b.name) + '</td><td>' + toBnNumber(b.qty) + '</td><td>৳' + b.price + '</td><td>৳' + b.total + '</td></tr>';
+    if (!_prakashonaTalikaList.length) { showToast('প্রিন্ট করার মতো কোনো বই নেই', 'error'); return; }
+    let grand = 0;
+    const rows = _prakashonaTalikaList.map(function (b, i) {
+      grand += b.total || 0;
+      return [toBnNumber(i + 1), b.name, toBnNumber(b.qty), '৳' + b.price, '৳' + b.total];
     });
-    table.innerHTML = rows;
-    printViaWindow('ptPrintTemplate');
+    printOfficialList_('প্রকাশনা তালিকা', 'মোট বই: ' + toBnNumber(_prakashonaTalikaList.length) + 'টি',
+      ['ক্রম', 'প্রকাশনা/বইয়ের নাম', 'সংখ্যা', 'এককমূল্য', 'মোট'], rows, 'সর্বমোট মূল্য: ৳' + grand);
   }
 
   // ==================== কর্মপরিষদ ====================
@@ -6458,13 +6786,10 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // ==================== স্থানান্তরিত সদস্যদের তালিকা (পুনরায় সংযুক্তি) ====================
+  let _transferredAll = [];
+
   function initTransferredList() {
-    document.getElementById('transferredListToggleBtn').addEventListener('click', function () {
-      const card = document.getElementById('transferredListCard');
-      const willShow = (card.style.display === 'none' || !card.style.display);
-      card.style.display = willShow ? 'block' : 'none';
-      if (willShow) loadTransferredList();
-    });
+    document.getElementById('transferredSearchInput').addEventListener('input', renderTransferredList);
   }
 
   function loadTransferredList() {
@@ -6472,44 +6797,59 @@ document.addEventListener('DOMContentLoaded', function () {
     box.innerHTML = '<div class="no-result">লোড হচ্ছে...</div>';
     google.script.run
       .withSuccessHandler(function (res) {
-        if (!res.success || !res.data.length) {
-          box.innerHTML = '<div class="no-result">কোনো স্থানান্তরিত সদস্য নেই</div>';
-          return;
-        }
-        box.innerHTML = '';
-        res.data.forEach(function (t) {
-          const div = document.createElement('div');
-          div.className = 'simple-list-item';
-          div.innerHTML =
-            '<span><b>নাম:</b> ' + escapeHtml(t.memberName) + '</span>' +
-            '<span><b>পূর্বের শাখা:</b> ' + escapeHtml(t.fromBranch) + '</span>' +
-            '<span><b>নতুন শাখা:</b> ' + escapeHtml(t.toBranch) + '</span>' +
-            '<span><b>তারিখ:</b> ' + escapeHtml(t.transferDate) + '</span>';
-          const restoreBtn = document.createElement('button');
-          restoreBtn.type = 'button';
-          restoreBtn.className = 'btn btn-outline btn-sm';
-          restoreBtn.textContent = '↩️ ফিরিয়ে আনুন';
-          restoreBtn.style.marginLeft = '8px';
-          restoreBtn.addEventListener('click', function () {
-            if (!confirm('আপনি কি নিশ্চিত "' + t.memberName + '" কে জনশক্তি তালিকায় পুনরায় সংযুক্ত করতে চান?')) return;
-            google.script.run
-              .withSuccessHandler(function (res2) {
-                if (res2.success) {
-                  showToast(res2.message, 'success');
-                  loadTransferredList();
-                } else {
-                  showToast('সমস্যা হয়েছে: ' + res2.error, 'error');
-                }
-              })
-              .withFailureHandler(function (err) { showToast('সমস্যা হয়েছে: ' + err.message, 'error'); })
-              .restoreSthanantorMember(t.id);
-          });
-          div.appendChild(restoreBtn);
-          box.appendChild(div);
-        });
+        _transferredAll = (res.success && res.data) ? res.data : [];
+        renderTransferredList();
       })
       .withFailureHandler(function () { box.innerHTML = '<div class="no-result">লোড করতে সমস্যা হয়েছে</div>'; })
       .getAllTransferredMembers();
+  }
+
+  function renderTransferredList() {
+    const box = document.getElementById('transferredListBody');
+    const countEl = document.getElementById('transferredListCount');
+    if (!_transferredAll.length) {
+      box.innerHTML = '<div class="no-result">কোনো স্থানান্তরিত সদস্য নেই</div>';
+      countEl.textContent = '';
+      return;
+    }
+    const q = (document.getElementById('transferredSearchInput').value || '').trim().toLowerCase();
+    const shown = _transferredAll.filter(function (t) {
+      if (!q) return true;
+      return [t.memberName, t.fromBranch, t.toBranch, t.mobile].some(function (v) {
+        return String(v || '').toLowerCase().indexOf(q) !== -1;
+      });
+    });
+    countEl.textContent = q
+      ? '(' + toBnNumber(shown.length) + ' জন / মোট ' + toBnNumber(_transferredAll.length) + ' জন)'
+      : '(মোট ' + toBnNumber(_transferredAll.length) + ' জন)';
+    if (!shown.length) {
+      box.innerHTML = '<div class="no-result">কোনো সদস্য পাওয়া যায়নি</div>';
+      return;
+    }
+    let html = '<div class="list-scroll compact"><table class="dhajjo-table"><thead><tr><th>ক্রম</th><th>নাম</th><th>পূর্বের শাখা</th><th>নতুন শাখা</th><th>তারিখ</th><th></th></tr></thead><tbody>';
+    shown.forEach(function (t, idx) {
+      html += '<tr><td>' + toBnNumber(idx + 1) + '</td><td>' + escapeHtml(t.memberName) + '</td><td>' + escapeHtml(t.fromBranch || '—') + '</td><td>' + escapeHtml(t.toBranch || '—') + '</td><td>' + escapeHtml(t.transferDate || '—') + '</td>' +
+        '<td><button type="button" class="btn btn-outline btn-sm" data-tid="' + escapeHtml(String(t.id)) + '">↩️ ফিরিয়ে আনুন</button></td></tr>';
+    });
+    box.innerHTML = html + '</tbody></table></div>';
+    box.querySelectorAll('button[data-tid]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        const t = _transferredAll.filter(function (x) { return String(x.id) === btn.getAttribute('data-tid'); })[0];
+        if (!t) return;
+        if (!confirm('আপনি কি নিশ্চিত "' + t.memberName + '" কে জনশক্তি তালিকায় পুনরায় সংযুক্ত করতে চান?')) return;
+        google.script.run
+          .withSuccessHandler(function (res2) {
+            if (res2.success) {
+              showToast(res2.message, 'success');
+              loadTransferredList();
+            } else {
+              showToast('সমস্যা হয়েছে: ' + res2.error, 'error');
+            }
+          })
+          .withFailureHandler(function (err) { showToast('সমস্যা হয়েছে: ' + err.message, 'error'); })
+          .restoreSthanantorMember(t.id);
+      });
+    });
   }
 
   // ==================== সদস্য তালিকা প্রিন্ট ====================
@@ -6518,7 +6858,10 @@ document.addEventListener('DOMContentLoaded', function () {
   function initMemberListPrint() {
     document.getElementById('memberListPrintToggleBtn').addEventListener('click', function () {
       const card = document.getElementById('memberListPrintCard');
-      card.style.display = (card.style.display === 'none' || !card.style.display) ? 'block' : 'none';
+      const willOpen = (card.style.display === 'none' || !card.style.display);
+      card.style.display = willOpen ? 'block' : 'none';
+      // প্রিন্ট অংশ খুললে "সকল সদস্য তালিকা" লুকাবে, বন্ধ করলে আবার দেখাবে
+      document.getElementById('memberListCard').style.display = willOpen ? 'none' : 'block';
     });
     document.getElementById('mlpLoadBtn').addEventListener('click', loadMlpList);
     document.getElementById('mlpPrintBtn').addEventListener('click', printMlpList);
@@ -6545,22 +6888,29 @@ document.addEventListener('DOMContentLoaded', function () {
   function renderMlpList() {
     const wrap = document.getElementById('mlpListWrap');
     if (!_mlpData.length) { wrap.innerHTML = '<div class="no-result">কোনো সদস্য পাওয়া যায়নি</div>'; return; }
-    let html = '<table class="dhajjo-table"><thead><tr><th>ক্রম</th><th>নাম</th><th>মোবাইল নং</th><th>অঞ্চলের নাম</th></tr></thead><tbody>';
+    let html = '<div class="list-scroll compact"><table class="dhajjo-table"><thead><tr><th>ক্রম</th><th>নাম</th><th>মোবাইল নং</th><th>অঞ্চলের নাম</th></tr></thead><tbody>';
     _mlpData.forEach(function (m, idx) {
       html += '<tr><td data-label="ক্রম">' + toBnNumber(idx + 1) + '</td><td data-label="নাম">' + escapeHtml(m.name) + '</td><td data-label="মোবাইল">' + escapeHtml(m.mobile || '—') + '</td><td data-label="অঞ্চল">' + escapeHtml(m.zone || '—') + '</td></tr>';
     });
-    html += '</tbody></table>';
+    html += '</tbody></table></div>';
     wrap.innerHTML = html;
   }
 
   function printMlpList() {
     if (!_mlpData.length) { showToast('অনুগ্রহ করে প্রথমে তালিকা দেখুন', 'error'); return; }
-    document.getElementById('mlprint-meta').textContent = document.getElementById('mlp-branch').value + ' | ' + document.getElementById('mlp-maan').value;
-    const table = document.getElementById('mlprint-table');
-    let rows = '<tr><td class="p-label col-serial">ক্রম</td><td class="p-label">নাম</td><td class="p-label">মোবাইল নং</td><td class="p-label">অঞ্চলের নাম</td></tr>';
+    document.getElementById('mlprint-orgName').textContent = document.getElementById('headerBranchName').textContent;
+    const subParts = [_mainBranchLevel, (_branchViewData && _branchViewData.address) || ''].filter(Boolean);
+    const subEl = document.getElementById('mlprint-sub');
+    subEl.textContent = subParts.join(' | ');
+    subEl.style.display = subParts.length ? 'block' : 'none';
+    document.getElementById('mlprint-meta').textContent = 'শাখা: ' + document.getElementById('mlp-branch').value + '   |   মান: ' + document.getElementById('mlp-maan').value;
+    document.getElementById('mlprint-date').textContent = 'তারিখ: ' + new Date().toLocaleDateString('bn-BD', { year: 'numeric', month: 'long', day: 'numeric' });
+
+    let rows = '<thead><tr><th class="col-serial">ক্রম</th><th>নাম</th><th>মোবাইল নং</th><th>অঞ্চলের নাম</th></tr></thead><tbody>';
     _mlpData.forEach(function (m, idx) {
       rows += '<tr><td class="col-serial">' + toBnNumber(idx + 1) + '</td><td>' + escapeHtml(m.name) + '</td><td>' + escapeHtml(m.mobile || '—') + '</td><td>' + escapeHtml(m.zone || '—') + '</td></tr>';
     });
-    table.innerHTML = rows;
+    document.getElementById('mlprint-table').innerHTML = rows + '</tbody>';
+    document.getElementById('mlprint-total').textContent = 'মোট সদস্য: ' + toBnNumber(_mlpData.length) + ' জন';
     printViaWindow('memberListPrintTemplate');
   }
